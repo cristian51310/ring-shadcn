@@ -1,56 +1,71 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
+"use client"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
+import { SafeUser } from "@/types"
+import { signOut } from "next-auth/react"
+import Link from "next/link"
 
-export function UserNav() {
+interface UserMenuProps {
+  user: SafeUser | null
+}
+
+export function UserNav({ user }: UserMenuProps) {
   return (
     <DropdownMenu>
+
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-10 w-10">
-            <AvatarImage src="/avatars/01.png" alt="@shadcn" />
+            <AvatarImage src={user?.image as string} alt="@shadcn" />
             <AvatarFallback>SC</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">shadcn</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              m@example.com
-            </p>
-          </div>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            Profile
+
+      {user ? (
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+          <Link href="/profile">
+            <DropdownMenuItem>
+              Mi Perfil
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/orders">
+            <DropdownMenuItem>
+              Mis Ordenes
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/favorites">
+            <DropdownMenuItem>
+              Mis Favoritos
+            </DropdownMenuItem>
+          </Link>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => signOut()}>
+            Cerrar Sesión
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Billing
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Settings
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Log out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
+        </DropdownMenuContent>
+      ) : (
+        <DropdownMenuContent className="w-56" align="end" forceMount>
+          <Link href="/signin">
+            <DropdownMenuItem>
+              Iniciar Sesión
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/signup">
+            <DropdownMenuItem>
+              Registrarse
+            </DropdownMenuItem>
+          </Link>
+        </DropdownMenuContent>
+      )}
     </DropdownMenu>
   )
 }

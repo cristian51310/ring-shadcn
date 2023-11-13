@@ -1,32 +1,44 @@
 "use client"
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form"
-import { Input as ShadcnInput } from "../ui/input"
+
+import {
+  FieldErrors,
+  FieldValues,
+  UseFormRegister
+} from "react-hook-form"
+import { Textarea as ShadcnTextarea } from "../ui/textarea"
 import { Label } from "../ui/label"
 
 interface InputProps {
   id: string
   label: string
-  placeholder?: string
-  type?: string
+  placeholder: string
   disabled?: boolean
   required?: boolean
   register: UseFormRegister<FieldValues>
   errors: FieldErrors
 }
 
-const Input: React.FC<InputProps> = ({
-  id, label, placeholder, type, disabled, required, register, errors
+const TextArea: React.FC<InputProps> = ({
+  id,
+  label,
+  placeholder,
+  disabled,
+  required,
+  register,
+  errors
 }) => {
   return (
     <div className="grid gap-3 mb-1.5">
-      <Label htmlFor={id}>
+      <Label
+        className=""
+        htmlFor={id}
+      >
         {label}
       </Label>
 
-      <ShadcnInput
+      <ShadcnTextarea
         id={id}
         placeholder={placeholder}
-        type={type}
         autoCapitalize="none"
         autoCorrect="off"
         required={required}
@@ -37,4 +49,4 @@ const Input: React.FC<InputProps> = ({
   )
 }
 
-export default Input
+export default TextArea

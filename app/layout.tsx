@@ -20,6 +20,8 @@ export const metadata: Metadata = {
   }
 }
 
+// suppressHydrationWarning - si falla pon esto
+
 export default function RootLayout({
   children,
 }: {

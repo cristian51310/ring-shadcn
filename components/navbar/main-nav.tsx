@@ -5,10 +5,14 @@ import { UserNav } from "../navbar/user-nav"
 import { TextAlignJustifyIcon } from "@radix-ui/react-icons"
 import { ModeToggle } from "../mode-toggle"
 import CartCount from "./cart-count"
+import { getCurrentUser } from "@/lib/getCurrentUser"
+import { CartSheet } from "./cart-sheet"
 
 export default async function MainNavbar() {
+  const user = await getCurrentUser()
+
   return (
-    <div className=" sticky top-0 z-30 border-b backdrop-blur-md bg-white/30">
+    <div className=" sticky top-0 z-30 border-b backdrop-blur-md bg-white/30 dark:bg-black/30">
       <div className="flex h-16 items-center px-12">
         <TextAlignJustifyIcon className="h-8 w-8 mr-4" />
         <Link
@@ -24,7 +28,8 @@ export default async function MainNavbar() {
           <Search />
           <ModeToggle />
           <CartCount />
-          <UserNav />
+          <CartSheet />
+          <UserNav user={user}/>
         </div>
       </div>
     </div>

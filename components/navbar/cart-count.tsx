@@ -1,7 +1,6 @@
 "use client"
 import { useCart } from "@/hooks/useCart"
 import { useRouter } from "next/navigation"
-import { FaShoppingCart } from "react-icons/fa"
 import { HiOutlineShoppingCart } from "react-icons/hi2"
 import { Button } from "../ui/button"
 

@@ -40,6 +40,25 @@ model User {
   orders         Order[]
 }
 
+model Product {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  price       Float
+  category    String
+  inStock     Boolean
+  images       Image[]
+}
+
+model Review {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  productId String   @db.ObjectId
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+}
+
 model Order {
   id              String            @id @default(auto()) @map("_id") @db.ObjectId
   userId          String            @db.ObjectId
@@ -65,7 +84,6 @@ type CartProductType {
 }
 
 type Image {
-  id  String
   url String
 }
 

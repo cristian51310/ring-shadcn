@@ -1,10 +1,11 @@
+import DorichangosBanner from "@/components/banners/dorichangos-banner"
+import HomeBanner from "@/components/banners/home-banner"
 import { CategoryCard } from "@/components/categories/card-categry"
-import HomeBanner from "@/components/home-banner"
-import MainNavbar from "@/components/navbar/main-nav"
 import { ProductCard } from "@/components/products/product-card"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
 import { categories } from "@/mocks/categories"
+import { products } from "@/mocks/products"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -38,17 +39,19 @@ export default function DashboardPage() {
 
         <Separator />
 
-        <HomeBanner />
+        <div className="grid grid-cols-3 gap-6">
+          <DorichangosBanner />
+          <HomeBanner />
+          <HomeBanner />
+        </div>
 
         <Separator />
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5">
-          {categories.map((product) => (
+          {products.map((product) => (
             <ProductCard
               key={product.name}
-              album={product}
-              width={150}
-              height={150}
+              data={product}
             />
           ))}
         </div>

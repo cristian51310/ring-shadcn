@@ -1,15 +1,29 @@
 "use client"
-
-import { useState } from "react"
 import { Icons } from "@/components/icons"
 import Input from "@/components/inputs/input"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { FieldValues, useForm } from "react-hook-form"
+import { SafeUser } from "@/types"
+import { signIn } from "next-auth/react"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
+import { toast } from "sonner"
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
+  user: SafeUser | null
+}
 
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+export function UserAuthForm({ user, className, ...props }: UserAuthFormProps) {
+  const router = useRouter()
+
+  useEffect(() => {
+    if (user) {
+      router.push("/cart")
+      router.refresh()
+    }
+  }, [router, user])
+
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const { register, handleSubmit, formState: { errors } } = useForm<FieldValues>({
@@ -19,14 +33,24 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     }
   })
 
-  async function onSubmit(event: React.SyntheticEvent) {
-    event.preventDefault()
+  const onSubmit: SubmitHandler<FieldValues> = data => {
     setIsLoading(true)
-
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+    signIn("credentials", { ...data, redirect: false, })
+      .then(callback => {
+        if (callback?.ok) {
+          router.push("/")
+          router.refresh()
+          toast.success("Sesion Iniciada")
+        }
+        if (callback?.error) {
+          toast.error(callback.error)
+        }
+      })
+      .catch(() => toast.error("Algo salio mal"))
+      .finally(() => setIsLoading(false))
   }
+
+  if (user) return <p>Ya estas logeado... Redireccionando</p>
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -55,7 +79,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             required
           />
 
-          <Button disabled={isLoading}>
+          <Button disabled={isLoading} onClick={handleSubmit(onSubmit)}>
             {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
@@ -73,7 +97,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" type="button" disabled={isLoading}>
+      <Button variant="outline" type="button" disabled={isLoading} onClick={() => signIn("google")}>
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
