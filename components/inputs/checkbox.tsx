@@ -10,13 +10,7 @@ interface CheckBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   register: UseFormRegister<FieldValues>
 }
 
-export default function CheckBox({
-  id,
-  label,
-  disabled,
-  required,
-  register
-}: CheckBoxProps) {
+export default function CheckBox({ id, label, disabled, required, register }: CheckBoxProps) {
   return (
     <div className="flex items-center space-x-2 mb-1.5">
       <ShadcnCheckbox

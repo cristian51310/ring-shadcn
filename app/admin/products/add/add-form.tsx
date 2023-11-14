@@ -120,7 +120,7 @@ export default function AddProductForm() {
       images: uploadedImages
     }
 
-    axios.post("/api/product", productData)
+    axios.post("/api/products", productData)
       .then(() => {
         setIsProductCreated(true)
         toast.success("Producto creado")
@@ -135,7 +135,6 @@ export default function AddProductForm() {
 
   return (
     <div className="grid gap-4">
-      <h1 className="text-xl font-bold mb-4">Agregar producto</h1>
 
       <Input
         id="name"

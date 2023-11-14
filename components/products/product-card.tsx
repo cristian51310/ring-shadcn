@@ -1,11 +1,5 @@
 "use client"
-
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuTrigger
-} from "@/components/ui/context-menu"
+import { ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu"
 import { formatPrice } from "@/lib/formatPrice"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
@@ -36,6 +30,8 @@ export function ProductCard({
                 alt={data.name}
                 height={150}
                 width={150}
+                loading="lazy"
+                layout="responsive"
                 className={cn(
                   "h-auto w-full object-cover transition-all hover:scale-105 aspect-video"
                 )}

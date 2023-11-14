@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator"
 import { categories } from "@/mocks/categories"
 import { products } from "@/mocks/products"
 import { Metadata } from "next"
+import OfertasBanner from "@/components/banners/ofertas-banner"
 
 export const metadata: Metadata = {
   title: "Ring! | Tu comida favorita en minutos",
@@ -16,9 +17,7 @@ export const metadata: Metadata = {
 export default function DashboardPage() {
   return (
     <div className="flex-col flex">
-
       <div className="flex-1 space-y-7 p-8 px-12 pt-6">
-
         <div className="relative">
           <ScrollArea>
             <div className="flex space-x-5 pb-3 justify-between">
@@ -27,9 +26,6 @@ export default function DashboardPage() {
                   key={album.name}
                   album={album}
                   className="w-[110px]"
-                  aspectRatio="square"
-                  width={150}
-                  height={150}
                 />
               ))}
             </div>
@@ -42,7 +38,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-3 gap-6">
           <DorichangosBanner />
           <HomeBanner />
-          <HomeBanner />
+          <OfertasBanner />
         </div>
 
         <Separator />

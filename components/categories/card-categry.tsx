@@ -5,16 +5,10 @@ import { Category } from "@/mocks/categories"
 
 interface CategoryCardProps extends React.HTMLAttributes<HTMLDivElement> {
   album: Category
-  aspectRatio?: "portrait" | "square"
-  width?: number
-  height?: number
 }
 
 export function CategoryCard({
   album,
-  aspectRatio = "portrait",
-  width,
-  height,
   className,
   ...props
 }: CategoryCardProps) {
@@ -25,11 +19,12 @@ export function CategoryCard({
         <Image
           src={album.cover}
           alt={album.name}
-          width={width}
-          height={height}
+          width={150}
+          height={150}
+          loading="lazy"
+          layout="responsive"
           className={cn(
-            "h-auto w-auto object-cover transition-all hover:scale-110",
-            aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-square"
+            "h-auto w-auto object-cover transition-all hover:scale-110 aspect-square"
           )}
         />
       </div>

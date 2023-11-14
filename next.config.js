@@ -4,7 +4,9 @@ const nextConfig = {
     domains: [
       'cdn.pixabay.com',
       'images.unsplash.com',
-      "lh3.googleusercontent.com"
+      'unsplash.com',
+      "lh3.googleusercontent.com",
+      "img.freepik.com"
     ],
   }
 }

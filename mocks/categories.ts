@@ -9,54 +9,54 @@ export const categories: Category[] = [
     id: 1,
     name: "Postres",
     cover:
-      "https://images.unsplash.com/photo-1615247001958-f4bc92fa6a4a?w=300&dpr=2&q=80",
+      "https://cdn.pixabay.com/photo/2016/11/29/09/00/doughnuts-1868573_1280.jpg",
   },
   {
     id: 2,
     name: "Mexicana",
     cover:
-      "https://images.unsplash.com/photo-1513745405825-efaf9a49315f?w=300&dpr=2&q=80",
+      "https://cdn.pixabay.com/photo/2014/01/14/22/13/mexican-245240_1280.jpg",
   },
   {
     id: 3,
     name: "Botanas",
     cover:
-      "https://images.unsplash.com/photo-1513745405825-efaf9a49315f?w=300&dpr=2&q=80",
+      "https://img.freepik.com/fotos-premium/deliciosos-nachos-mexicanos-cursi-texmex-nachos-queso_691560-5347.jpg?size=626&ext=jpg",
   },
   {
     id: 4,
     name: "Alcohol",
     cover:
-      "https://images.unsplash.com/photo-1614113489855-66422ad300a4?w=300&dpr=2&q=80",
+      "https://img.freepik.com/foto-gratis/copas-coctel_144627-34955.jpg?size=626&ext=jpg",
   },
   {
     id: 5,
     name: "Pizza",
     cover:
-      "https://images.unsplash.com/photo-1446185250204-f94591f7d702?w=300&dpr=2&q=80",
+      "https://img.freepik.com/foto-gratis/vista-superior-pizza-pepperoni-salchichas-champinones-pimiento-verde-oliva-maiz-madera-negra_141793-2158.jpg?size=626&ext=jpg",
   },
   {
     id: 6,
     name: "Alitas",
     cover:
-      "https://images.unsplash.com/photo-1468817814611-b7edf94b5d60?w=300&dpr=2&q=80",
+      "https://img.freepik.com/foto-gratis/alitas-pollo-al-bufalo-frescas-aperitivo-salado-ai-generativa_188544-8118.jpg?size=626&ext=jpg",
   },
   {
     id: 7,
     name: "Sushi",
     cover:
-      "https://images.unsplash.com/photo-1490300472339-79e4adc6be4a?w=300&dpr=2&q=80",
+      "https://img.freepik.com/foto-gratis/frescura-culturas-enrolladas-plato-maki-sushi-generado-inteligencia-artificial_25030-66822.jpg?size=626&ext=jpg",
   },
   {
     id: 8,
     name: "Comida Rapida",
     cover:
-      "https://images.unsplash.com/photo-1490300472339-79e4adc6be4a?w=300&dpr=2&q=80",
+      "https://img.freepik.com/foto-gratis/vista-superior-arreglo-comida-sobre-fondo-madera_23-2148308806.jpg?size=626&ext=jpg",
   },
   {
     id: 9,
     name: "Americana",
     cover:
-      "https://images.unsplash.com/photo-1490300472339-79e4adc6be4a?w=300&dpr=2&q=80",
+      "https://img.freepik.com/foto-gratis/grande-composicion-comida-rapida_23-2147695685.jpg?size=626&ext=jpg",
   },
 ]

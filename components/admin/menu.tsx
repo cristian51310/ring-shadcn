@@ -1,67 +1,80 @@
 import {
-  Menubar, MenubarCheckboxItem, MenubarContent,
+  Menubar, MenubarContent,
   MenubarItem, MenubarLabel, MenubarMenu,
   MenubarRadioGroup, MenubarRadioItem, MenubarSeparator,
   MenubarSub, MenubarSubContent, MenubarSubTrigger,
-  MenubarTrigger
+  MenubarTrigger,
 } from "@/components/ui/menubar"
+import { cn } from "@/lib/utils"
+import Image from "next/image"
+import Link from "next/link"
+import { IoNotificationsOutline } from "react-icons/io5"
+import { ModeToggle } from "../mode-toggle"
+import { buttonVariants } from "../ui/button"
 
 export function Menu() {
   return (
-    <Menubar className="rounded-none border-b border-none px-2 lg:px-4">
+    <Menubar className="rounded-none border-b border-none px-2 lg:px-4 py-7 justify-between">
 
-      <MenubarMenu>
-        <MenubarTrigger className="font-bold">Dashboard Ring!</MenubarTrigger>
+      <div className="flex items-center">
+        <MenubarMenu>
+          <MenubarTrigger className="font-bold flex justify-center items-center gap-2">
+            <Image
+              src={"/logo.png"}
+              alt="Ring Logo"
+              width={30}
+              height={30}
+            />
+            Dashboard Ring!
+          </MenubarTrigger>
 
-        <MenubarContent>
-          <MenubarItem>About Music</MenubarItem>
-          <MenubarItem>Preferences...</MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
+          <MenubarContent>
+            <MenubarItem>Configuracion</MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
 
-      <MenubarMenu>
-        <MenubarTrigger className="relative">File</MenubarTrigger>
-        <MenubarContent>
-          <MenubarSub>
-            <MenubarSubTrigger>New</MenubarSubTrigger>
-            <MenubarSubContent className="w-[230px]">
-              <MenubarItem>Playlist</MenubarItem>
-            </MenubarSubContent>
-          </MenubarSub>
-        </MenubarContent>
-      </MenubarMenu>
+        <MenubarMenu>
+          <MenubarTrigger className="relative">File</MenubarTrigger>
+          <MenubarContent>
+            <MenubarSub>
+              <MenubarSubTrigger>New</MenubarSubTrigger>
+              <MenubarSubContent className="w-[230px]">
+                <MenubarItem>Playlist</MenubarItem>
+              </MenubarSubContent>
+            </MenubarSub>
+          </MenubarContent>
+        </MenubarMenu>
 
-      <MenubarMenu>
-        <MenubarTrigger>Edit</MenubarTrigger>
-        <MenubarContent>
-          <MenubarItem disabled>Undo</MenubarItem>
-          <MenubarItem disabled>Redo</MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
+        <MenubarMenu>
+          <MenubarTrigger className="hidden md:block">Cuenta</MenubarTrigger>
+          <MenubarContent forceMount>
+            <MenubarLabel inset>Cambiar Cuenta</MenubarLabel>
+            <MenubarSeparator />
 
-      <MenubarMenu>
-        <MenubarTrigger>View</MenubarTrigger>
-        <MenubarContent>
-          <MenubarCheckboxItem>Show Playing Next</MenubarCheckboxItem>
-          <MenubarCheckboxItem checked>Show Lyrics</MenubarCheckboxItem>
-        </MenubarContent>
-      </MenubarMenu>
+            <MenubarRadioGroup value="benoit">
+              <MenubarRadioItem value="andy">Cristian Ruben</MenubarRadioItem>
+              <MenubarRadioItem value="benoit">Rodrigo Vazques</MenubarRadioItem>
+            </MenubarRadioGroup>
 
-      <MenubarMenu>
-        <MenubarTrigger className="hidden md:block">Account</MenubarTrigger>
-        <MenubarContent forceMount>
-          <MenubarLabel inset>Switch Account</MenubarLabel>
-          <MenubarSeparator />
+            <MenubarSeparator />
+            <MenubarItem inset>Añadir cuenta.</MenubarItem>
+          </MenubarContent>
+        </MenubarMenu>
+      </div>
 
-          <MenubarRadioGroup value="benoit">
-            <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
-            <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
-          </MenubarRadioGroup>
+      <div className="flex items-center gap-3">
+        <ModeToggle />
 
-          <MenubarSeparator />
-          <MenubarItem inset>Add Account...</MenubarItem>
-        </MenubarContent>
-      </MenubarMenu>
+        <Link
+          href="/admin/notifications"
+          className={cn(
+            buttonVariants({ variant: "outline", size: "icon" }),
+          )}
+        >
+          <IoNotificationsOutline className="text-xl" />
+        </Link>
+      </div>
+
     </Menubar>
   )
 }

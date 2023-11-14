@@ -3,13 +3,16 @@ import { cn } from "@/lib/utils"
 import { Metadata } from "next"
 import Link from "next/link"
 import { UserAuthForm } from "./signin-form"
+import { getCurrentUser } from "@/lib/getCurrentUser"
 
 export const metadata: Metadata = {
   title: "Ring! | Inicia sesion",
   description: "Nos da gusto que vuelvas, inicia sesion para continuar",
 }
 
-export default function AuthenticationPage() {
+export default async function AuthenticationPage() {
+  const user = await getCurrentUser()
+
   return (
     <>
       <Link
@@ -32,12 +35,9 @@ export default function AuthenticationPage() {
               Estamos felices de que hayas vuelto
             </p>
           </div>
-          <UserAuthForm />
+          <UserAuthForm user={user}/>
         </div>
       </div>
     </>
-
-
-
   )
 }

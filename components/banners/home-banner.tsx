@@ -15,8 +15,8 @@ export default function HomeBanner() {
           />
         </div>
         <div className="flex flex-col gap-2 relative right-6">
-          <p className="text-xl font-bold text-card">Precios Irresistibles</p>
-          <p className="text-card">Disfruta de nuestros mejores precios, ven a comprobarlo</p>
+          <p className="text-xl font-bold text-card text-white">Precios Irresistibles</p>
+          <p className="text-card text-white">Disfruta de nuestros mejores precios, ven a comprobarlo</p>
           <Button
             className="mt-3 bg-transparent text-card"
             variant={"outline"}

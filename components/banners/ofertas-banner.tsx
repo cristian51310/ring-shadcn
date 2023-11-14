@@ -1,9 +1,9 @@
 import Image from "next/image"
 import { Button } from "../ui/button"
 
-export default function DorichangosBanner() {
+export default function OfertasBanner() {
   return (
-    <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl my-1 overflow-hidden">
+    <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-xl my-1 overflow-hidden">
       <div className="flex py-4 justify-center items-center w-full">
         <div className="relative -left-12">
           <Image

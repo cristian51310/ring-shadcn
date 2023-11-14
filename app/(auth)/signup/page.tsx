@@ -3,13 +3,16 @@ import { cn } from "@/lib/utils"
 import { Metadata } from "next"
 import Link from "next/link"
 import { UserAuthForm } from "./signup-form"
+import { getCurrentUser } from "@/lib/getCurrentUser"
 
 export const metadata: Metadata = {
   title: "Ring! | Registrate",
   description: "Queremos que seas parte de la familia, asi que registrate",
 }
 
-export default function AuthenticationPage() {
+export default async function AuthenticationPage() {
+  const user = await getCurrentUser()
+
   return (
     <>
       <Link
@@ -32,7 +35,7 @@ export default function AuthenticationPage() {
               Queremos que seas parte de la familia
             </p>
           </div>
-          <UserAuthForm />
+          <UserAuthForm user={user}/>
           <p className="px-8 text-center text-sm text-muted-foreground">
             Al continuar estas aceptando nuestros{" "}
             <Link

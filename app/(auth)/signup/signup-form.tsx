@@ -37,7 +37,7 @@ export function UserAuthForm({ user, className, ...props }: UserAuthFormProps) {
 
   const onSubmit: SubmitHandler<FieldValues> = data => {
     setIsLoading(true)
-    axios.post("/api/product", data)
+    axios.post("/api/products", data)
       .then(() => {
         signIn("credentials", {
           email: data.email,
