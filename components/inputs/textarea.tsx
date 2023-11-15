@@ -1,12 +1,8 @@
 "use client"
 
-import {
-  FieldErrors,
-  FieldValues,
-  UseFormRegister
-} from "react-hook-form"
-import { Textarea as ShadcnTextarea } from "../ui/textarea"
+import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form"
 import { Label } from "../ui/label"
+import { Textarea as ShadcnTextarea } from "../ui/textarea"
 
 interface InputProps {
   id: string
@@ -19,20 +15,11 @@ interface InputProps {
 }
 
 const TextArea: React.FC<InputProps> = ({
-  id,
-  label,
-  placeholder,
-  disabled,
-  required,
-  register,
-  errors
+  id, label, placeholder, disabled, required, register, errors
 }) => {
   return (
     <div className="grid gap-3 mb-1.5">
-      <Label
-        className=""
-        htmlFor={id}
-      >
+      <Label htmlFor={id}>
         {label}
       </Label>
 

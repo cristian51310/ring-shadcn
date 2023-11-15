@@ -33,7 +33,7 @@ export default function OrderItems({ products }: OrderItemProps) {
             <TableCell>
               <div className="relative w-20 aspect-square rounded-md">
                 <Image
-                  src={product.selectedImage.url}
+                  src={product.image}
                   alt={product.name}
                   fill
                   className="object-contain rounded-md"

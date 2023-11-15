@@ -46,17 +46,8 @@ model Product {
   description String
   price       Float
   category    String
+  image       String
   inStock     Boolean
-  images       Image[]
-}
-
-model Review {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId    String   @db.ObjectId
-  productId String   @db.ObjectId
-  rating    Int
-  comment   String?
-  createdAt DateTime @default(now())
 }
 
 model Order {
@@ -78,13 +69,9 @@ type CartProductType {
   name          String
   description   String
   category      String
-  selectedImage Image
+  image         String
   quantity      Int
   price         Float
-}
-
-type Image {
-  url String
 }
 
 type Address {

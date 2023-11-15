@@ -13,9 +13,7 @@ const CartCount = () => {
       onClick={() => router.push('/cart')}
       variant={"outline"}
     >
-      <HiOutlineShoppingCart
-        className="text-lg text-muted-foreground mr-1.5"
-      />
+      <HiOutlineShoppingCart className="text-lg text-muted-foreground mr-1.5"/>
       <p className="text-muted-foreground">{cartTotalQty} Carrito</p>
     </Button>
   )

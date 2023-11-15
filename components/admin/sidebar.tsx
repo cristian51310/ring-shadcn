@@ -19,9 +19,7 @@ interface SideBarItemProps extends React.HTMLAttributes<HTMLAnchorElement> {
   children: React.ReactNode
 }
 
-function SideBarItem({
-  pathname, href, children
-}: SideBarItemProps) {
+function SideBarItem({ pathname, href, children }: SideBarItemProps) {
   return (
     <Link
       href={href}

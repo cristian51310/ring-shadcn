@@ -1,13 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger
+  Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger
 } from "@/components/ui/sheet"
 import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
@@ -21,19 +15,19 @@ import { Card } from "../ui/card"
 export function CartSheet() {
   const { cartProducts, cartTotalAmount, handleClearCart, handleCartQtyDecrement, handleCartQtyIncrease } = useCart()
 
-  if (!cartProducts || cartProducts.length === 0) return (
-    <p>
-      No hay productos en el carrito
-    </p>
-  )
+  if (!cartProducts || cartProducts.length === 0) {
+    return (
+      <div className="text-xs">
+        carrito vacio
+      </div>
+    )
+  }
 
   return (
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline">
-          <HiOutlineShoppingCart
-            className="text-lg text-muted-foreground mr-1.5"
-          />
+          <HiOutlineShoppingCart className="text-lg text-muted-foreground mr-1.5" />
           Carrito
         </Button>
       </SheetTrigger>
@@ -46,16 +40,12 @@ export function CartSheet() {
           </SheetDescription>
         </SheetHeader>
 
-
         <div className="grid gap-4 py-4">
           {cartProducts.map((product) => (
-            <Card
-              key={product.id}
-              className="p-3 flex gap-3"
-            >
+            <Card key={product.id} className="p-3 flex gap-3">
               <div className="relative w-[90px] aspect-square">
                 <Image
-                  src={product.selectedImage.url}
+                  src={product.image}
                   alt={product.name}
                   fill
                   className="object-cover rounded-md w-20 h-20"

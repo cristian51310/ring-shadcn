@@ -1,20 +1,57 @@
 import DorichangosBanner from "@/components/banners/dorichangos-banner"
 import HomeBanner from "@/components/banners/home-banner"
+import OfertasBanner from "@/components/banners/ofertas-banner"
 import { CategoryCard } from "@/components/categories/card-categry"
+import NullData from "@/components/null-data"
 import { ProductCard } from "@/components/products/product-card"
+import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
+import getProducts, { IProductsParams } from "@/lib/getProducts"
+import { cn } from "@/lib/utils"
 import { categories } from "@/mocks/categories"
-import { products } from "@/mocks/products"
 import { Metadata } from "next"
-import OfertasBanner from "@/components/banners/ofertas-banner"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Ring! | Tu comida favorita en minutos",
   description: "Tu comida favorita en minutos",
 }
 
-export default function DashboardPage() {
+interface HomeProps {
+  searchParams: IProductsParams
+}
+
+export default async function DashboardPage({ searchParams }: HomeProps) {
+  const products = await getProducts(searchParams)
+
+  if (products.length === 0) return (
+    <NullData title="No hay productos que coincidan con la busqueda">
+      <Link
+        href="/"
+        className={cn(
+          buttonVariants({ variant: "secondary" }),
+          "text-xl p-9 px-14"
+        )}
+      >
+        Limpiar filtros
+      </Link>
+    </NullData>
+  )
+
+  //fisher-yates suffle algorithm
+
+  function shuffleArray(array: any[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j: number = Math.floor(Math.random() * (i + 1)); // Corregir la generación del índice
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    return array;
+  }
+
+  const shuffledProducts = shuffleArray(products)
+
   return (
     <div className="flex-col flex">
       <div className="flex-1 space-y-7 p-8 px-12 pt-6">
@@ -44,7 +81,7 @@ export default function DashboardPage() {
         <Separator />
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5">
-          {products.map((product) => (
+          {shuffledProducts.map((product) => (
             <ProductCard
               key={product.name}
               data={product}

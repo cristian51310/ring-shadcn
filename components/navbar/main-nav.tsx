@@ -7,6 +7,7 @@ import { ModeToggle } from "../mode-toggle"
 import CartCount from "./cart-count"
 import { getCurrentUser } from "@/lib/getCurrentUser"
 import { CartSheet } from "./cart-sheet"
+import Categories from "./categories"
 
 export default async function MainNavbar() {
   const user = await getCurrentUser()
@@ -32,6 +33,7 @@ export default async function MainNavbar() {
           <UserNav user={user}/>
         </div>
       </div>
+      <Categories />
     </div>
   )
 }

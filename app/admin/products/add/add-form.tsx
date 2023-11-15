@@ -58,80 +58,88 @@ export default function AddProductForm() {
   const category = watch("category")
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    setIsLoading(true)
-    let uploadedImages: UploadImageType[] = []
+    setIsLoading(true);
+    let uploadedImage: UploadImageType = {url: ""};
 
     const handleImageUpload = async () => {
-      toast.info("Subiendo imagen...")
+      toast.info("Subiendo imagen...");
       try {
-        const fileName = new Date().getTime() + "-" + data.image[0].name
-        const storage = getStorage(firebaseApp)
-        const storageRef = ref(storage, `products/${fileName}`)
-        const uploadTask = uploadBytesResumable(storageRef, data.image[0])
+        const fileName = new Date().getTime() + "-" + data.image[0].name;
+        const storage = getStorage(firebaseApp);
+        const storageRef = ref(storage, `products/${fileName}`);
+        const uploadTask = uploadBytesResumable(storageRef, data.image[0]);
 
         await new Promise<void>((resolve, reject) => {
           uploadTask.on(
             "state_changed",
             (snapshot) => {
-              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-              console.log("upload in progress: ", progress, "%")
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("upload in progress: ", progress, "%");
               switch (snapshot.state) {
                 case "paused":
-                  console.log("upload is paused")
-                  break
+                  console.log("upload is paused");
+                  break;
                 case "running":
-                  console.log("upload is running")
-                  break
+                  console.log("upload is running");
+                  break;
               }
             },
             (error) => {
-              console.log("error uploading image ", error)
-              reject(error)
+              console.log("error uploading image ", error);
+              reject(error);
             },
             () => {
               getDownloadURL(uploadTask.snapshot.ref)
                 .then((downloadUrl) => {
-                  uploadedImages.push({ ...data.image[0], url: downloadUrl })
-                  console.log("file avaliable in ", downloadUrl)
-                  resolve()
+                  uploadedImage = { url: downloadUrl };
+                  console.log("file available in ", downloadUrl);
+                  resolve();
                 })
                 .catch((error) => {
-                  console.log("error getting download url ", error)
-                  reject(error)
-                })
+                  console.log("error getting download url ", error);
+                  reject(error);
+                });
             }
-          )
-        })
+          );
+        });
 
       } catch (error) {
-        setIsLoading(false)
-        console.log("error handle image upload ", error)
-        toast.error("Algo salio mal")
+        setIsLoading(false);
+        console.log("error handle image upload ", error);
+        toast.error("Algo salió mal");
       }
+    };
+
+    await handleImageUpload();
+
+    if (!uploadedImage) {
+      setIsLoading(false);
+      toast.error("Algo salió mal");
+      return;
     }
 
-    await handleImageUpload()
     const productData = {
       name: data.name,
       description: data.description,
       price: data.price,
       category: data.category,
       inStock: data.inStock,
-      images: uploadedImages
-    }
+      image: uploadedImage.url,
+    };
 
     axios.post("/api/products", productData)
       .then(() => {
-        setIsProductCreated(true)
-        toast.success("Producto creado")
-        router.refresh()
+        setIsProductCreated(true);
+        toast.success("Producto creado");
+        router.refresh();
       })
       .catch((error) => {
-        toast.error("Algo salio mal")
-        console.log("error creating product ", error)
+        toast.error("Algo salió mal");
+        console.log("error creating product ", error);
       })
-      .finally(() => setIsLoading(false))
-  }
+      .finally(() => setIsLoading(false));
+  };
+
 
   return (
     <div className="grid gap-4">
@@ -175,9 +183,7 @@ export default function AddProductForm() {
         disabled={isLoading}
       />
 
-      <Label className="my-3">
-        Seleccionar una Categoria
-      </Label>
+      <Label className="my-3">Seleccionar una Categoria</Label>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-5 overflow-y-auto max-h-[50vh]">
         {categories.map((item) => {
@@ -205,13 +211,8 @@ export default function AddProductForm() {
         required
       />
 
-      <Button
-        className="my-3"
-        onClick={handleSubmit(onSubmit)}
-      >
-        {isLoading && (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        )}
+      <Button className="my-3" onClick={handleSubmit(onSubmit)}>
+        {isLoading && ( <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />)}
         Agregar Producto
       </Button>
     </div>

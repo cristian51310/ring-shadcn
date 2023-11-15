@@ -1,15 +1,14 @@
 "use client"
-
-import ProductImage from "@/components/products/product-image"
 import SetQuantity from "@/components/products/set-quantity"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { useCart } from "@/hooks/useCart"
-import { CartProductType, SelectedImgType } from "@/types/cart-pruduct-type"
+import { CartProductType } from "@/types/cart-pruduct-type"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { MdCheckCircle } from "react-icons/md"
 import { toast } from "sonner"
+import Image from "next/image"
 
 interface ProductDetailProps {
   product: any
@@ -17,7 +16,7 @@ interface ProductDetailProps {
 
 const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   const router = useRouter()
-  const { cartTotalQty, cartProducts, handleAddToCart } = useCart()
+  const { cartProducts, handleAddToCart } = useCart()
   const [isProductInCart, setIsProductInCart] = useState<Boolean>(false)
 
   const [cartProduct, setCartProduct] = useState<CartProductType>({
@@ -25,7 +24,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
     name: product.name,
     description: product.description,
     category: product.category,
-    selectedImage: { ...product.images[0] },
+    image: product.image,
     quantity: 1,
     price: product.price,
   })
@@ -37,14 +36,6 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
       if (existingId > -1) { setIsProductInCart(true) }
     }
   }, [cartProducts, product.id])
-
-  const handleImageSelect = useCallback(
-    (value: SelectedImgType) => {
-      setCartProduct((prev) => {
-        return { ...prev, selectedImage: value }
-      })
-    }, []
-  )
 
   const handleQtyIncrement = useCallback(() => {
     if (cartProduct.quantity === 5) return
@@ -65,11 +56,16 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
 
-      <ProductImage
-        cartProduct={cartProduct}
-        product={product}
-        handleImageSelect={handleImageSelect}
-      />
+      <div className="grid grid-cols-6 grid-rows-4 gap-2 h-full max-h-[500px] min-h-[300px] sm:min-h-[400px]">
+        <div className="col-span-5 relative aspect-square">
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+            className="w-full h-full object-cover max-h-[500px] min-h-[300px] sm:min-h-[400px] rounded-md"
+          />
+        </div>
+      </div>
 
       <div className="flex flex-col gap-1 text-sm">
         <h2 className="text-4xl font-bold">

@@ -10,10 +10,7 @@ interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   data: any
 }
 
-export function ProductCard({
-  data,
-  className
-}: ProductCardProps) {
+export function ProductCard({ data, className }: ProductCardProps) {
   const router = useRouter()
 
   return (
@@ -26,12 +23,10 @@ export function ProductCard({
           <ContextMenuTrigger>
             <div className="overflow-hidden rounded-md">
               <Image
-                src={data.images[0].url}
+                src={data.image}
                 alt={data.name}
                 height={150}
                 width={150}
-                loading="lazy"
-                layout="responsive"
                 className={cn(
                   "h-auto w-full object-cover transition-all hover:scale-105 aspect-video"
                 )}

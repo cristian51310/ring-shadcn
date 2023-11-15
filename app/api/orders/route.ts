@@ -5,7 +5,9 @@ import prisma from "@/lib/prismadb"
 export async function PUT(request: Request) {
   const user = await getCurrentUser()
 
-  if (!user || user.role !== "ADMIN") return NextResponse.error()
+  if(!user) return NextResponse.error()
+
+  if (user.role !== "ADMIN") return NextResponse.error()
 
   const body = await request.json()
   const { id, deliveryStatus } = body

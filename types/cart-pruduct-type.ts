@@ -3,12 +3,7 @@ export type CartProductType = {
   name: string
   description: string
   category: string
-  selectedImage: SelectedImgType
+  image: string
   quantity: number
   price: number
-}
-
-export type SelectedImgType = {
-  id: string
-  url: string
 }

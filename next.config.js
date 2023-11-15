@@ -1,13 +1,32 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      'cdn.pixabay.com',
-      'images.unsplash.com',
-      'unsplash.com',
-      "lh3.googleusercontent.com",
-      "img.freepik.com"
-    ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.freepik.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'unsplash.com',
+      },
+    ]
   }
 }
 

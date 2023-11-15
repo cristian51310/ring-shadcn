@@ -1,12 +1,15 @@
-import { products } from "@/mocks/products"
+import NullData from "@/components/null-data"
+import getProductById from "@/lib/getProductById"
 import ProductDetail from "./product-detail"
 
 interface IParams {
   id: string
 }
 
-const ProductPage = ({ params }: { params: IParams }) => {
-  const product = products.find((product) => product.id === params.id)
+export default async function ProductPage({ params }: { params: IParams }) {
+  const product = await getProductById(params)
+
+  if (!product) return <NullData title="No se encontró el producto" />
 
   return (
     <div className="p-12 pt-8">
@@ -14,5 +17,3 @@ const ProductPage = ({ params }: { params: IParams }) => {
     </div>
   )
 }
-
-export default ProductPage

@@ -1,17 +1,12 @@
 import { cn } from "@/lib/utils"
 import Image from "next/image"
-
 import { Category } from "@/mocks/categories"
 
 interface CategoryCardProps extends React.HTMLAttributes<HTMLDivElement> {
   album: Category
 }
 
-export function CategoryCard({
-  album,
-  className,
-  ...props
-}: CategoryCardProps) {
+export function CategoryCard({ album, className, ...props }: CategoryCardProps) {
   return (
 
     <div className={cn("space-y-3 hover:cursor-pointer", className)} {...props}>
@@ -21,11 +16,7 @@ export function CategoryCard({
           alt={album.name}
           width={150}
           height={150}
-          loading="lazy"
-          layout="responsive"
-          className={cn(
-            "h-auto w-auto object-cover transition-all hover:scale-110 aspect-square"
-          )}
+          className="h-auto w-auto object-cover transition-all hover:scale-110 aspect-square"
         />
       </div>
 

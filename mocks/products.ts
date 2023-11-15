@@ -6,16 +6,7 @@ export const products = [
     price: 2999,
     category: "Pizza",
     inStock: true,
-    images: [
-      {
-        id: "lsdksunmv",
-        url: "https://cdn.pixabay.com/photo/2017/12/10/14/47/pizza-3010062_1280.jpg"
-      },
-      {
-        id: "ncbxvsjqi",
-        url: "https://cdn.pixabay.com/photo/2017/12/09/08/18/pizza-3007395_1280.jpg"
-      }
-    ]
+    image: "https://cdn.pixabay.com/photo/2017/12/10/14/47/pizza-3010062_1280.jpg"
   },
   {
     id: "64a4ebe300900d44bb50628a",
@@ -24,16 +15,7 @@ export const products = [
     price: 102.99,
     category: "Hamburgesa",
     inStock: true,
-    images: [
-      {
-        id: "shsdhsdjsd",
-        url: "https://cdn.pixabay.com/photo/2016/03/05/19/02/hamburger-1238246_1280.jpg"
-      },
-      {
-        id: "sgshauehs",
-        url: "https://cdn.pixabay.com/photo/2016/05/25/10/43/hamburger-1414423_1280.jpg"
-      }
-    ],
+    image: "https://cdn.pixabay.com/photo/2016/03/05/19/02/hamburger-1238246_1280.jpg"
   },
   {
     id: "648437b38c44d52b9542e340",
@@ -42,15 +24,6 @@ export const products = [
     price: 40,
     category: "Shushi",
     inStock: true,
-    images: [
-      {
-        id: "1",
-        url: "https://cdn.pixabay.com/photo/2018/08/03/08/33/food-3581341_1280.jpg"
-      },
-      {
-        id: "2",
-        url: "https://cdn.pixabay.com/photo/2014/05/26/14/53/sushi-354628_1280.jpg"
-      }
-    ],
+    image: "https://cdn.pixabay.com/photo/2014/05/26/14/53/sushi-354628_1280.jpg"
   },
 ];

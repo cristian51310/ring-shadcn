@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "Administrador de Ring!",
 }
 
-export default function MusicPage() {
+export default function MainPage() {
   return (
     <Tabs defaultValue="music" className="h-full space-y-6">
       <div className="space-between flex items-center">

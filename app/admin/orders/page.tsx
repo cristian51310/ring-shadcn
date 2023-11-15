@@ -9,10 +9,12 @@ export default async function OrdersPage() {
 
   if (!user || user.role !== "ADMIN") return <NullData title="Acceso Denegado" />
 
+  if(!orders || orders.length === 0) return <NullData title="No hay ordenes" />
+
   return (
-    <div>
-      <h1 className="text-xl font-bold mb-4">Administrar Ordenes</h1>
+    <>
+      <h1 className="text-xl font-bold mb-4">Administrar ordenes</h1>
       <ManageOrders orders={orders} />
-    </div>
+    </>
   )
 }

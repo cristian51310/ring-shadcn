@@ -1,8 +1,8 @@
 "use client"
-
 import Status from "@/components/status";
 import { Button } from "@/components/ui/button";
 import firebaseApp from "@/lib/firebase";
+import { formatPrice } from "@/lib/formatPrice";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Product } from "@prisma/client";
 import { EyeOpenIcon, LoopIcon, TrashIcon } from "@radix-ui/react-icons";
@@ -28,7 +28,7 @@ export default function AdminProducts({ products }: AdminProductsProps) {
       id: product.id,
       name: product.name,
       price: product.price,
-      image: product.images,
+      image: product.image,
       inStock: product.inStock,
       category: product.category,
     }))
@@ -38,11 +38,11 @@ export default function AdminProducts({ products }: AdminProductsProps) {
     { field: "id", headerName: "ID", width: 220 },
     { field: "name", headerName: "Nombre", width: 220 },
     {
-      field: "price", headerName: "Precio", width: 80, renderCell: (params) => (
-        <div className="font-bold">{params.row.price}</div>
+      field: "price", headerName: "Precio", width: 110, renderCell: (params) => (
+        <div className="font-bold">{formatPrice(params.row.price)}</div>
       )
     },
-    { field: "category", headerName: "Categoría", width: 180 },
+    { field: "category", headerName: "Categoría", width: 150 },
     {
       field: "inStock", headerName: "Stock", width: 130, renderCell: (params) => (
         <div className="font-bold">
@@ -88,6 +88,8 @@ export default function AdminProducts({ products }: AdminProductsProps) {
   ]
 
   const handleToggleStock = useCallback((id: string, inStock: boolean) => {
+    toast.info("actualizando stock...")
+
     axios.put(`/api/products`, { id, inStock: !inStock })
       .then(() => {
         toast.success("Stock actualizado")
@@ -128,22 +130,19 @@ export default function AdminProducts({ products }: AdminProductsProps) {
   }, [router, storage])
 
   return (
-    <div>
-      <div style={{ height: 600, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 10 },
-            },
-          }}
-          pageSizeOptions={[10, 20]}
-          checkboxSelection
-          disableRowSelectionOnClick
-        />
-      </div>
+    <div style={{ height: 600, width: "100%" }}>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 10 },
+          },
+        }}
+        pageSizeOptions={[10, 20]}
+        checkboxSelection
+        disableRowSelectionOnClick
+      />
     </div>
-
   )
 }

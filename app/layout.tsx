@@ -1,6 +1,5 @@
 import { ThemeProvider } from '@/components/theme-provider'
 import { cn } from '@/lib/utils'
-import CartProvider from '@/providers/CartProvider'
 import type { Metadata } from 'next'
 import { Inter as FontSans } from "next/font/google"
 import { Toaster } from "sonner"
@@ -20,13 +19,7 @@ export const metadata: Metadata = {
   }
 }
 
-// suppressHydrationWarning - si falla pon esto
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -35,21 +28,19 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <CartProvider>
-          <Toaster
-            expand={true}
-            richColors
-            position='top-right'
-          />
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </CartProvider>
+        <Toaster
+          expand={true}
+          richColors
+          position='top-right'
+        />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )

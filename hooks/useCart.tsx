@@ -1,11 +1,5 @@
 import { CartProductType } from '@/types/cart-pruduct-type';
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState
-} from 'react';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { toast } from "sonner";
 
 type CartContextType = {

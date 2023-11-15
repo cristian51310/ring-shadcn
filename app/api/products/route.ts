@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   if (!user || user.role !== "ADMIN") return NextResponse.error()
 
   const body = await request.json()
-  const { name, description, price, category, inStock, images } = body
+  const { name, description, price, category, inStock, image } = body
 
   const product = await prisma.product.create({
     data: {
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       price: parseFloat(price),
       category,
       inStock,
-      images
+      image
     }
   })
 
@@ -27,7 +27,9 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   const user = await getCurrentUser()
 
-  if (!user || user.role !== "ADMIN") return NextResponse.error()
+  if (!user) return NextResponse.error()
+
+  if (user.role !== "ADMIN") return NextResponse.error()
 
   const body = await request.json()
   const { id, inStock } = body

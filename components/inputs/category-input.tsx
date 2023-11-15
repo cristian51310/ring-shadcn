@@ -10,12 +10,7 @@ interface CategoryInputProps {
   onClick: (value: string) => void
 }
 
-export default function CategoryInput({
-  selected,
-  label,
-  image,
-  onClick
-}: CategoryInputProps) {
+export default function CategoryInput({ selected, label, image, onClick }: CategoryInputProps) {
   return (
     <Card
       onClick={() => onClick(label)}

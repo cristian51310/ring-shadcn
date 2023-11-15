@@ -52,7 +52,7 @@ export default function Footer() {
       </div>
       <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
       <div className="sm:flex sm:items-center sm:justify-between">
-        <div className="flex mt-4 sm:justify-center sm:mt-0 gap-3">
+        <div className="flex mt-4 sm:justify-center sm:mt-0 gap-5">
           <a href="#" className="text-gray-500 hover:text-gray-900">
             <FacebookIcon className="w-6 h-6" />
           </a>
