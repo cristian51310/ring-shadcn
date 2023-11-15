@@ -8,7 +8,7 @@ export default async function getOrders() {
       },
       orderBy:{
         createDate: "desc"
-      }
+      },
     })
 
     return orders

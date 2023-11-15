@@ -64,14 +64,21 @@ model Order {
   user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Category {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  image       String
+}
+
 type CartProductType {
-  id            String
-  name          String
-  description   String
-  category      String
-  image         String
-  quantity      Int
-  price         Float
+  id          String
+  name        String
+  description String
+  category    String
+  image       String
+  quantity    Int
+  price       Float
 }
 
 type Address {
@@ -86,4 +93,5 @@ type Address {
 enum Role {
   USER
   ADMIN
+  SUPERADMIN
 }

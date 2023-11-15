@@ -9,7 +9,7 @@ export default async function getProductById(params: IParams) {
     const { id } = params;
 
     const product = await prisma.product.findUnique({
-      where: { id }
+      where: { id },
     })
 
     if (!product) return null;
