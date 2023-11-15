@@ -14,7 +14,7 @@ interface ProductDetailProps {
   product: any
 }
 
-const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
+export default function ProductDetail({ product }: ProductDetailProps){
   const router = useRouter()
   const { cartProducts, handleAddToCart } = useCart()
   const [isProductInCart, setIsProductInCart] = useState<Boolean>(false)
@@ -122,5 +122,3 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
     </div>
   )
 }
-
-export default ProductDetail
