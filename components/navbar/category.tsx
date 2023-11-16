@@ -48,7 +48,7 @@ export default function Category({ label, image, selected }: CategoryProps) {
         height={30}
         className="rounded-full aspect-square"
       />
-      <p className="text-sm font-medium">{label}</p>
+      <p className="hidden lg:block text-sm font-medium">{label}</p>
     </div>
   )
 }

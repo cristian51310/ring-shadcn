@@ -31,7 +31,7 @@ export default async function DashboardPage({ searchParams }: HomeProps) {
         href="/"
         className={cn(
           buttonVariants({ variant: "secondary" }),
-          "text-xl p-9 px-14"
+          "text-xl p-7 px-12 md:p-9 md:px-14"
         )}
       >
         Limpiar filtros

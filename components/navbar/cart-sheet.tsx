@@ -13,7 +13,7 @@ import SetQuantity from "../products/set-quantity"
 import { Card } from "../ui/card"
 
 export function CartSheet() {
-  const { cartProducts, cartTotalAmount, handleClearCart, handleCartQtyDecrement, handleCartQtyIncrease } = useCart()
+  const { cartProducts, cartTotalQty, handleClearCart, handleCartQtyDecrement, handleCartQtyIncrease } = useCart()
 
   if (!cartProducts || cartProducts.length === 0) {
     return (
@@ -26,17 +26,19 @@ export function CartSheet() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">
-          <HiOutlineShoppingCart className="text-lg text-muted-foreground mr-1.5" />
-          Carrito
+        <Button variant="outline" className="text-muted-foreground">
+          <HiOutlineShoppingCart className="text-lg mr-1.5" />
+          {cartTotalQty} Productos
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="w-[800px]">
+      <SheetContent className="w-[400px]">
         <SheetHeader>
           <SheetTitle>Carrito de compras</SheetTitle>
           <SheetDescription>
-            Articulos agregados a tu carrito de compras.
+            <Link href="/cart" className="underline">
+              Ver el carrito en pantalla completa
+            </Link>
           </SheetDescription>
         </SheetHeader>
 

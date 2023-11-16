@@ -35,12 +35,12 @@ export function Search() {
       <Input
         type="search"
         placeholder="Comida, Restaurantes, ..."
-        className="md:w-[100px] lg:w-[300px]"
+        className="md:w-[230px] lg:w-[300px]"
         autoComplete="off"
         {...register("search")}
       />
       <Button onClick={handleSubmit(onSubmit)} variant="outline" size={"icon"}>
-        <IoSearchOutline className="h-6 w-6" />
+        <IoSearchOutline className="h-5 w-5" />
       </Button>
     </div>
   )

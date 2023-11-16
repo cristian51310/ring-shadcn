@@ -19,6 +19,49 @@ interface SideBarItemProps extends React.HTMLAttributes<HTMLAnchorElement> {
   children: React.ReactNode
 }
 
+const sidebarOptions = [
+  {
+    href: "/admin",
+    icon: IoBarChartOutline,
+    label: "Resumen"
+  },
+  {
+    href: "/admin/products/add",
+    icon: IoAddCircleOutline,
+    label: "Añadir producto"
+  },
+  {
+    href: "/admin/products",
+    icon: IoPizzaOutline,
+    label: "Productos"
+  },
+  {
+    href: "/admin/categories",
+    icon: IoAppsOutline,
+    label: "Categorias"
+  },
+  {
+    href: "/admin/categories/add",
+    icon: IoAppsOutline,
+    label: "Añadir Categorias"
+  },
+  {
+    href: "/admin/orders",
+    icon: IoReceiptOutline,
+    label: "Ordenes"
+  },
+  {
+    href: "/admin/reservations",
+    icon: IoCalendarOutline,
+    label: "Reservas"
+  },
+  {
+    href: "/admin/notifications",
+    icon: IoNotificationsOutline,
+    label: "Notificaciones"
+  }
+]
+
 function SideBarItem({ pathname, href, children }: SideBarItemProps) {
   return (
     <Link
@@ -37,71 +80,19 @@ export function Sidebar({ className }: React.HTMLAttributes<HTMLDivElement>) {
   const pathname = usePathname()
 
   return (
-    <div className={cn("pb-12", className)}>
-      <div className="space-y-4 py-4">
-        <div className="px-3 py-2">
-          <h2 className="mb-6 px-4 text-xl font-bold">
-            Dashboard
-          </h2>
-
-          <div className="grid gap-2">
-            <SideBarItem
-              pathname={pathname}
-              href="/admin"
-            >
-              <IoBarChartOutline className="text-xl mr-3" />
-              Resumen
-            </SideBarItem>
-
-            <SideBarItem
-              pathname={pathname}
-              href="/admin/products/add"
-            >
-              <IoAddCircleOutline className="text-xl mr-3" />
-              Añadir producto
-            </SideBarItem>
-
-            <SideBarItem
-              pathname={pathname}
-              href="/admin/products"
-            >
-              <IoPizzaOutline className="text-xl mr-3" />
-              Productos
-            </SideBarItem>
-
-            <SideBarItem
-              pathname={pathname}
-              href="/admin/categories"
-            >
-              <IoAppsOutline className="text-xl mr-3" />
-              Categorias
-            </SideBarItem>
-
-            <SideBarItem
-              pathname={pathname}
-              href="/admin/orders"
-            >
-              <IoReceiptOutline className="text-xl mr-3" />
-              Ordenes
-            </SideBarItem>
-
-            <SideBarItem
-              pathname={pathname}
-              href="/admin/reservations"
-            >
-              <IoCalendarOutline className="text-xl mr-3" />
-              Reservas
-            </SideBarItem>
-
-            <SideBarItem
-              pathname={pathname}
-              href="/admin/notifications"
-            >
-              <IoNotificationsOutline className="text-xl mr-3" />
-              Notificaciones
-            </SideBarItem>
-          </div>
-        </div>
+    <div className={cn("min-h-[calc(100vh-80px)] space-y-4 p-4 ", className)}>
+      <h2 className="mb-6 mt-4 px-4 text-xl font-bold">Dashboard</h2>
+      <div className="grid gap-2">
+        {sidebarOptions.map((option, index) => (
+          <SideBarItem
+            key={index}
+            pathname={pathname}
+            href={option.href}
+          >
+            <option.icon className="text-xl mr-3" />
+            {option.label}
+          </SideBarItem>
+        ))}
       </div>
     </div>
   )

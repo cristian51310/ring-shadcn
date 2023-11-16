@@ -72,6 +72,18 @@ export default function AddProductForm() {
         await new Promise<void>((resolve, reject) => {
           uploadTask.on(
             "state_changed",
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log("Upload is " + progress + "% done");
+              switch (snapshot.state) {
+                case "paused":
+                  console.log("Upload is paused");
+                  break;
+                case "running":
+                  console.log("Upload is running");
+                  break;
+              }
+            },
             (error) => {
               console.log("error uploading image ", error);
               reject(error);

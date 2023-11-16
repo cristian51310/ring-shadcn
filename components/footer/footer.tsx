@@ -5,7 +5,7 @@ import LanguageToggle from "../language-toggle"
 
 export default function Footer() {
   return (
-    <footer className="mx-auto w-full p-12 py-6 lg:py-8 border-t">
+    <footer className="mx-auto w-full p-6 md:p-12 py-6 lg:py-8 border-t">
       <div className="md:flex md:justify-between">
         <div className="mb-6 md:mb-0">
           <div className="flex items-center gap-3">
@@ -20,7 +20,8 @@ export default function Footer() {
             </span>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-8 sm:gap-12 sm:grid-cols-2">
+
+        <div className="grid grid-cols-1 gap-8 sm:gap-12 sm:grid-cols-2">
           <div className="text-gray-500 font-medium flex flex-col gap-4">
             <a href="#" className="hover:underline ">
               Obten Ayuda
@@ -50,9 +51,11 @@ export default function Footer() {
           </div>
         </div>
       </div>
+
       <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-      <div className="sm:flex sm:items-center sm:justify-between">
-        <div className="flex mt-4 sm:justify-center sm:mt-0 gap-5">
+
+      <div className="md:flex md:items-center md:justify-between">
+        <div className="flex mt-4 md:justify-center sm:mt-0 gap-5">
           <a href="#" className="text-gray-500 hover:text-gray-900">
             <FacebookIcon className="w-6 h-6" />
           </a>
@@ -63,8 +66,8 @@ export default function Footer() {
             <TwitterLogoIcon className="w-6 h-6" />
           </a>
         </div>
-        <div className="flex flex-col justify-end gap-3">
-          <div className="flex items-center gap-4 text-sm text-gray-500">
+        <div className="flex flex-col justify-end gap-3 mt-8 md:mt-0">
+          <div className="flex flex-col lg:flex-row md:items-center items-start gap-4 text-sm text-gray-500">
             <a href="#" className="hover:underline">
               Terminos &amp; Condiciones
             </a>
@@ -78,7 +81,7 @@ export default function Footer() {
               Proteccion de informacion personal
             </a>
           </div>
-          <span className="text-sm text-gray-500 text-end">
+          <span className="text-sm text-gray-500 text-start md:text-end mt-2 md:mt-0">
             © 2023 Ring!™. Todos los derechos reservados.
           </span>
         </div>

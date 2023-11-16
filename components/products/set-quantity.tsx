@@ -25,13 +25,13 @@ const SetQuantity: React.FC<SetQuantityProps> = ({
         </div>
       )}
       <div className="flex justify-center items-center border rounded-md">
-        <Button onClick={handleQtyDecrement} variant={"link"} size={"sm"}>
+        <Button onClick={handleQtyDecrement} variant="link" size="sm">
           <MinusIcon />
         </Button>
         <p className="mx-1 w-6 text-center">
           {cartProduct.quantity}
         </p>
-        <Button onClick={handleQtyIncrement} variant={"link"} size="sm">
+        <Button onClick={handleQtyIncrement} variant="link" size="sm">
           <PlusIcon />
         </Button>
       </div>

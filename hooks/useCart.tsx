@@ -29,10 +29,10 @@ export const CartContextProvider = (props: Props) => {
   const [paymentIntent, setPaymentIntent] = useState<string | null>(null)
 
   useEffect(() => {
-    const cartItems: any = window.localStorage.getItem('cart')
+    const cartItems: any = localStorage.getItem('cart')
     const cProducts: CartProductType[] = JSON.parse(cartItems)
 
-    const ringPaymentIntent: any = window.localStorage.getItem('ringPaymentIntent')
+    const ringPaymentIntent: any = localStorage.getItem('ringPaymentIntent')
     const paymentIntent: string | null = JSON.parse(ringPaymentIntent)
 
     setCartProducts(cProducts)
@@ -70,7 +70,7 @@ export const CartContextProvider = (props: Props) => {
         updatedCart = [product]
       }
 
-      window.localStorage.setItem('cart', JSON.stringify(updatedCart))
+      localStorage.setItem('cart', JSON.stringify(updatedCart))
       return updatedCart
     })
   }, [])
@@ -136,7 +136,7 @@ export const CartContextProvider = (props: Props) => {
   const handleSetPaymentIntent = useCallback(
     (val: string | null) => {
       setPaymentIntent(val)
-      window.localStorage.setItem("ringPaymentIntent", JSON.stringify(val))
+      localStorage.setItem("ringPaymentIntent", JSON.stringify(val))
     }, []
   )
 

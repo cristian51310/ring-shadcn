@@ -73,7 +73,7 @@ export default function AdminProducts({ products }: AdminProductsProps) {
             <LoopIcon className="h-4 w-4" />
           </Button>
           <Button variant="outline" size="icon"
-            onClick={() => handleDelete(params.row.id, params.row.images)}
+            onClick={() => handleDelete(params.row.id, params.row.image)}
           >
             <TrashIcon className="h-4 w-4" />
           </Button>
@@ -100,17 +100,17 @@ export default function AdminProducts({ products }: AdminProductsProps) {
       })
   }, [router])
 
-  const handleDelete = useCallback(async (id: string, images: [any]) => {
+  const handleDelete = useCallback(async (id: string, image: any) => {
     toast.info("Borrando producto...")
+    console.log("image", image)
+    console.log("id", id)
 
     const handleImageDelete = async () => {
       try {
-        for (const item of images) {
-          if (item.image) {
-            const imageRef = ref(storage, item.image)
-            await deleteObject(imageRef)
-            console.log("Image deleted")
-          }
+        if (image) {
+          const imageRef = ref(storage, image)
+          await deleteObject(imageRef)
+          console.log("Image deleted")
         }
       } catch (err: any) {
         console.log(err.message)
@@ -119,14 +119,15 @@ export default function AdminProducts({ products }: AdminProductsProps) {
 
     await handleImageDelete()
 
-    axios.delete(`/api/products/${id}`)
+    axios.post(`/api/products/delete`, { id })
       .then(() => {
-        toast.success("Producto borrado")
+        toast.success("Producto Borrado")
         router.refresh()
       })
       .catch((err) => {
         toast.error(err.message)
       })
+
   }, [router, storage])
 
   return (

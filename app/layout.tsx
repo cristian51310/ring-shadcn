@@ -31,7 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Toaster
           expand={true}
           richColors
-          position='top-right'
+          position='bottom-right'
         />
         <ThemeProvider
           attribute="class"

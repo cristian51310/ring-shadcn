@@ -13,7 +13,7 @@ export default function Categories() {
   if (!isMainPage) return null
 
   return (
-    <div className="relative px-12 flex items-center justify-between overflow-x-auto">
+    <div className="hidden relative px-6 md:px-12 sm:flex items-center justify-between overflow-x-auto">
       {categories.map((category) => (
         <Category
           key={category.id}
