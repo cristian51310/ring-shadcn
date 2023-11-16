@@ -5,7 +5,7 @@ import { DataTableDemo } from "./manage-products"
 
 
 export default async function ManageProductsPage() {
-  const products = await getProducts({ category: null })
+  const products = await getProducts()
   const user = await getCurrentUser()
 
   if (!user || user.role !== "ADMIN") return <NullData title="Acceso Denegado" />

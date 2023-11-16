@@ -5,7 +5,7 @@ import NullData from "@/components/null-data"
 
 export default async function ProductsPage(){
   const user = await getCurrentUser()
-  const products = await getProducts({category: null})
+  const products = await getProducts()
 
   if(!user || user.role !== "ADMIN") return <NullData title="Acceso Denegado" />
 

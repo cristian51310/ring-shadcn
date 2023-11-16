@@ -7,7 +7,7 @@ import { ProductCard } from "@/components/products/product-card"
 import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
-import getProducts, { IProductsParams } from "@/lib/getProducts"
+import getProducts from "@/lib/getProducts"
 import { cn } from "@/lib/utils"
 import { categories } from "@/mocks/categories"
 import { Metadata } from "next"
@@ -18,12 +18,8 @@ export const metadata: Metadata = {
   description: "Tu comida favorita en minutos",
 }
 
-interface HomeProps {
-  searchParams: IProductsParams
-}
-
-export default async function DashboardPage({ searchParams }: HomeProps) {
-  const products = await getProducts(searchParams)
+export default async function Page() {
+  const products = await getProducts()
 
   if (products.length === 0) return (
     <NullData title="No hay productos que coincidan con la busqueda">
@@ -40,13 +36,11 @@ export default async function DashboardPage({ searchParams }: HomeProps) {
   )
 
   //fisher-yates suffle algorithm
-
   function shuffleArray(array: any[]) {
     for (let i = array.length - 1; i > 0; i--) {
-      const j: number = Math.floor(Math.random() * (i + 1)); // Corregir la generación del índice
+      const j: number = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
-
     return array;
   }
 

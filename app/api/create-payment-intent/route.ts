@@ -6,7 +6,6 @@ import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, { apiVersion: "2023-10-16" })
 
-
 export async function POST(request: Request) {
   const user = await getCurrentUser()
 
@@ -40,24 +39,23 @@ export async function POST(request: Request) {
       )
 
       // update the order
-      const [existing_order, update_order] = await Promise.all([
-        prisma.order.findFirst({
-          where: { paymentIntentId: payment_intent_id }
-        }),
-        prisma.order.update({
+      const existing_order = await prisma.order.findFirst({
+        where: { paymentIntentId: payment_intent_id }
+      });
+      
+      if (existing_order) {
+        await prisma.order.update({
           where: { paymentIntentId: payment_intent_id },
           data: {
             amount: total,
             products: items
           }
-        })
-      ])
-
-      if (!existing_order) {
+        });
+      } else {
         return NextResponse.json(
           { error: "invalid payment intent" },
           { status: 400 }
-        )
+        );
       }
 
       return NextResponse.json({ paymentIntent: update_intent })
