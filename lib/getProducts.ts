@@ -29,7 +29,7 @@ export default async function getProducts(params: IProductsParams) {
             contains: searchStr,
             mode: "insensitive"
           }
-        }]
+        }],
       },
     })
 

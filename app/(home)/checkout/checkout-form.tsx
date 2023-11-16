@@ -45,28 +45,21 @@ export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess} : 
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      id="payment-form"
-    >
+    <form onSubmit={handleSubmit} id="payment-form">
       <div className="mb-6">
         <h1 className="text-xl font-bold mb-4">Ingresa tus datos</h1>
 
-        <h2 className="font-semibold my-4">
-          Informacion del domicilio
-        </h2>
+        <h2 className="font-semibold my-4">Informacion del domicilio </h2>
 
         <AddressElement
           id="address-element"
           options={{
-            mode: "shipping",
+            mode: "billing",
             allowedCountries: ["MX"],
           }}
         />
 
-        <h2 className="font-semibold my-4">
-          Informacion de pago
-        </h2>
+        <h2 className="font-semibold my-4">Informacion de pago</h2>
 
         <PaymentElement
           id="payment-element"
@@ -81,7 +74,7 @@ export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess} : 
 
         <Button
           disabled={loading || !stripe || !elements}
-          onClick={() => { }}
+          className="w-full mt-4 py-7"
         >
           {loading ? "Cargando..." : "Pagar"}
         </Button>

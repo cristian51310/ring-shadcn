@@ -1,18 +1,17 @@
 "use client"
-
+import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
 import { Elements } from "@stripe/react-stripe-js";
 import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
 import CheckoutForm from "./checkout-form";
 
 // TODO: por alguna razon no esta tomando el valor del .env
 const stripePromise = loadStripe("pk_test_51N31fdCCkGcV1au1Btx4fQMj7LJCjaLfOw021TjxoZovvyNKuZQ3Wjos1wfGL0yCYomsbgYQdj2wD6OxsXkt4wx000mNqtXjCx")
 
-const CheckoutClient = () => {
+export default function CheckoutClient() {
   const router = useRouter()
 
   const { cartProducts, paymentIntent, handleSetPaymentIntent } = useCart()
@@ -85,17 +84,11 @@ const CheckoutClient = () => {
             <p className="text-3xl text-center mb-3">Pago exitoso</p>
             <p className="text-2xl text-center">Gracias por tu compra</p>
           </div>
-           <div>
-            <Button
-              onClick={() => router.push("/order")}
-            >
-              Ver mis ordenes
-            </Button>
-          </div>
+          <Button onClick={() => router.push("/order")}>
+            Ver mis ordenes
+          </Button>
         </div>
       )}
     </div>
   )
 }
-
-export default CheckoutClient;

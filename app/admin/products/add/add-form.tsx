@@ -146,9 +146,9 @@ export default function AddProductForm() {
 
       <Input
         id="name"
-        placeholder="John Doe"
+        placeholder="ingresa el nombre del producto"
         type="text"
-        label="Nombre"
+        label="Nombre del producto"
         register={register}
         errors={errors}
         disabled={isLoading}

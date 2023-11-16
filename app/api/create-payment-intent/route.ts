@@ -1,23 +1,11 @@
-import { CartProductType } from "@/types/cart-pruduct-type";
+import { calculateOrderAmount } from "@/lib/calculateOrderAmount";
 import { getCurrentUser } from "@/lib/getCurrentUser";
 import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: "2023-10-16"
-})
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, { apiVersion: "2023-10-16" })
 
-const calculateOrderAmount = (items: CartProductType[]) => {
-  const total = items.reduce((acc, item) => {
-    const itemTotal = item.price * item.quantity
-    return acc + itemTotal
-  }, 0)
-
-  const price: any = Math.floor(total)
-
-  return price
-}
 
 export async function POST(request: Request) {
   const user = await getCurrentUser()
@@ -44,9 +32,7 @@ export async function POST(request: Request) {
   }
 
   if (payment_intent_id) {
-    const current_intent = await stripe.paymentIntents.retrieve(
-      payment_intent_id
-    )
+    const current_intent = await stripe.paymentIntents.retrieve(payment_intent_id)
 
     if (current_intent) {
       const update_intent = await stripe.paymentIntents.update(

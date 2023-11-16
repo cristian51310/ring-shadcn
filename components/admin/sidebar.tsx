@@ -26,6 +26,11 @@ const sidebarOptions = [
     label: "Resumen"
   },
   {
+    href: "/restaurant",
+    icon: IoBarChartOutline,
+    label: "Datos del restaurante"
+  },
+  {
     href: "/admin/products/add",
     icon: IoAddCircleOutline,
     label: "Añadir producto"

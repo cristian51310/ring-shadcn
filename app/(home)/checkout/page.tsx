@@ -2,7 +2,7 @@ import CheckoutClient from "./checkout-client";
 
 const CheckoutPage = () => {
   return (
-    <div className="p-4 md:p-8">
+    <div className="p-8 md:px-32 lg:px-64 md:pt-10 pt-8">
       <CheckoutClient />
     </div>
   )
