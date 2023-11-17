@@ -26,7 +26,7 @@ const sidebarOptions = [
     label: "Resumen"
   },
   {
-    href: "/restaurant",
+    href: "/admin/restaurant",
     icon: IoBarChartOutline,
     label: "Datos del restaurante"
   },
