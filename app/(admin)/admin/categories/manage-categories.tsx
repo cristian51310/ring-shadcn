@@ -1,16 +1,13 @@
 "use client"
-import Status from "@/components/status";
 import { Button } from "@/components/ui/button";
 import firebaseApp from "@/lib/firebase";
-import { formatPrice } from "@/lib/formatPrice";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Category } from "@prisma/client";
-import { EyeOpenIcon, LoopIcon, TrashIcon } from "@radix-ui/react-icons";
+import { EyeOpenIcon, TrashIcon } from "@radix-ui/react-icons";
 import axios from "axios";
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { MdClose, MdDone } from "react-icons/md";
 import { toast } from "sonner";
 
 interface AdminProductsProps {

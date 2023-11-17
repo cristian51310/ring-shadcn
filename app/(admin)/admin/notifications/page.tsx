@@ -1,10 +1,5 @@
-import NullData from "@/components/null-data";
-import { getCurrentUser } from "@/lib/getCurrentUser";
 
 export default async function OrdersPage() {
-  const user = await getCurrentUser()
-
-  if (!user || user.role !== "ADMIN") return <NullData title="Acceso Denegado" />
 
   return (
     <>

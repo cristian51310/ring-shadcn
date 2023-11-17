@@ -1,12 +1,20 @@
 import { Menu } from "@/components/admin/menu"
 import { Sidebar } from "@/components/admin/sidebar"
+import NullData from "@/components/null-data"
+import { getCurrentUser } from "@/lib/getCurrentUser"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: 'Administracion'
 }
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const user = await getCurrentUser()
+
+  if (!user || (user.role !== "ADMIN" && user.role !== "SUPERADMIN")) {
+    return <NullData title="Acceso Denegado" />;
+  }
+
   return (
     <>
       <Menu />

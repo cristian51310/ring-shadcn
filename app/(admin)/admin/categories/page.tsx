@@ -1,14 +1,9 @@
 import NullData from "@/components/null-data"
-import { getCurrentUser } from "@/lib/getCurrentUser"
-import ManageCategories from "./manage-categories"
 import getCategories from "@/lib/getCategories"
+import ManageCategories from "./manage-categories"
 
 export default async function ProductsPage() {
-  const user = await getCurrentUser()
   const categories = await getCategories()
-
-  if (!user || user.role !== "ADMIN") return <NullData title="Acceso Denegado" />
-
   if (!categories || categories.length === 0) return <NullData title="No hay Categorias" />
 
   return (

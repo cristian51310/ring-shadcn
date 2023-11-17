@@ -1,6 +1,5 @@
-import { Metadata } from "next"
 import { getCurrentUser } from "@/lib/getCurrentUser"
-import NullData from "@/components/null-data"
+import { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Administrador | Ring!",
@@ -9,8 +8,6 @@ export const metadata: Metadata = {
 
 export default async function MainPage() {
   const user = await getCurrentUser()
-
-  if (!user || user.role !== "ADMIN") return <NullData title="Acceso Denegado" />
 
   return (
     <>
