@@ -64,6 +64,11 @@ const sidebarOptions = [
     href: "/admin/notifications",
     icon: IoNotificationsOutline,
     label: "Notificaciones"
+  },
+  {
+    href: "/manager",
+    icon: IoNotificationsOutline,
+    label: "Administrador de mesas"
   }
 ]
 
