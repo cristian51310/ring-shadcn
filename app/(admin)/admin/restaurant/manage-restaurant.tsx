@@ -1,17 +1,13 @@
 "use client"
 import { Icons } from "@/components/icons"
-import CategoryInput from "@/components/inputs/category-input"
-import CheckBox from "@/components/inputs/checkbox"
 import Input from "@/components/inputs/input"
 import TextArea from "@/components/inputs/textarea"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
 import firebaseApp from "@/lib/firebase"
-import { categories } from "@/mocks/categories"
 import axios from "axios"
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage"
 import { useRouter } from "next/navigation"
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "sonner"
 
@@ -23,30 +19,28 @@ export interface UploadImageType {
   url: string
 }
 
-export default function AddProductForm() {
+export default function ManageRestaurantForm() {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isProductCreated, setIsProductCreated] = useState<boolean>(false)
 
-  const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FieldValues>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FieldValues>({
     defaultValues: {
       name: "",
-      price: "",
       description: "",
-      category: "",
-      inStock: false,
-      image: null,
+      logo: null,
+      cover: null,
+      street: "",
+      city: "",
+      zip: "",
+      exteriorNumber: "",
+      interiorNumber: "",
+      state: "",
+      email: "",
+      phone: "",
     }
   })
-
-  const setCustomValue = useCallback((id: string, value: any) => {
-    setValue(id, value, {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true
-    });
-  }, [setValue]);
 
   useEffect(() => {
     if (isProductCreated) {
@@ -55,11 +49,9 @@ export default function AddProductForm() {
     }
   }, [isProductCreated, reset])
 
-  const category = watch("category")
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
-    let uploadedImage: UploadImageType = {url: ""};
+    let uploadedImage: UploadImageType = { url: "" };
 
     const handleImageUpload = async () => {
       toast.info("Subiendo imagen...");
@@ -146,7 +138,7 @@ export default function AddProductForm() {
 
       <Input
         id="name"
-        placeholder="ingresa el nombre del producto"
+        placeholder="ingresa el nombre de tu restaurante"
         type="text"
         label="Nombre del producto"
         register={register}
@@ -155,20 +147,9 @@ export default function AddProductForm() {
         required
       />
 
-      <Input
-        id="price"
-        placeholder="Precio"
-        type="number"
-        label="Precio"
-        register={register}
-        errors={errors}
-        disabled={isLoading}
-        required
-      />
-
       <TextArea
         id="description"
-        placeholder="Descripcion del producto"
+        placeholder="Descripcion de tu restaurante"
         label="Descripcion"
         register={register}
         errors={errors}
@@ -176,35 +157,22 @@ export default function AddProductForm() {
         required
       />
 
-      <CheckBox
-        id="inStock"
-        label="En stock"
+      <p className="font-semibold py-1">Logo de tu restaurante</p>
+      <Input
+        id="logo"
+        type="file"
+        label="Selecciona el logo de tu restaurante"
         register={register}
+        errors={errors}
         disabled={isLoading}
+        required
       />
 
-      <Label className="my-3">Seleccionar una Categoria</Label>
-
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-5 overflow-y-auto max-h-[50vh]">
-        {categories.map((item) => {
-          if (item.name === "all") return null
-          return (
-            <CategoryInput
-              key={item.id}
-              onClick={(category) => setCustomValue("category", category)}
-              selected={category === item.name}
-              label={item.name}
-              image={item.cover}
-            />
-          )
-        })}
-      </div>
-
-      <p className="font-semibold py-3">Imagen del producto</p>
+      <p className="font-semibold py-1">Portada para tu restaurante</p>
       <Input
-        id="image"
+        id="cover"
         type="file"
-        label="Selecciona una imagen para tu producto"
+        label="Selecciona el logo de tu restaurante"
         register={register}
         errors={errors}
         disabled={isLoading}
@@ -212,8 +180,8 @@ export default function AddProductForm() {
       />
 
       <Button className="my-3" onClick={handleSubmit(onSubmit)}>
-        {isLoading && ( <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />)}
-        Agregar Producto
+        {isLoading && (<Icons.spinner className="mr-2 h-4 w-4 animate-spin" />)}
+        Resgistrar mi restaurante
       </Button>
     </div>
   )

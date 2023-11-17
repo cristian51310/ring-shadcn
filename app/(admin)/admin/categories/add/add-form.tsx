@@ -132,7 +132,7 @@ export default function AddProductForm() {
         required
       />
 
-      <p className="font-semibold py-3">Imagen del producto</p>
+      <p className="font-semibold py-3">Imagen de la categoria</p>
       <Input
         id="image"
         type="file"

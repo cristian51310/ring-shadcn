@@ -1,16 +1,16 @@
 import NullData from "@/components/null-data"
-import getProducts from "@/lib/getProducts"
-import AdminProducts from "./manage-products"
+import { getCurrentUser } from "@/lib/getCurrentUser"
+import ManageRestaurantForm from "./manage-restaurant"
 
-export default async function ProductsPage() {
-  const products = await getProducts()
+export default async function AddProductsPage() {
+  const user = await getCurrentUser()
 
-  if (!products || products.length === 0) return <NullData title="No hay productos" />
+  if (!user || user.role !== "ADMIN") return <NullData title="Acceso Denegado" />
 
   return (
     <>
-      <h1 className="text-xl font-bold mb-4">Administrar Productos</h1>
-      <AdminProducts products={products} />
+      <h1 className="text-xl font-bold mb-4">Administrar mi Restaurante</h1>
+      <ManageRestaurantForm />
     </>
   )
 }

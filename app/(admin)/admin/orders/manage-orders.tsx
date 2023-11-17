@@ -1,17 +1,22 @@
 "use client"
-
-import Status from "@/components/status";
-import { Button } from "@/components/ui/button";
-import { formatPrice } from "@/lib/formatPrice";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Order, User } from "@prisma/client";
-import { EyeOpenIcon } from "@radix-ui/react-icons";
-import axios from "axios";
-import moment from "moment";
-import { useRouter } from "next/navigation";
-import { useCallback } from "react";
-import { MdAccessTimeFilled, MdDeliveryDining, MdDone } from "react-icons/md";
-import { toast } from "sonner";
+import Status from "@/components/status"
+import { Button } from "@/components/ui/button"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { formatPrice } from "@/lib/formatPrice"
+import { Order, User } from "@prisma/client"
+import { EyeOpenIcon } from "@radix-ui/react-icons"
+import {
+  ColumnDef, ColumnFiltersState, SortingState, VisibilityState,
+  flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
+  getSortedRowModel, useReactTable,
+} from "@tanstack/react-table"
+import moment from "moment"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import { MdAccessTimeFilled, MdDeliveryDining, MdDone } from "react-icons/md"
+import { toast } from "sonner"
+import axios from "axios"
+import { useCallback } from "react"
 
 interface ManageOrdersProps {
   orders: ExtendedOrder[];
@@ -21,8 +26,12 @@ type ExtendedOrder = Order & {
   user: User
 }
 
-export default function ManageOrders({ orders }: ManageOrdersProps) {
+export function DataTableDemo({ orders }: ManageOrdersProps) {
   const router = useRouter()
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState({})
 
   let rows: any = []
 
@@ -37,25 +46,36 @@ export default function ManageOrders({ orders }: ManageOrdersProps) {
     }))
   }
 
-  const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 100 },
-    { field: "customer", headerName: "Cliente Nombre", width: 210 },
+  const columns: ColumnDef<any>[] = [
     {
-      field: "amount", headerName: "Total (mxn)", width: 100, renderCell: (params) => (
-        <div className="font-bold">{params.row.amount}</div>
-      )
+      accessorKey: "id",
+      header: "id",
     },
     {
-      field: "paymentStatus", headerName: "Pagado", width: 130, renderCell: (params) => (
-        <div className="font-bold">
-          {params.row.paymentStatus === "pending" ? (
+      accessorKey: "customer",
+      header: "Cliente",
+    },
+    {
+      accessorKey: "amount",
+      header: "Total",
+    },
+    {
+      accessorKey: "date",
+      header: "Fecha",
+    },
+    {
+      accessorKey: "paymentStatus",
+      header: "Pagado",
+      cell: ({ row }) => (
+        <div className="font-semibold">
+          {row.getValue("paymentStatus") === "pending" ? (
             <Status
               text="Pendiente"
               icon={MdAccessTimeFilled}
               bg="bg-orange-200"
               color="text-orange-800"
             />
-          ) : params.row.paymentStatus === "complete" ? (
+          ) : row.getValue("paymentStatus") === "complete" ? (
             <Status
               text="Completado"
               icon={MdDone}
@@ -64,26 +84,28 @@ export default function ManageOrders({ orders }: ManageOrdersProps) {
             />
           ) : <></>}
         </div>
-      )
+      ),
     },
     {
-      field: "deliveryStatus", headerName: "Entregado", width: 130, renderCell: (params) => (
-        <div className="font-bold">
-          {params.row.deliveryStatus === "pending" ? (
+      accessorKey: "deliveryStatus",
+      header: "Entregado",
+      cell: ({ row }) => (
+        <div className="font-semibold">
+          {row.getValue("deliveryStatus") === "pending" ? (
             <Status
               text="Pendiente"
               icon={MdAccessTimeFilled}
               bg="bg-slate-200"
               color="text-slate-800"
             />
-          ) : params.row.deliveryStatus === "dispatched" ? (
+          ) : row.getValue("deliveryStatus") === "dispatched" ? (
             <Status
               text="Despachado"
               icon={MdDeliveryDining}
               bg="bg-purple-200"
               color="text-purple-800"
             />
-          ) : params.row.deliveryStatus === "delivered" ? (
+          ) : row.getValue("deliveryStatus") === "delivered" ? (
             <Status
               text="Entregado"
               icon={MdDone}
@@ -92,32 +114,31 @@ export default function ManageOrders({ orders }: ManageOrdersProps) {
             />
           ) : <></>}
         </div>
-      )
+      ),
     },
     {
-      field: "date", headerName: "Fecha", width: 130
-    },
-    {
-      field: "action", headerName: "Acciones", width: 220, renderCell: (params) => (
-        <div className="flex justify-between items-center gap-2">
+      id: "actions",
+      header: "Acciones",
+      cell: ({row}) => (
+        <div className="flex justify-evenly items-center gap-2">
           <Button variant="outline" size="icon"
-            onClick={() => handleDispatch(params.row.id)}
+            onClick={() => handleDispatch(row.getValue("id"))}
           >
             <MdDeliveryDining className="h-4 w-4" />
           </Button>
           <Button variant="outline" size="icon"
-            onClick={() => handleDeliver(params.row.id)}
+            onClick={() => handleDeliver(row.getValue("id"))}
           >
             <MdDone className="h-4 w-4" />
           </Button>
           <Button variant="outline" size="icon"
-            onClick={() => router.push(`/admin/orders/${params.row.id}`)}
+            onClick={() => router.push(`/admin/orders/${row.getValue("id")}`)}
           >
             <EyeOpenIcon className="h-4 w-4" />
           </Button>
         </div>
-      )
-    }
+      ),
+    },
   ]
 
   const handleDispatch = useCallback((id: string) => {
@@ -142,24 +163,91 @@ export default function ManageOrders({ orders }: ManageOrdersProps) {
       })
   }, [router])
 
+  const table = useReactTable({
+    data: rows,
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+    },
+  })
+
   return (
-    <div>
-      <div style={{ height: 600, width: "100%" }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 10 },
-            },
-          }}
-          pageSizeOptions={[10, 20]}
-          checkboxSelection
-          disableRowSelectionOnClick
-          disableColumnMenu
-        />
+    <div className="">
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                  </TableHead>
+                ))}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No hay resultados
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+
+        <div className="space-x-2">
+          <Button
+            variant="outline"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Anterior
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Siguiente
+          </Button>
+        </div>
       </div>
     </div>
-
   )
 }

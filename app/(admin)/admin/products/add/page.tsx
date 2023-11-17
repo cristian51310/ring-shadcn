@@ -1,4 +1,3 @@
-import { getCurrentUser } from "@/lib/getCurrentUser"
 import AddProductForm from "./add-form"
 
 export default async function AddProductsPage() {

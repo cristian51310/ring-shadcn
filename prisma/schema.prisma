@@ -71,6 +71,22 @@ model Category {
   image       String
 }
 
+model Restaurant {
+  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  description    String
+  logo           String
+  cover          String
+  street         String
+  city           String
+  zip            String
+  exteriorNumber String
+  interiorNumber String?
+  state          State @default(Guanajuato)
+  email          String
+  phone          String
+}
+
 type CartProductType {
   id          String
   name        String
@@ -94,4 +110,9 @@ enum Role {
   USER
   ADMIN
   SUPERADMIN
+}
+
+enum State {
+  Guanajuato
+  Michoacan
 }
