@@ -75,7 +75,7 @@ export function DataTableDemo({ orders }: ManageOrdersProps) {
               bg="bg-orange-200"
               color="text-orange-800"
             />
-          ) : row.getValue("paymentStatus") === "complete" ? (
+          ) : row.getValue("paymentStatus") === "succeeded" ? (
             <Status
               text="Completado"
               icon={MdDone}

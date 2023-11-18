@@ -7,9 +7,9 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import CheckoutForm from "./checkout-form";
+import axios from "axios";
 
-// TODO: por alguna razon no esta tomando el valor del .env
-const stripePromise = loadStripe("pk_test_51N31fdCCkGcV1au1Btx4fQMj7LJCjaLfOw021TjxoZovvyNKuZQ3Wjos1wfGL0yCYomsbgYQdj2wD6OxsXkt4wx000mNqtXjCx")
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string)
 
 export default function CheckoutClient() {
   const router = useRouter()
@@ -48,7 +48,6 @@ export default function CheckoutClient() {
         })
         .catch(err => {
           setError(true)
-          console.log("ERROR:", err)
           toast.error("Algo salio mal")
         })
     }
@@ -64,7 +63,17 @@ export default function CheckoutClient() {
 
   const handleSetPaymentSuccess = useCallback((value: boolean) => {
     setPaymentSuccess(value)
-  }, [])
+
+    //if the payment is successful, we need update in database with axios
+    axios.put("/api/orders/payment", {
+      payment_intent_id: paymentIntent,
+      payment_intent_status: "succeeded"
+    }).then(res => {
+      console.log(res.data)
+    }).catch(err => {
+      console.log(err)
+    })
+  }, [paymentIntent])
 
   return (
     <div className="w-full">

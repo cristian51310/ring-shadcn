@@ -7,14 +7,12 @@ export async function PUT(request: Request) {
 
   if (!user) return NextResponse.error()
 
-  if (user.role !== "ADMIN") return NextResponse.error()
-
   const body = await request.json()
-  const { id, deliveryStatus } = body
+  const { payment_intent_id, payment_intent_status } = body
 
   const order = await prisma.order.update({
-    where: { id },
-    data: { deliveryStatus }
+    where: { paymentIntentId: payment_intent_id },
+    data: { status: payment_intent_status }
   })
 
   return NextResponse.json(order)

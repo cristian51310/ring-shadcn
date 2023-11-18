@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
+import prisma from "@/lib/prismadb"
 import { AddressElement, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
@@ -11,9 +12,8 @@ interface CheckoutFormProps {
   handleSetPaymentSuccess: (value: boolean) => void
 }
 
-export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess} : CheckoutFormProps){
+export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess }: CheckoutFormProps) {
   const [loading, setLoading] = useState(false)
-
   const { cartTotalAmount, handleClearCart, handleSetPaymentIntent } = useCart()
   const stripe = useStripe()
   const elements = useElements()
@@ -28,18 +28,18 @@ export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess} : 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!stripe || !elements) return
+    
     setLoading(true)
 
-    stripe.confirmPayment({
-      elements, redirect: "if_required"
-    }).then(result => {
-      if (!result.error) {
-        toast.success("Pago exitoso")
-        handleClearCart()
-        handleSetPaymentSuccess(true)
-        handleSetPaymentIntent(null)
-      }
-    })
+    stripe.confirmPayment({ elements, redirect: "if_required" })
+      .then((result) => {
+        if (!result.error) {
+          toast.success("Pago exitoso")
+          handleClearCart()
+          handleSetPaymentSuccess(true)
+          handleSetPaymentIntent(null)
+        }
+      })
 
     setLoading(false)
   }

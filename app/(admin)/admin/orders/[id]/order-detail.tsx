@@ -33,7 +33,7 @@ export default function OrderDetail({ order }: OrderDetailProps) {
                 bg="bg-orange-200"
                 color="text-orange-800"
               />
-            ) : order.status === "complete" ? (
+            ) : order.status === "succeded" ? (
               <Status
                 text="Completado"
                 icon={MdDone}

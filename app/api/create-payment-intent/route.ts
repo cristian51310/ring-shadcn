@@ -30,38 +30,51 @@ export async function POST(request: Request) {
     products: items
   }
 
+
   if (payment_intent_id) {
-    const current_intent = await stripe.paymentIntents.retrieve(payment_intent_id)
+    const current_intent = await stripe.paymentIntents.retrieve(
+      payment_intent_id
+    )
 
     if (current_intent) {
-      const update_intent = await stripe.paymentIntents.update(
-        payment_intent_id, { amount: total }
+      if(current_intent.status === "succeeded") {
+        return NextResponse.json(
+          { error: "Este pago ya se realizo" },
+          { status: 400 }
+        )
+      }
+
+      const updated_intent = await stripe.paymentIntents.update(
+        payment_intent_id,
+        { amount: total }
       )
 
       // update the order
-      const existing_order = await prisma.order.findFirst({
-        where: { paymentIntentId: payment_intent_id }
-      });
-      
-      if (existing_order) {
-        await prisma.order.update({
+      const [existing_order, updatedOrder] = await Promise.all([
+        prisma.order.findFirst({
+          where: { paymentIntentId: payment_intent_id }
+        }),
+        prisma.order.update({
           where: { paymentIntentId: payment_intent_id },
           data: {
             amount: total,
-            products: items
+            products: items,
           }
-        });
-      } else {
+        })
+      ])
+
+      if (!existing_order) {
         return NextResponse.json(
-          { error: "invalid payment intent" },
-          { status: 400 }
-        );
+          { error: "Invalid Payment Intent" },
+          { status: 404 }
+        )
       }
 
-      return NextResponse.json({ paymentIntent: update_intent })
+      return NextResponse.json({ paymentIntent: updated_intent })
     }
   } else {
-    // create the intent
+    console.log("Creating new payment intent")
+
     const paymentIntent = await stripe.paymentIntents.create({
       amount: total,
       currency: "mxn",

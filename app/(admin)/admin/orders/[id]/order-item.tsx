@@ -1,6 +1,5 @@
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader } from "@/components/ui/table";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatPrice } from "@/lib/formatPrice";
-import { TableRow } from "@mui/material";
 import { CartProductType } from "@prisma/client";
 import Image from "next/image";
 
