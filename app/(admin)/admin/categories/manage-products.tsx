@@ -1,6 +1,7 @@
 "use client"
 import Status from "@/components/status"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -13,152 +14,100 @@ import {
   getSortedRowModel, useReactTable,
 } from "@tanstack/react-table"
 import { ArrowUpDown, ChevronDown, TrashIcon } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { MdClose, MdDone } from "react-icons/md"
 import { toast } from "sonner"
-import axios from "axios"
-import { useCallback } from "react"
-import firebaseApp from "@/lib/firebase";
-import { deleteObject, getStorage, ref } from "firebase/storage";
 
 interface AdminProductsProps {
   products: Product[];
 }
 
-export function DataTableDemo({ products }: AdminProductsProps) {
-  const router = useRouter()
-  const storage = getStorage(firebaseApp)
+export const columns: ColumnDef<Product>[] = [
 
+  {
+    accessorKey: "name",
+    header: ({ column }) => (
+      <Button
+        variant="ghost"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Nombre
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </Button>
+    ),
+    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
+  },
+  {
+    accessorKey: "price",
+    header: "Precio",
+    cell: ({ row }) => (
+      <div>{formatPrice(row.getValue("price"))}</div>
+    ),
+  },
+  {
+    accessorKey: "category",
+    header: "Categoria",
+    cell: ({ row }) => (
+      <div>{row.getValue("category")}</div>
+    ),
+  },
+  {
+    accessorKey: "inStock",
+    header: "Disponible",
+    cell: ({ row }) => (
+      <div className="font-semibold">
+        {row.getValue("inStock") ? (
+          <Status
+            text="En Stock"
+            icon={MdDone}
+            bg="bg-green-200"
+            color="text-green-800"
+          />
+        ) : (
+          <Status
+            text="Agotado"
+            icon={MdClose}
+            bg="bg-red-200"
+            color="text-red-800"
+          />
+        )}
+      </div>
+    ),
+  },
+  {
+    id: "actions",
+    header: "Acciones",
+    cell: () => {
+      return (
+        <div className="flex justify-evenly items-center gap-2">
+          <Button variant="outline" size="icon"
+            onClick={() => toast.success("Stock actualizado")}
+          >
+            <LoopIcon className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="icon"
+            onClick={() => toast.warning("Borrando ...")}
+          >
+            <TrashIcon className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="icon"
+            onClick={() => toast.info("Ver")}
+          >
+            <EyeOpenIcon className="h-4 w-4" />
+          </Button>
+        </div>
+      )
+    },
+  },
+]
+
+export function DataTableDemo({ products }: AdminProductsProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
   const dataProducts = products
-
-  const columns: ColumnDef<Product>[] = [
-    {
-      accessorKey: "id",
-      header: "ID"
-    },
-    {
-      accessorKey: "name",
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Nombre
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      ),
-    },
-    {
-      accessorKey: "price",
-      header: "Precio",
-      cell: ({ row }) => (
-        <div>{formatPrice(row.getValue("price"))}</div>
-      ),
-    },
-    {
-      accessorKey: "category",
-      header: "Categoria",
-    },
-    {
-      accessorKey: "inStock",
-      header: "Disponible",
-      cell: ({ row }) => (
-        <div className="font-semibold">
-          {row.getValue("inStock") ? (
-            <Status
-              text="En Stock"
-              icon={MdDone}
-              bg="bg-green-200"
-              color="text-green-800"
-            />
-          ) : (
-            <Status
-              text="Agotado"
-              icon={MdClose}
-              bg="bg-red-200"
-              color="text-red-800"
-            />
-          )}
-        </div>
-      ),
-    },
-    {
-      id: "actions",
-      header: "Acciones",
-      cell: ({row}) => {
-        return (
-          <div className="flex justify-evenly items-center gap-2">
-            <Button variant="outline" size="icon"
-              onClick={() => handleToggleStock(row.getValue("id"), row.getValue("inStock"))}
-            >
-              <LoopIcon className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="icon"
-              onClick={() => handleDelete(row.getValue("id"), row.getValue("image"))}
-            >
-              <TrashIcon className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="icon"
-              onClick={() => router.push(`/admin/products/${row.getValue("id")}`)}
-            >
-              <EyeOpenIcon className="h-4 w-4" />
-            </Button>
-          </div>
-        )
-      },
-    },
-  ]
-
-  const handleToggleStock = useCallback((id: string, inStock: boolean) => {
-    toast.info("actualizando stock...")
-
-    axios.put(`/api/products`, { id, inStock: !inStock })
-      .then(() => {
-        toast.success("Stock actualizado")
-        router.refresh()
-      })
-      .catch((err) => {
-        toast.error(err.message)
-      })
-    
-  }, [router])
-
-  const handleDelete = useCallback(async (id: string, image: any) => {
-    toast.info("Borrando producto...")
-    console.log("image", image)
-    console.log("id", id)
-
-    const handleImageDelete = async () => {
-      try {
-        if (image) {
-          const imageRef = ref(storage, image)
-          await deleteObject(imageRef)
-          console.log("Image deleted")
-        }
-      } catch (err: any) {
-        console.log(err.message)
-      }
-    }
-
-    await handleImageDelete()
-
-    axios.post(`/api/products/delete`, { id })
-      .then(() => {
-        toast.success("Producto Borrado")
-        router.refresh()
-      })
-      .catch((err) => {
-        toast.error(err.message)
-      })
-
-  }, [router, storage])
-
 
   const table = useReactTable({
     data: dataProducts,
@@ -188,30 +137,6 @@ export function DataTableDemo({ products }: AdminProductsProps) {
           onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
           className="max-w-sm"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Mostrar Columnas <ChevronDown className="ml-2 h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => (
-                <DropdownMenuCheckboxItem
-                  key={column.id}
-                  className="capitalize"
-                  checked={column.getIsVisible()}
-                  onCheckedChange={(value) =>
-                    column.toggleVisibility(!!value)
-                  }
-                >
-                  {column.id}
-                </DropdownMenuCheckboxItem>
-              ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
       <div className="rounded-md border">
         <Table>

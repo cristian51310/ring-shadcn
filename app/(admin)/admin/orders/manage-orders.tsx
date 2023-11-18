@@ -3,6 +3,7 @@ import Status from "@/components/status"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { formatPrice } from "@/lib/formatPrice"
+import { truncateText } from "@/lib/truncateText"
 import { Order, User } from "@prisma/client"
 import { EyeOpenIcon } from "@radix-ui/react-icons"
 import {
@@ -10,13 +11,12 @@ import {
   flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
   getSortedRowModel, useReactTable,
 } from "@tanstack/react-table"
+import axios from "axios"
 import moment from "moment"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { MdAccessTimeFilled, MdDeliveryDining, MdDone } from "react-icons/md"
 import { toast } from "sonner"
-import axios from "axios"
-import { useCallback } from "react"
 
 interface ManageOrdersProps {
   orders: ExtendedOrder[];
@@ -119,29 +119,32 @@ export function DataTableDemo({ orders }: ManageOrdersProps) {
     {
       id: "actions",
       header: "Acciones",
-      cell: ({row}) => (
-        <div className="flex justify-evenly items-center gap-2">
-          <Button variant="outline" size="icon"
-            onClick={() => handleDispatch(row.getValue("id"))}
-          >
-            <MdDeliveryDining className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="icon"
-            onClick={() => handleDeliver(row.getValue("id"))}
-          >
-            <MdDone className="h-4 w-4" />
-          </Button>
-          <Button variant="outline" size="icon"
-            onClick={() => router.push(`/admin/orders/${row.getValue("id")}`)}
-          >
-            <EyeOpenIcon className="h-4 w-4" />
-          </Button>
-        </div>
-      ),
+      cell: ({ row }) => {
+        return (
+          <div className="flex justify-evenly items-center gap-2">
+            <Button variant="outline" size="icon"
+              onClick={() => handleDispatch(row.getValue("id"))}
+            >
+              <MdDeliveryDining className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="icon"
+              onClick={() => handleDeliver(row.getValue("id"))}
+            >
+              <MdDone className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="icon"
+              onClick={() => router.push(`/admin/orders/${row.getValue("id")}`)}
+            >
+              <EyeOpenIcon className="h-4 w-4" />
+            </Button>
+          </div>
+        )
+      },
     },
   ]
 
   const handleDispatch = useCallback((id: string) => {
+    toast.info("Despachando Orden")
     axios.put(`/api/orders`, { id, deliveryStatus: "dispatched" })
       .then(() => {
         toast.success("Orden Despachada")
@@ -153,6 +156,7 @@ export function DataTableDemo({ orders }: ManageOrdersProps) {
   }, [router])
 
   const handleDeliver = useCallback((id: string) => {
+    toast.info("Entregando Orden")
     axios.put(`/api/orders`, { id, deliveryStatus: "delivered" })
       .then(() => {
         toast.success("Orden Entregada")
@@ -183,7 +187,7 @@ export function DataTableDemo({ orders }: ManageOrdersProps) {
   })
 
   return (
-    <div className="">
+    <>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -230,7 +234,6 @@ export function DataTableDemo({ orders }: ManageOrdersProps) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-
         <div className="space-x-2">
           <Button
             variant="outline"
@@ -248,6 +251,6 @@ export function DataTableDemo({ orders }: ManageOrdersProps) {
           </Button>
         </div>
       </div>
-    </div>
+    </>
   )
 }

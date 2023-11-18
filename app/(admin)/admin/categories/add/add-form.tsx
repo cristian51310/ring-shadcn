@@ -3,9 +3,8 @@ import { Icons } from "@/components/icons"
 import Input from "@/components/inputs/input"
 import TextArea from "@/components/inputs/textarea"
 import { Button } from "@/components/ui/button"
-import firebaseApp from "@/lib/firebase"
+import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
 import axios from "axios"
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
@@ -23,9 +22,9 @@ export default function AddProductForm() {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isCategoryCreated, setIsCategoryCreated] = useState<boolean>(false)
+  const [isProductCreated, setIsProductCreated] = useState<boolean>(false)
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<FieldValues>({
+  const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FieldValues>({
     defaultValues: {
       name: "",
       description: "",
@@ -34,88 +33,45 @@ export default function AddProductForm() {
   })
 
   useEffect(() => {
-    if (isCategoryCreated) {
+    if (isProductCreated) {
       reset()
-      setIsCategoryCreated(false)
+      setIsProductCreated(false)
     }
-  }, [isCategoryCreated, reset])
+  }, [isProductCreated, reset])
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
-    let uploadedImage: UploadImageType = { url: "" };
 
-    const handleImageUpload = async () => {
+    try {
       toast.info("Subiendo imagen...");
-      try {
-        const fileName = new Date().getTime() + "-" + data.image[0].name;
-        const storage = getStorage(firebaseApp);
-        const storageRef = ref(storage, `products/${fileName}`);
-        const uploadTask = uploadBytesResumable(storageRef, data.image[0]);
+      const uploadedImage = await firebaseImageUpload(data.image[0]);
 
-        await new Promise<void>((resolve, reject) => {
-          uploadTask.on(
-            "state_changed",
-            (error) => {
-              console.log("error uploading image ", error);
-              reject(error);
-            },
-            () => {
-              getDownloadURL(uploadTask.snapshot.ref)
-                .then((downloadUrl) => {
-                  uploadedImage = { url: downloadUrl };
-                  console.log("file available in ", downloadUrl);
-                  resolve();
-                })
-                .catch((error) => {
-                  console.log("error getting download url ", error);
-                  reject(error);
-                });
-            }
-          );
-        });
+      const productData = {
+        name: data.name,
+        description: data.description,
+        image: uploadedImage.url,
+      };
 
-      } catch (error) {
-        setIsLoading(false);
-        console.log("error handle image upload ", error);
-        toast.error("Algo salió mal");
-      }
-    };
-
-    await handleImageUpload();
-
-    if (!uploadedImage) {
+      await axios.post("/api/products", productData);
+      setIsProductCreated(true);
+      toast.success("Producto creado");
+      router.refresh();
+    } catch (error) {
       setIsLoading(false);
       toast.error("Algo salió mal");
-      return;
+    } finally {
+      setIsLoading(false);
     }
-
-    const productData = {
-      name: data.name,
-      description: data.description,
-      image: uploadedImage.url,
-    };
-
-    axios.post("/api/products", productData)
-      .then(() => {
-        setIsCategoryCreated(true);
-        toast.success("Categoria creada");
-        router.refresh();
-      })
-      .catch((error) => {
-        toast.error("Algo salió mal");
-        console.log("error creando categoria ", error);
-      })
-      .finally(() => setIsLoading(false));
   };
-
 
   return (
     <div className="grid gap-4">
 
       <Input
         id="name"
+        placeholder="ingresa el nombre de la categoria"
         type="text"
-        label="Nombre"
+        label="Nombre de la categoria"
         register={register}
         errors={errors}
         disabled={isLoading}
@@ -132,11 +88,11 @@ export default function AddProductForm() {
         required
       />
 
-      <p className="font-semibold py-3">Imagen de la categoria</p>
+      <p className="font-semibold">Imagen de la categoria</p>
       <Input
         id="image"
         type="file"
-        label="Selecciona una imagen para tu categoria"
+        label="Selecciona una imagen para la categoria"
         register={register}
         errors={errors}
         disabled={isLoading}

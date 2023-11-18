@@ -31,11 +31,6 @@ const sidebarOptions = [
     label: "Datos del restaurante"
   },
   {
-    href: "/admin/products/add",
-    icon: IoAddCircleOutline,
-    label: "Añadir producto"
-  },
-  {
     href: "/admin/products",
     icon: IoPizzaOutline,
     label: "Productos"
@@ -44,11 +39,6 @@ const sidebarOptions = [
     href: "/admin/categories",
     icon: IoAppsOutline,
     label: "Categorias"
-  },
-  {
-    href: "/admin/categories/add",
-    icon: IoAppsOutline,
-    label: "Añadir Categorias"
   },
   {
     href: "/admin/orders",
