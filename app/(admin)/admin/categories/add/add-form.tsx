@@ -52,7 +52,7 @@ export default function AddCategoryForm() {
         image: uploadedImage.url,
       };
 
-      await axios.post("/api/products", categoryData);
+      await axios.post("/api/categories", categoryData);
       setIsProductCreated(true);
       toast.success("Categoria creada");
       router.refresh();

@@ -7,9 +7,9 @@ import { ProductCard } from "@/components/products/product-card"
 import { buttonVariants } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { Separator } from "@/components/ui/separator"
+import getCategories from "@/lib/getCategories"
 import getProducts from "@/lib/getProducts"
 import { cn } from "@/lib/utils"
-import { categories } from "@/mocks/categories"
 import { Metadata } from "next"
 import Link from "next/link"
 
@@ -20,6 +20,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const products = await getProducts()
+  const categories = await getCategories()
 
   if (products.length === 0) return (
     <NullData title="No hay productos que coincidan con la busqueda">
@@ -48,15 +49,17 @@ export default async function Page() {
 
   return (
     <div className="flex-col flex">
-      <div className="flex-1 space-y-7 p-8 px-12 pt-6">
+      <div className="flex-1 space-y-5 p-8 px-12 pt-6">
         <div className="relative">
           <ScrollArea>
-            <div className="flex space-x-5 pb-3 justify-between">
-              {categories.map((album) => (
+            <div className="flex space-x-8 pb-4 justify-between">
+              {categories.map((category) => (
                 <CategoryCard
-                  key={album.name}
-                  album={album}
-                  className="w-[110px]"
+                  key={category.id}
+                  name={category.name}
+                  image={category.image}
+                  href={`/categories/${category.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="w-[100px]"
                 />
               ))}
             </div>
@@ -73,6 +76,10 @@ export default async function Page() {
         </div>
 
         <Separator />
+
+        <p className="text-2xl font-bold">
+          Restaurantes cerca de mi
+        </p>
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5">
           {shuffledProducts.map((product) => (

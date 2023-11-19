@@ -1,11 +1,9 @@
 "use client"
-import Status from "@/components/status"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { formatPrice } from "@/lib/formatPrice"
-import { Product } from "@prisma/client"
-import { EyeOpenIcon, LoopIcon } from "@radix-ui/react-icons"
+import { Category } from "@prisma/client"
+import { LoopIcon } from "@radix-ui/react-icons"
 import {
   ColumnDef, ColumnFiltersState, SortingState, VisibilityState,
   flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
@@ -13,15 +11,13 @@ import {
 } from "@tanstack/react-table"
 import { ArrowUpDown, TrashIcon } from "lucide-react"
 import { useState } from "react"
-import { MdClose, MdDone } from "react-icons/md"
 import { toast } from "sonner"
 
-interface AdminProductsProps {
-  products: Product[];
+interface AdminCategoriesProps {
+  categories: Category[];
 }
 
-export const columns: ColumnDef<Product>[] = [
-
+export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
@@ -33,51 +29,14 @@ export const columns: ColumnDef<Product>[] = [
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </Button>
     ),
-    cell: ({ row }) => <div className="lowercase">{row.getValue("name")}</div>,
-  },
-  {
-    accessorKey: "price",
-    header: "Precio",
-    cell: ({ row }) => (
-      <div>{formatPrice(row.getValue("price"))}</div>
-    ),
-  },
-  {
-    accessorKey: "category",
-    header: "Categoria",
-    cell: ({ row }) => (
-      <div>{row.getValue("category")}</div>
-    ),
-  },
-  {
-    accessorKey: "inStock",
-    header: "Disponible",
-    cell: ({ row }) => (
-      <div className="font-semibold">
-        {row.getValue("inStock") ? (
-          <Status
-            text="En Stock"
-            icon={MdDone}
-            bg="bg-green-200"
-            color="text-green-800"
-          />
-        ) : (
-          <Status
-            text="Agotado"
-            icon={MdClose}
-            bg="bg-red-200"
-            color="text-red-800"
-          />
-        )}
-      </div>
-    ),
+    cell: ({ row }) => <div>{row.getValue("name")}</div>,
   },
   {
     id: "actions",
-    header: "Acciones",
+    header: () => <div className="text-center">Acciones</div>,
     cell: () => {
       return (
-        <div className="flex justify-evenly items-center gap-2">
+        <div className="flex justify-center items-center gap-5">
           <Button variant="outline" size="icon"
             onClick={() => toast.success("Stock actualizado")}
           >
@@ -88,27 +47,22 @@ export const columns: ColumnDef<Product>[] = [
           >
             <TrashIcon className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="icon"
-            onClick={() => toast.info("Ver")}
-          >
-            <EyeOpenIcon className="h-4 w-4" />
-          </Button>
         </div>
       )
     },
   },
 ]
 
-export function DataTableDemo({ products }: AdminProductsProps) {
+export function DataTableDemo({ categories }: AdminCategoriesProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
-  const dataProducts = products
+  const dataCategories = categories
 
   const table = useReactTable({
-    data: dataProducts,
+    data: dataCategories,
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -127,10 +81,10 @@ export function DataTableDemo({ products }: AdminProductsProps) {
   })
 
   return (
-    <div className="">
+    <>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filtrar productos..."
+          placeholder="Filtrar categorias..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) => table.getColumn("name")?.setFilterValue(event.target.value)}
           className="max-w-sm"
@@ -205,6 +159,6 @@ export function DataTableDemo({ products }: AdminProductsProps) {
           </Button>
         </div>
       </div>
-    </div>
+    </>
   )
 }

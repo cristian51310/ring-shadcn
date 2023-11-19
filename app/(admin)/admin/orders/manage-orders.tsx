@@ -3,7 +3,6 @@ import Status from "@/components/status"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { formatPrice } from "@/lib/formatPrice"
-import { truncateText } from "@/lib/truncateText"
 import { Order, User } from "@prisma/client"
 import { EyeOpenIcon } from "@radix-ui/react-icons"
 import {

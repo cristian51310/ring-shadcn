@@ -1,28 +1,28 @@
 import { cn } from "@/lib/utils"
 import Image from "next/image"
-import { Category } from "@/mocks/categories"
+import Link from "next/link"
 
 interface CategoryCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  album: Category
+  name: string
+  description?: string
+  image: string
+  href: string
 }
 
-export function CategoryCard({ album, className, ...props }: CategoryCardProps) {
+export function CategoryCard({ name, description, image, href, className }: CategoryCardProps) {
   return (
-
-    <div className={cn("space-y-3 hover:cursor-pointer", className)} {...props}>
+    <Link href={href} className={cn("space-y-2 hover:cursor-pointer", className)}>
       <div className="overflow-hidden rounded-full">
         <Image
-          src={album.cover}
-          alt={album.name}
-          width={150}
-          height={150}
+          src={image}
+          alt={name}
+          width={130}
+          height={130}
           className="h-auto w-auto object-cover transition-all hover:scale-110 aspect-square"
         />
       </div>
 
-      <div className="space-y-1 text-sm">
-        <h3 className="font-medium text-center leading-none">{album.name}</h3>
-      </div>
-    </div>
+      <h3 className="font-medium text-sm text-center leading-none">{name}</h3>
+    </Link>
   )
 }

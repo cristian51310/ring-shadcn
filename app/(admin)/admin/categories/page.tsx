@@ -4,9 +4,10 @@ import Link from "next/link"
 import { IoAddCircleOutline } from "react-icons/io5"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import getCategories from "@/lib/getCategories"
 
 export default async function ManageCategoriesPage() {
-  const products = await getProducts()
+  const categories = await getCategories()
 
   return (
     <>
@@ -17,13 +18,13 @@ export default async function ManageCategoriesPage() {
             buttonVariants({ variant: "default" }),
             "justify-center items-center"
           )}
-          href={"/admin/products/add"}
+          href={"/admin/categories/add"}
         >
           <IoAddCircleOutline className="mr-2 w-4 h-4" />
           Agregar Categoria
         </Link>
       </div>
-      <DataTableDemo products={products} />
+      <DataTableDemo categories={categories} />
     </>
   )
 }
