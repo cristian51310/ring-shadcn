@@ -58,7 +58,7 @@ export default async function Page() {
                   key={category.id}
                   name={category.name}
                   image={category.image}
-                  href={`/categories/${category.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  href={`/categories/${category.name.replace(/\s+/g, '-')}`}
                   className="w-[100px]"
                 />
               ))}

@@ -7,7 +7,9 @@ export interface IProductsParams {
 
 export default async function getProducts() {
   try {
-    const products = await prisma.product.findMany()
+    const products = await prisma.product.findMany({
+      where: { inStock: true },
+    })
     return products
   } catch (err: any) {
     throw new Error(err)

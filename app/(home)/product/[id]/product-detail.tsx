@@ -54,9 +54,9 @@ export default function ProductDetail({ product }: ProductDetailProps){
   console.log(isProductInCart)
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-14">
 
-      <div className="grid grid-cols-6 grid-rows-4 gap-2 h-full max-h-[500px] min-h-[300px] sm:min-h-[400px]">
+      <div className="grid grid-cols-5 gap-2 h-full max-h-[500px] min-h-[300px] sm:min-h-[400px]">
         <div className="col-span-5 relative aspect-square">
           <Image
             src={product.image}
@@ -68,7 +68,7 @@ export default function ProductDetail({ product }: ProductDetailProps){
       </div>
 
       <div className="flex flex-col gap-1 text-sm">
-        <h2 className="text-4xl font-bold">
+        <h2 className="text-4xl font-bold capitalize">
           {product.name}
         </h2>
 
