@@ -18,7 +18,7 @@ export interface UploadImageType {
   url: string
 }
 
-export default function AddProductForm() {
+export default function AddCategoryForm() {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -46,15 +46,15 @@ export default function AddProductForm() {
       toast.info("Subiendo imagen...");
       const uploadedImage = await firebaseImageUpload(data.image[0]);
 
-      const productData = {
+      const categoryData = {
         name: data.name,
         description: data.description,
         image: uploadedImage.url,
       };
 
-      await axios.post("/api/products", productData);
+      await axios.post("/api/products", categoryData);
       setIsProductCreated(true);
-      toast.success("Producto creado");
+      toast.success("Categoria creada");
       router.refresh();
     } catch (error) {
       setIsLoading(false);

@@ -3,6 +3,7 @@ import { Icons } from "@/components/icons"
 import Input from "@/components/inputs/input"
 import TextArea from "@/components/inputs/textarea"
 import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
 import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
 import axios from "axios"
 import { useRouter } from "next/navigation"
@@ -35,7 +36,7 @@ export default function ManageRestaurantForm() {
       zip: "",
       exteriorNumber: "",
       interiorNumber: "",
-      state: "",
+      state: "Guanajuato",
       email: "",
       phone: "",
     }
@@ -56,16 +57,24 @@ export default function ManageRestaurantForm() {
       const imageLogo = await firebaseImageUpload(data.logo[0]);
       const imageCover = await firebaseImageUpload(data.cover[0]);
 
-      const productData = {
+      const restaurantData = {
         name: data.name,
         description: data.description,
         logo: imageLogo.url,
-        cover: imageCover.url
+        cover: imageCover.url,
+        street: data.street,
+        city: data.city,
+        zip: data.zip,
+        exteriorNumber: data.exteriorNumber,
+        interiorNumber: data.interiorNumber,
+        state: data.state,
+        email: data.email,
+        phone: data.phone,
       };
 
-      await axios.post("/api/products", productData);
+      await axios.post("/api/restaurant", restaurantData);
       setIsProductCreated(true);
-      toast.success("Producto creado");
+      toast.success("Restaurante creado");
       router.refresh();
     } catch (error) {
       setIsLoading(false);
@@ -78,11 +87,14 @@ export default function ManageRestaurantForm() {
   return (
     <div className="grid gap-4">
 
+      <Separator />
+      <p className="text-center font-bold">Datos de Visualizacion</p>
+      <Separator />
+
       <Input
         id="name"
-        placeholder="ingresa el nombre de tu restaurante"
         type="text"
-        label="Nombre del producto"
+        label="Nombre de tu restaurate"
         register={register}
         errors={errors}
         disabled={isLoading}
@@ -99,27 +111,112 @@ export default function ManageRestaurantForm() {
         required
       />
 
-      <p className="font-semibold py-1">Logo de tu restaurante</p>
-      <Input
-        id="logo"
-        type="file"
-        label="Selecciona el logo de tu restaurante"
-        register={register}
-        errors={errors}
-        disabled={isLoading}
-        required
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8 my-2">
+        <Input
+          id="logo"
+          type="file"
+          label="Selecciona el logo de tu restaurante"
+          register={register}
+          errors={errors}
+          disabled={isLoading}
+          required
+        />
+        <Input
+          id="cover"
+          type="file"
+          label="Selecciona la portada de tu restaurante"
+          register={register}
+          errors={errors}
+          disabled={isLoading}
+          required
+        />
+      </div>
 
-      <p className="font-semibold py-1">Portada para tu restaurante</p>
-      <Input
-        id="cover"
-        type="file"
-        label="Selecciona el logo de tu restaurante"
-        register={register}
-        errors={errors}
-        disabled={isLoading}
-        required
-      />
+      <Separator />
+      <p className="text-center font-bold">Datos de direccion</p>
+      <Separator />
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 lg:gap-8">
+        <Input
+          id="street"
+          type="text"
+          label="Calle"
+          register={register}
+          errors={errors}
+          disabled={isLoading}
+          required
+        />
+        <Input
+          id="city"
+          type="text"
+          label="Ciudad"
+          register={register}
+          errors={errors}
+          disabled={isLoading}
+          required
+        />
+        <Input
+          id="zip"
+          type="text"
+          label="Codigo postal"
+          register={register}
+          errors={errors}
+          disabled={isLoading}
+          required
+        />
+        <Input
+          id="exteriorNumber"
+          type="text"
+          label="Numero exterior"
+          register={register}
+          errors={errors}
+          disabled={isLoading}
+          required
+        />
+        <Input
+          id="interiorNumber"
+          type="text"
+          label="Numero interior"
+          register={register}
+          errors={errors}
+          disabled={isLoading}
+          required
+        />
+        <Input
+          id="state"
+          type="text"
+          label="Estado"
+          register={register}
+          errors={errors}
+          disabled={isLoading}
+          required
+        />
+      </div>
+
+      <Separator />
+      <p className="text-center font-bold">Datos de contacto</p>
+      <Separator />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 md:gap-8">
+        <Input
+          id="email"
+          type="text"
+          label="Correo electronico de servicio al cliente"
+          register={register}
+          errors={errors}
+          disabled={isLoading}
+          required
+        />
+        <Input
+          id="phone"
+          type="text"
+          label="Telefono de contacto"
+          register={register}
+          errors={errors}
+          disabled={isLoading}
+          required
+        />
+      </div>
 
       <Button className="my-3" onClick={handleSubmit(onSubmit)}>
         {isLoading && (<Icons.spinner className="mr-2 h-4 w-4 animate-spin" />)}

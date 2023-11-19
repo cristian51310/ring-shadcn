@@ -1,8 +1,6 @@
 "use client"
 import Status from "@/components/status"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { formatPrice } from "@/lib/formatPrice"
@@ -13,7 +11,7 @@ import {
   flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
   getSortedRowModel, useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, TrashIcon } from "lucide-react"
+import { ArrowUpDown, TrashIcon } from "lucide-react"
 import { useState } from "react"
 import { MdClose, MdDone } from "react-icons/md"
 import { toast } from "sonner"

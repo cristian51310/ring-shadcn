@@ -1,11 +1,11 @@
 import getProducts from "@/lib/getProducts"
-import { DataTableDemo } from "./manage-products"
+import { DataTableDemo } from "./manage-categories"
 import Link from "next/link"
 import { IoAddCircleOutline } from "react-icons/io5"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 
-export default async function ManageProductsPage() {
+export default async function ManageCategoriesPage() {
   const products = await getProducts()
 
   return (

@@ -7,7 +7,7 @@ import { Textarea as ShadcnTextarea } from "../ui/textarea"
 interface InputProps {
   id: string
   label: string
-  placeholder: string
+  placeholder?: string
   disabled?: boolean
   required?: boolean
   register: UseFormRegister<FieldValues>
