@@ -1,10 +1,12 @@
 "use client"
 import Status from "@/components/status"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import firebaseApp from "@/lib/firebase"
 import { formatPrice } from "@/lib/formatPrice"
+import { cn } from "@/lib/utils"
 import { Product } from "@prisma/client"
 import { EyeOpenIcon, LoopIcon } from "@radix-ui/react-icons"
 import {
@@ -12,15 +14,15 @@ import {
   flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
   getSortedRowModel, useReactTable,
 } from "@tanstack/react-table"
+import axios from "axios"
+import { deleteObject, getStorage, ref } from "firebase/storage"
 import { ArrowUpDown, ChevronDown, TrashIcon } from "lucide-react"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { MdClose, MdDone } from "react-icons/md"
 import { toast } from "sonner"
-import axios from "axios"
-import { useCallback } from "react"
-import firebaseApp from "@/lib/firebase";
-import { deleteObject, getStorage, ref } from "firebase/storage";
+import Image from "next/image"
 
 interface AdminProductsProps {
   products: Product[];
@@ -40,7 +42,23 @@ export function DataTableDemo({ products }: AdminProductsProps) {
   const columns: ColumnDef<Product>[] = [
     {
       accessorKey: "id",
-      header: "ID"
+      header: () => (<div className="hidden" />),
+      cell: () => (<div className="hidden" />)
+    },
+    {
+      accessorKey: "image",
+      header: "Imagen",
+      cell: ({ row }) => (
+        <div className="flex items-center gap-2">
+          <Image
+            src={row.getValue("image")}
+            alt={row.getValue("name")}
+            width={60}
+            height={60}
+            className="w-20 h-20 object-cover rounded-md"
+          />
+        </div>
+      ),
     },
     {
       accessorKey: "name",
@@ -74,15 +92,13 @@ export function DataTableDemo({ products }: AdminProductsProps) {
             <Status
               text="En Stock"
               icon={MdDone}
-              bg="bg-green-200"
-              color="text-green-800"
+              variant="success"
             />
           ) : (
             <Status
               text="Agotado"
               icon={MdClose}
-              bg="bg-red-200"
-              color="text-red-800"
+              variant="error"
             />
           )}
         </div>
@@ -91,9 +107,9 @@ export function DataTableDemo({ products }: AdminProductsProps) {
     {
       id: "actions",
       header: "Acciones",
-      cell: ({row}) => {
+      cell: ({ row }) => {
         return (
-          <div className="flex justify-evenly items-center gap-2">
+          <div className="flex justify-center items-center gap-2">
             <Button variant="outline" size="icon"
               onClick={() => handleToggleStock(row.getValue("id"), row.getValue("inStock"))}
             >
@@ -104,11 +120,12 @@ export function DataTableDemo({ products }: AdminProductsProps) {
             >
               <TrashIcon className="h-4 w-4" />
             </Button>
-            <Button variant="outline" size="icon"
-              onClick={() => router.push(`/admin/products/${row.getValue("id")}`)}
+            <Link
+              href={`/admin/products/${row.getValue("id")}`}
+              className={cn(buttonVariants({ variant: "outline", size: "icon" }))}
             >
               <EyeOpenIcon className="h-4 w-4" />
-            </Button>
+            </Link>
           </div>
         )
       },
@@ -126,7 +143,7 @@ export function DataTableDemo({ products }: AdminProductsProps) {
       .catch((err) => {
         toast.error(err.message)
       })
-    
+
   }, [router])
 
   const handleDelete = useCallback(async (id: string, image: any) => {

@@ -30,15 +30,13 @@ export default function OrderDetail({ order }: OrderDetailProps) {
               <Status
                 text="Pendiente"
                 icon={MdAccessTimeFilled}
-                bg="bg-orange-200"
-                color="text-orange-800"
+                variant="warning"
               />
             ) : order.status === "succeded" ? (
               <Status
                 text="Completado"
                 icon={MdDone}
-                bg="bg-green-200"
-                color="text-green-800"
+                variant="success"
               />
             ) : <></>}
           </div>
@@ -51,22 +49,19 @@ export default function OrderDetail({ order }: OrderDetailProps) {
               <Status
                 text="Pendiente"
                 icon={MdAccessTimeFilled}
-                bg="bg-slate-200"
-                color="text-slate-800"
+                variant="info"
               />
             ) : order.deliveryStatus === "dispatched" ? (
               <Status
                 text="Despachado"
                 icon={MdDeliveryDining}
-                bg="bg-purple-200"
-                color="text-purple-800"
+                variant="info"
               />
             ) : order.deliveryStatus === "delivered" ? (
               <Status
                 text="Entregado"
                 icon={MdDone}
-                bg="bg-green-200"
-                color="text-green-800"
+                variant="success"
               />
             ) : <></>}
           </div>

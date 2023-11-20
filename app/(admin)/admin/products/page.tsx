@@ -1,4 +1,4 @@
-import getProducts from "@/lib/getProducts"
+import getProducts from "@/lib/getAllProducts"
 import Link from "next/link"
 import { DataTableDemo } from "./manage-products"
 import { buttonVariants } from "@/components/ui/button"

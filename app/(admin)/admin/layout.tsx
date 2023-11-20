@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Administracion'
 }
 
-export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children, modal }: { children: React.ReactNode, modal?: React.ReactNode }) {
   const user = await getCurrentUser()
 
   if (!user || (user.role !== "ADMIN" && user.role !== "SUPERADMIN")) {
@@ -29,6 +29,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </div>
         </div>
       </div>
+
+      {modal}
     </>
   )
 }

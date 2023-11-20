@@ -10,6 +10,7 @@ import {
   getSortedRowModel, useReactTable,
 } from "@tanstack/react-table"
 import { ArrowUpDown, TrashIcon } from "lucide-react"
+import Image from "next/image"
 import { useState } from "react"
 import { toast } from "sonner"
 
@@ -18,6 +19,26 @@ interface AdminCategoriesProps {
 }
 
 export const columns: ColumnDef<Category>[] = [
+  {
+    accessorKey: "id",
+    header: ({ column }) => (<div className="hidden"/>),
+    cell: ({ row }) => (<div className="hidden">{row.getValue("id")}</div>)
+  },
+  {
+    accessorKey: "image",
+    header: "Imagen",
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <Image
+          src={row.getValue("image")}
+          alt={row.getValue("name")}
+          width={60}
+          height={60}
+          className="w-20 h-20 object-cover rounded-md"
+        />
+      </div>
+    ),
+  },
   {
     accessorKey: "name",
     header: ({ column }) => (
