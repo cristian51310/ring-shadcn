@@ -4,6 +4,7 @@ import {
   DialogDescription, DialogHeader,
   DialogTitle, DialogTrigger
 } from "@/components/ui/dialog"
+import { Button } from "./ui/button"
 import { IoLanguageOutline } from "react-icons/io5"
 
 export default function LanguageToggle() {
@@ -15,7 +16,7 @@ export default function LanguageToggle() {
           Español
         </button>
       </DialogTrigger> 
-      <DialogContent className="max-w-[425px] md:max-w-[425px]">
+      <DialogContent className="max-w-[425px] md:max-w-[425px] dark:bg-zinc-900">
         <DialogHeader>
           <DialogTitle>Lenguaje</DialogTitle>
           <DialogDescription>
@@ -23,12 +24,12 @@ export default function LanguageToggle() {
           </DialogDescription>
         </DialogHeader>
         <div className="w-full flex flex-col gap-3 mt-2">
-          <button className="border p-4 rounded-md transition-all duration-300 hover:bg-neutral-100">
+          <Button>
             Español
-          </button>
-          <button className="border p-4 rounded-md transition-all duration-300 hover:bg-neutral-100">
+          </Button>
+          <Button>
             Ingles
-          </button>
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

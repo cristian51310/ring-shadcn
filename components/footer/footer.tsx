@@ -2,6 +2,7 @@ import { InstagramLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons"
 import { FacebookIcon } from "lucide-react"
 import Image from "next/image"
 import LanguageToggle from "../language-toggle"
+import Link from "next/link"
 
 export default function Footer() {
   return (
@@ -22,13 +23,13 @@ export default function Footer() {
         </div>
 
         <div className="grid grid-cols-1 gap-8 sm:gap-12 sm:grid-cols-2">
-          <div className="text-gray-500 font-medium flex flex-col gap-4">
+          <div className="text-gray-500 dark:text-gray-400 font-medium flex flex-col gap-4">
             <a href="#" className="hover:underline ">
               Obten Ayuda
             </a>
-            <a href="#" className="hover:underline">
+            <Link href="/pricing" className="hover:underline">
               Agrega tu restaurante
-            </a>
+            </Link>
             <a href="#" className="hover:underline">
               Registrate para realizar entregas
             </a>
@@ -37,7 +38,7 @@ export default function Footer() {
             </a>
           </div>
 
-          <div className="text-gray-500 font-medium flex flex-col gap-4">
+          <div className="text-gray-500 dark:text-gray-400 font-medium flex flex-col gap-4">
             <a href="#" className="hover:underline">
               Restaurantes cerca de mi
             </a>
@@ -56,18 +57,18 @@ export default function Footer() {
 
       <div className="md:flex md:items-center md:justify-between">
         <div className="flex mt-4 md:justify-center sm:mt-0 gap-5">
-          <a href="#" className="text-gray-500 hover:text-gray-900">
+          <a href="#" className="text-gray-500 dark:text-gray-400 hover:text-gray-900">
             <FacebookIcon className="w-6 h-6" />
           </a>
-          <a href="#" className="text-gray-500 hover:text-gray-900">
+          <a href="#" className="text-gray-500 dark:text-gray-400 hover:text-gray-900">
             <InstagramLogoIcon className="w-6 h-6" />
           </a>
-          <a href="#" className="text-gray-500 hover:text-gray-900">
+          <a href="#" className="text-gray-500 dark:text-gray-400 hover:text-gray-900">
             <TwitterLogoIcon className="w-6 h-6" />
           </a>
         </div>
         <div className="flex flex-col justify-end gap-3 mt-8 md:mt-0">
-          <div className="flex flex-col lg:flex-row md:items-center items-start gap-4 text-sm text-gray-500">
+          <div className="flex flex-col lg:flex-row md:items-center items-start gap-4 text-sm text-gray-500 dark:text-gray-400">
             <a href="#" className="hover:underline">
               Terminos &amp; Condiciones
             </a>
@@ -81,7 +82,7 @@ export default function Footer() {
               Proteccion de informacion personal
             </a>
           </div>
-          <span className="text-sm text-gray-500 text-start md:text-end mt-2 md:mt-0">
+          <span className="text-sm text-gray-500 dark:text-gray-400 text-start md:text-end mt-2 md:mt-0">
             © 2023 Ring!™. Todos los derechos reservados.
           </span>
         </div>

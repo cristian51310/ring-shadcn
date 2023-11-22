@@ -5,6 +5,7 @@ import TextArea from "@/components/inputs/textarea"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
+import { SafeUser } from "@/types"
 import axios from "axios"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -19,7 +20,8 @@ export interface UploadImageType {
   url: string
 }
 
-export default function ManageRestaurantForm() {
+export default function ManageRestaurantForm({ user }: { user: SafeUser | null }) {
+
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -36,6 +38,7 @@ export default function ManageRestaurantForm() {
       zip: "",
       exteriorNumber: "",
       interiorNumber: "",
+      neighborhood: "",
       state: "Guanajuato",
       email: "",
       phone: "",
@@ -49,11 +52,15 @@ export default function ManageRestaurantForm() {
     }
   }, [isProductCreated, reset])
 
+  const onSubmit2: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data)
+  }
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
 
     try {
-      toast.info("Subiendo imagen...");
+      toast.loading("Subiendo imagen...");
       const imageLogo = await firebaseImageUpload(data.logo[0]);
       const imageCover = await firebaseImageUpload(data.cover[0]);
 
@@ -67,9 +74,11 @@ export default function ManageRestaurantForm() {
         zip: data.zip,
         exteriorNumber: data.exteriorNumber,
         interiorNumber: data.interiorNumber,
+        neighborhood: data.neighborhood,
         state: data.state,
         email: data.email,
         phone: data.phone,
+        userID: user?.id,
       };
 
       await axios.post("/api/restaurant", restaurantData);
@@ -83,6 +92,8 @@ export default function ManageRestaurantForm() {
       setIsLoading(false);
     }
   };
+
+  if (!user) return null;
 
   return (
     <div className="grid gap-4">
@@ -116,6 +127,7 @@ export default function ManageRestaurantForm() {
           id="logo"
           type="file"
           label="Selecciona el logo de tu restaurante"
+          accept="image/*"
           register={register}
           errors={errors}
           disabled={isLoading}
@@ -125,6 +137,7 @@ export default function ManageRestaurantForm() {
           id="cover"
           type="file"
           label="Selecciona la portada de tu restaurante"
+          accept="image/*"
           register={register}
           errors={errors}
           disabled={isLoading}
@@ -156,6 +169,15 @@ export default function ManageRestaurantForm() {
           required
         />
         <Input
+          id="neighborhood"
+          type="text"
+          label="Colonia"
+          register={register}
+          errors={errors}
+          disabled={isLoading}
+          required
+        />
+        <Input
           id="zip"
           type="text"
           label="Codigo postal"
@@ -180,7 +202,6 @@ export default function ManageRestaurantForm() {
           register={register}
           errors={errors}
           disabled={isLoading}
-          required
         />
         <Input
           id="state"
@@ -220,7 +241,7 @@ export default function ManageRestaurantForm() {
 
       <Button className="my-3" onClick={handleSubmit(onSubmit)}>
         {isLoading && (<Icons.spinner className="mr-2 h-4 w-4 animate-spin" />)}
-        Resgistrar mi restaurante
+        Registrar mi restaurante
       </Button>
     </div>
   )

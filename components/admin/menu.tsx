@@ -48,7 +48,7 @@ export function Menu() {
         <MenubarMenu>
           <MenubarTrigger className="hidden md:block">Cuenta</MenubarTrigger>
           <MenubarContent forceMount>
-            <MenubarLabel inset>Cambiar Cuenta</MenubarLabel>
+            <MenubarLabel inset>Cristian Ruben</MenubarLabel>
             <MenubarSeparator />
 
             <MenubarRadioGroup value="benoit">
@@ -57,7 +57,7 @@ export function Menu() {
             </MenubarRadioGroup>
 
             <MenubarSeparator />
-            <MenubarItem inset>Añadir cuenta.</MenubarItem>
+            <MenubarItem inset>Cerrar Sesion.</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </div>

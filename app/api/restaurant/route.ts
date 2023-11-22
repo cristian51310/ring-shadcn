@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   if (!user || user.role !== "ADMIN") return NextResponse.error()
 
   const body = await request.json()
-  const { name, description, logo, cover, street, city, zip, exteriorNumber, interiorNumber, state, email, phone } = body
+  const { name, description, logo, cover, street, city, zip, exteriorNumber, interiorNumber, neighborhood, state, email, phone, userID } = body
 
   const restaurant = await prisma.restaurant.create({
     data: {
@@ -21,9 +21,18 @@ export async function POST(request: Request) {
       zip,
       exteriorNumber,
       interiorNumber,
+      neighborhood,
       state,
       email,
-      phone
+      phone,
+      users: {
+        connect: [
+          { id: userID }
+        ]
+      }
+    },
+    include: {
+      users: true
     }
   })
 

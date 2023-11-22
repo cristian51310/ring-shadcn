@@ -48,7 +48,8 @@ export function DataTableDemo({ orders }: ManageOrdersProps) {
   const columns: ColumnDef<any>[] = [
     {
       accessorKey: "id",
-      header: "id",
+      header: () => (<div className="hidden"/>),
+      cell: () => (<div className="hidden"/>)
     },
     {
       accessorKey: "customer",
@@ -71,15 +72,13 @@ export function DataTableDemo({ orders }: ManageOrdersProps) {
             <Status
               text="Pendiente"
               icon={MdAccessTimeFilled}
-              bg="bg-orange-200"
-              color="text-orange-800"
+              variant="warning"
             />
           ) : row.getValue("paymentStatus") === "succeeded" ? (
             <Status
               text="Completado"
               icon={MdDone}
-              bg="bg-green-200"
-              color="text-green-800"
+              variant="success"
             />
           ) : <></>}
         </div>
@@ -94,22 +93,19 @@ export function DataTableDemo({ orders }: ManageOrdersProps) {
             <Status
               text="Pendiente"
               icon={MdAccessTimeFilled}
-              bg="bg-slate-200"
-              color="text-slate-800"
+              variant="error"
             />
           ) : row.getValue("deliveryStatus") === "dispatched" ? (
             <Status
               text="Despachado"
               icon={MdDeliveryDining}
-              bg="bg-purple-200"
-              color="text-purple-800"
+              variant="info"
             />
           ) : row.getValue("deliveryStatus") === "delivered" ? (
             <Status
               text="Entregado"
               icon={MdDone}
-              bg="bg-green-200"
-              color="text-green-800"
+              variant="success"
             />
           ) : <></>}
         </div>

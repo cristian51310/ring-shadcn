@@ -27,17 +27,19 @@ model Account {
 }
 
 model User {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  id             String       @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
-  email          String?   @unique
+  email          String?      @unique
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  role           Role      @default(USER)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  role           Role         @default(USER)
   accounts       Account[]
   orders         Order[]
+  restaurant     Restaurant?  @relation(fields: [restaurantID], references: [id])
+  restaurantID   String?      @map("restaurantID") @db.ObjectId
 }
 
 model Product {
@@ -48,6 +50,60 @@ model Product {
   category    String
   image       String
   inStock     Boolean
+}
+
+model ProductBeta {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  price       Float
+  image       String
+  inStock     Boolean
+  menuId      String?    @db.ObjectId
+  Menu        Menu?      @relation(fields: [menuId], references: [id])
+  categoryIDs String[]   @db.ObjectId
+  categories  Category[] @relation(fields: [categoryIDs], references: [id])
+  sizeIDs     String[]   @db.ObjectId
+  sizes       Size[]     @relation(fields: [sizeIDs], references: [id])
+  flavorIDs   String[]   @db.ObjectId
+  flavors     Flavor[]   @relation(fields: [flavorIDs], references: [id])
+}
+
+model Category {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  name        String        @unique
+  description String
+  image       String
+  productsIDs String[]      @db.ObjectId
+  products    ProductBeta[] @relation(fields: [productsIDs], references: [id])
+}
+
+model Size {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  name        String        @unique
+  description String
+  image       String
+  productsIDs String[]      @db.ObjectId
+  products    ProductBeta[] @relation(fields: [productsIDs], references: [id])
+}
+
+model Flavor {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  name        String        @unique
+  description String
+  image       String?
+  productsIDs String[]      @db.ObjectId
+  products    ProductBeta[] @relation(fields: [productsIDs], references: [id])
+}
+
+model Menu {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  description  String
+  image        String
+  products     ProductBeta[]
+  restaurantId String?       @db.ObjectId
+  restaurant   Restaurant?   @relation(fields: [restaurantId], references: [id])
 }
 
 model Order {
@@ -64,15 +120,8 @@ model Order {
   user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Category {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  name        String @unique
-  description String
-  image       String
-}
-
 model Restaurant {
-  id             String @id @default(auto()) @map("_id") @db.ObjectId
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
   name           String
   description    String
   logo           String
@@ -82,9 +131,12 @@ model Restaurant {
   zip            String
   exteriorNumber String
   interiorNumber String?
-  state          State @default(Guanajuato)
+  neighborhood   String
+  state          State    @default(Guanajuato)
   email          String
   phone          String
+  menus          Menu[]
+  users          User[]
 }
 
 type CartProductType {

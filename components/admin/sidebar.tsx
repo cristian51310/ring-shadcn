@@ -4,11 +4,12 @@ import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
-  IoAddCircleOutline,
   IoAppsOutline,
   IoBarChartOutline,
   IoCalendarOutline,
+  IoMenuOutline,
   IoNotificationsOutline,
+  IoPizza,
   IoPizzaOutline,
   IoReceiptOutline
 } from "react-icons/io5"
@@ -34,6 +35,16 @@ const sidebarOptions = [
     href: "/admin/products",
     icon: IoPizzaOutline,
     label: "Productos"
+  },
+  {
+    href: "/admin/productsbeta",
+    icon: IoPizza,
+    label: "Productos Beta"
+  },
+  {
+    href: "/admin/menus",
+    icon: IoMenuOutline,
+    label: "Menus"
   },
   {
     href: "/admin/categories",
