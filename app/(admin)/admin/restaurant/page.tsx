@@ -48,7 +48,7 @@ export default async function Page() {
 
         <Card className="col-span-2">
           <CardHeader>
-            <h3 className="text-lg font-semibold">Cover</h3>
+            <h3 className="text-lg font-semibold">Portada</h3>
           </CardHeader>
           <CardContent>
             <Image
@@ -70,7 +70,7 @@ export default async function Page() {
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="col-span-3">
           <CardHeader>
             <h3 className="text-lg font-semibold">Descripcion</h3>
           </CardHeader>

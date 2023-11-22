@@ -69,7 +69,7 @@ export default async function Page() {
 
         <Separator />
 
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           <DorichangosBanner />
           <HomeBanner />
           <OfertasBanner />
@@ -77,9 +77,7 @@ export default async function Page() {
 
         <Separator />
 
-        <p className="text-2xl font-bold">
-          Restaurantes cerca de mi
-        </p>
+        <p className="text-2xl font-bold">Restaurantes cerca de mi</p>
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5">
           {shuffledProducts.map((product) => (

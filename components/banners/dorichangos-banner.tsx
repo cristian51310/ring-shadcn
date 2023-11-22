@@ -7,10 +7,10 @@ export default function DorichangosBanner() {
       <div className="flex py-4 justify-center items-center w-full">
         <div className="relative -left-12">
           <Image
-            src="/image-banner.png"
-            className="object-cover"
+            src="/dorichangos.jpg"
+            className="object-cover rounded-full"
             alt="Picture of the author"
-            width={400}
+            width={200}
             height={200}
           />
         </div>
