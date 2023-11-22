@@ -52,10 +52,6 @@ export default function ManageRestaurantForm({ user }: { user: SafeUser | null }
     }
   }, [isProductCreated, reset])
 
-  const onSubmit2: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data)
-  }
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
 

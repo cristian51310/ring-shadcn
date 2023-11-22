@@ -11,8 +11,6 @@ export default async function getCategoryByName(params: IParams) {
     // Decodifica la cadena
     const decodedName = decodeURIComponent(name.replace(/-/g, ' '));
 
-    console.log('decodedName', decodedName);
-
     const category = await prisma.category.findUnique({
       where: { name: decodedName },
     });

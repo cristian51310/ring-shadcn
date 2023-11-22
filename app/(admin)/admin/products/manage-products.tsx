@@ -147,16 +147,13 @@ export function DataTableDemo({ products }: AdminProductsProps) {
   }, [router])
 
   const handleDelete = useCallback(async (id: string, image: any) => {
-    toast.info("Borrando producto...")
-    console.log("image", image)
-    console.log("id", id)
+    toast.loading("Borrando producto...")
 
     const handleImageDelete = async () => {
       try {
         if (image) {
           const imageRef = ref(storage, image)
           await deleteObject(imageRef)
-          console.log("Image deleted")
         }
       } catch (err: any) {
         console.log(err.message)

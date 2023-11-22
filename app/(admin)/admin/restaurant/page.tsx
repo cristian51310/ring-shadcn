@@ -1,6 +1,6 @@
 import NullData from "@/components/null-data"
 import { buttonVariants } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { getCurrentUser } from "@/lib/getCurrentUser"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
@@ -8,8 +8,6 @@ import Link from "next/link"
 
 export default async function Page() {
   const user = await getCurrentUser()
-
-  console.log("user", user)
 
   if (!user || user.role !== "ADMIN") return <NullData title="Acceso Denegado" />
 
@@ -30,71 +28,89 @@ export default async function Page() {
   return (
     <>
       <h1 className="text-xl font-bold mb-4">Administrar mi Restaurante</h1>
-      <h1 className="text-lg font-semibold mb-4">Aqui podra encontrar los datos del restaurante</h1>
+      <h1 className="text-lg mb-5">Aqui podra encontrar los datos del restaurante</h1>
 
       <div className="grid grid-cols-4 gap-5">
-        <Card>
+        <Card className="col-span-2">
+          <CardHeader>
+            <h3 className="text-lg font-semibold">Logo</h3>
+          </CardHeader>
           <CardContent>
-            <h3 className="text-lg font-semibold mb-4">Logo</h3>
             <Image
               src={user.restaurant?.logo || "/images/placeholder.png"}
               alt={user.restaurant?.name || "Logo"}
-              width={200}
+              width={300}
               height={200}
+              className="rounded-lg"
             />
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="col-span-2">
+          <CardHeader>
+            <h3 className="text-lg font-semibold">Cover</h3>
+          </CardHeader>
           <CardContent>
-            <h3 className="text-lg font-semibold mb-4">Logo</h3>
             <Image
               src={user.restaurant?.cover || "/images/placeholder.png"}
               alt={user.restaurant?.name || "Cover"}
-              width={200}
+              width={300}
               height={200}
+              className="rounded-lg"
             />
           </CardContent>
         </Card>
 
         <Card>
+          <CardHeader>
+            <h3 className="text-lg font-semibold">Nombre</h3>
+          </CardHeader>
           <CardContent>
-            <h3 className="text-lg font-semibold mb-4">Nombre</h3>
             <p>{user.restaurant?.name}</p>
           </CardContent>
         </Card>
 
         <Card>
+          <CardHeader>
+            <h3 className="text-lg font-semibold">Descripcion</h3>
+          </CardHeader>
           <CardContent>
-            <h3 className="text-lg font-semibold mb-4">Descripcion</h3>
             <p>{user.restaurant?.description}</p>
           </CardContent>
         </Card>
 
         <Card>
+          <CardHeader>
+            <h3 className="text-lg font-semibold">Direccion</h3>
+          </CardHeader>
           <CardContent>
-            <h3 className="text-lg font-semibold mb-4">Direccion</h3>
             <p>{user.restaurant?.state}</p>
           </CardContent>
         </Card>
 
         <Card>
+          <CardHeader>
+            <h3 className="text-lg font-semibold">Telefono</h3>
+          </CardHeader>
           <CardContent>
-            <h3 className="text-lg font-semibold mb-4">Telefono</h3>
             <p>{user.restaurant?.phone}</p>
           </CardContent>
         </Card>
 
         <Card>
+          <CardHeader>
+            <h3 className="text-lg font-semibold">Correo</h3>
+          </CardHeader>
           <CardContent>
-            <h3 className="text-lg font-semibold mb-4">Correo</h3>
             <p>{user.restaurant?.email}</p>
           </CardContent>
         </Card>
 
         <Card>
+          <CardHeader>
+            <h3 className="text-lg font-semibold">Vecindario</h3>
+          </CardHeader>
           <CardContent>
-            <h3 className="text-lg font-semibold mb-4">Vecindario</h3>
             <p>{user.restaurant?.neighborhood}</p>
           </CardContent>
         </Card>
