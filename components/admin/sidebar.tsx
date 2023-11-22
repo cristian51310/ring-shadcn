@@ -11,7 +11,9 @@ import {
   IoNotificationsOutline,
   IoPizza,
   IoPizzaOutline,
-  IoReceiptOutline
+  IoReceiptOutline,
+  IoCalculatorOutline,
+  IoStorefrontOutline
 } from "react-icons/io5"
 
 interface SideBarItemProps extends React.HTMLAttributes<HTMLAnchorElement> {
@@ -28,7 +30,7 @@ const sidebarOptions = [
   },
   {
     href: "/admin/restaurant",
-    icon: IoBarChartOutline,
+    icon: IoStorefrontOutline,
     label: "Datos del restaurante"
   },
   {
@@ -68,7 +70,7 @@ const sidebarOptions = [
   },
   {
     href: "/manager",
-    icon: IoNotificationsOutline,
+    icon: IoCalculatorOutline,
     label: "Administrador de mesas"
   }
 ]
