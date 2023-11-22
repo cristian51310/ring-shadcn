@@ -4,20 +4,20 @@ import Image from "next/image"
 import { Card } from "../ui/card"
 import clsx from "clsx"
 
-interface CategoryInputProps {
+interface MenuInputProps {
   selected?: boolean
   label: string
   image: string
   onClick: (value: string) => void
 }
 
-export default function CategoryInput({ selected, label, image, onClick }: CategoryInputProps) {
+export default function MenuInput({ selected, label, image, onClick }: MenuInputProps) {
   return (
     <Card
       onClick={() => onClick(label)}
       className={clsx(
         "p-2 flex flex-col h-40 items-center justify-center space-y-2 cursor-pointer border",
-        selected ? "border-orange-400 border-[5px]" : "border-gray-300 border"
+        selected ? "border-orange-400 border-[5px]" : "border-gray-500 border"
       )}
     >
       <div className=" overflow-hidden rounded-md">

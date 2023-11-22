@@ -10,12 +10,13 @@ interface InputProps {
   type?: string
   disabled?: boolean
   required?: boolean
+  accept?: string
   register: UseFormRegister<FieldValues>
   errors: FieldErrors
 }
 
 const Input: React.FC<InputProps> = ({
-  id, label, placeholder, type, disabled, required, register, errors
+  id, label, placeholder, type, disabled, accept, required, register, errors
 }) => {
   return (
     <div className="grid gap-3 mb-1.5">
@@ -29,6 +30,7 @@ const Input: React.FC<InputProps> = ({
         type={type}
         autoCapitalize="none"
         autoCorrect="off"
+        accept={accept}
         required={required}
         disabled={disabled}
         {...register(id, { required })}
