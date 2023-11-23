@@ -22,6 +22,7 @@ module.exports = {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       colors: {
+        glow: 'color-mix(in srgb, var(--glow-color) calc(<alpha-value> * 100%), transparent)',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

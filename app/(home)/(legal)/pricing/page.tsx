@@ -1,5 +1,4 @@
 import { Glow, GlowCapture } from "@codaworks/react-glow"
-import "./style.css"
 
 export default function PagePricing() {
   return (
@@ -10,7 +9,7 @@ export default function PagePricing() {
         <h1 className="text-3xl font-bold text-center mb-10">Planes disponibles</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10">
-          <Glow color='purple'>
+          <Glow color='purple' className="glow-capture" debug={false} style={{}}>
             <div className='flex flex-col justify-between gap-8 text-zinc-900 dark:text-white  p-8 rounded-xl border-4 border-zinc-400/50 dark:border-zinc-600 glow:border-emerald-600 bg-zinc-100 dark:bg-zinc-900 antialiased'>
               <div>
                 <h2 className="text-xl font-semibold">Basico</h2>
@@ -28,7 +27,7 @@ export default function PagePricing() {
             </div>
           </Glow>
 
-          <Glow color='purple'>
+          <Glow color='purple' className="glow-capture" debug={false} style={{}}>
             <div className='flex flex-col justify-between gap-8 text-zinc-900 dark:text-white p-8 rounded-xl border-4 border-zinc-400/50 dark:border-zinc-600 glow:border-purple-600 bg-zinc-100 dark:bg-zinc-900'>
               <div>
                 <h2 className="text-xl font-semibold">Profesional</h2>
@@ -46,7 +45,7 @@ export default function PagePricing() {
             </div>
           </Glow>
 
-          <Glow color='purple'>
+          <Glow color='purple' className="glow-capture" debug={false} style={{}}>
             <div className='flex flex-col justify-between gap-8 text-zinc-900 dark:text-white p-8 rounded-xl border-4 border-zinc-400/50 dark:border-zinc-600 glow:border-red-600 bg-zinc-100 dark:bg-zinc-900'>
               <div>
                 <h2 className="text-xl font-semibold">Enterprise</h2>
