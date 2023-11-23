@@ -4,9 +4,11 @@ import CategoryInput from "@/components/inputs/category-input"
 import Input from "@/components/inputs/input"
 import MenuInput from "@/components/inputs/menu-input"
 import TextArea from "@/components/inputs/textarea"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
+import { cn } from "@/lib/utils"
 import { Category, Menu } from "@prisma/client"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
@@ -100,7 +102,7 @@ export default function AddProductForm({ categories, menus }: AddProductFormProp
       />
 
       <Label className="my-3">Seleccionar una Categoria</Label>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-5 overflow-y-auto">
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-5 overflow-y-auto">
         {categories.map((item) => {
           if (item.name === "all") return null
           return (
@@ -125,9 +127,17 @@ export default function AddProductForm({ categories, menus }: AddProductFormProp
       <Label className="my-3">Seleccionar un menu donde estara tu producto</Label>
       <div className="grid grid-cols-2 md:grid-cols-5 gap-5 overflow-y-auto max-h-[50vh]">
         {menus.length === 0 ? (
-          <p className="text-sm text-gray-500 md:col-span-5 col-span-2">
-            No hay menus disponibles, necesitas crear uno para poder agregar un producto
-          </p>
+          <div className="flex items-center gap-5 col-span-4">
+            <p className="text-sm text-gray-500 md:col-span-5 col-span-2">
+              No hay menus disponibles, necesitas crear uno para poder agregar un producto
+            </p>
+            <Link
+              href={"/admin/menus/add"}
+              className={cn(buttonVariants({ variant: "secondary" }))}
+            >
+              Agregar Menu
+            </Link>
+          </div>
         ) : (
           menus.map((item) => (
             <MenuInput
@@ -152,7 +162,7 @@ export default function AddProductForm({ categories, menus }: AddProductFormProp
         required
       />
 
-      <Button className="my-3" onClick={handleSubmit(onSubmit)}>
+      <Button className="my-3" onClick={handleSubmit(onSubmit)} disabled={isLoading}>
         {isLoading && (<Icons.spinner className="mr-2 h-4 w-4 animate-spin" />)}
         Agregar Producto
       </Button>

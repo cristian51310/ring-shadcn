@@ -11,7 +11,7 @@ export default function PagePricing() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-10">
           <Glow color='purple'>
-            <div className='flex flex-col justify-between gap-8 text-zinc-900 dark:text-white glow:bg-emerald-400 glow:dark:bg-emerald-500 p-8 rounded-xl border-2 border-zinc-400 dark:border-zinc-600 glow:border-emerald-800 bg-zinc-100 dark:bg-zinc-900'>
+            <div className='flex flex-col justify-between gap-8 text-zinc-900 dark:text-white  p-8 rounded-xl border-4 border-zinc-400/50 dark:border-zinc-600 glow:border-emerald-600 bg-zinc-100 dark:bg-zinc-900 antialiased'>
               <div>
                 <h2 className="text-xl font-semibold">Basico</h2>
                 <p className="text-4xl font-bold mt-5">$9.99</p>
@@ -29,7 +29,7 @@ export default function PagePricing() {
           </Glow>
 
           <Glow color='purple'>
-            <div className='flex flex-col justify-between gap-8 text-zinc-900 dark:text-white glow:bg-purple-400 glow:dark:bg-purple-500 p-8 rounded-xl border-2 border-zinc-400 dark:border-zinc-600 glow:border-purple-800 bg-zinc-100 dark:bg-zinc-900'>
+            <div className='flex flex-col justify-between gap-8 text-zinc-900 dark:text-white p-8 rounded-xl border-4 border-zinc-400/50 dark:border-zinc-600 glow:border-purple-600 bg-zinc-100 dark:bg-zinc-900'>
               <div>
                 <h2 className="text-xl font-semibold">Profesional</h2>
                 <p className="text-4xl font-bold mt-5">$19.99</p>
@@ -47,7 +47,7 @@ export default function PagePricing() {
           </Glow>
 
           <Glow color='purple'>
-            <div className='flex flex-col justify-between gap-8 text-zinc-900 dark:text-white glow:bg-red-400 glow:dark:bg-red-500 p-8 rounded-xl border-2 border-zinc-400 dark:border-zinc-600 glow:border-red-800 bg-zinc-100 dark:bg-zinc-900'>
+            <div className='flex flex-col justify-between gap-8 text-zinc-900 dark:text-white p-8 rounded-xl border-4 border-zinc-400/50 dark:border-zinc-600 glow:border-red-600 bg-zinc-100 dark:bg-zinc-900'>
               <div>
                 <h2 className="text-xl font-semibold">Enterprise</h2>
                 <p className="text-4xl font-bold mt-5">$29.99</p>
