@@ -17,7 +17,7 @@ export default function CartClient({ user }: CartClientProps) {
   const { cartProducts, cartTotalAmount, handleClearCart } = useCart()
 
   if (!cartProducts || cartProducts.length === 0) return (
-    <div className="flex flex-col items-center p-8 gap-3">
+    <div className="flex flex-col items-center justify-center p-8 gap-3 min-h-[60vh]">
       <p className="text-3xl font-bold">Tu carrito esta vacio</p>
 
       <Link href="/" className="flex items-center gap-2">

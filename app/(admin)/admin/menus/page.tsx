@@ -1,12 +1,16 @@
 import { buttonVariants } from "@/components/ui/button"
-import getMenus from "@/lib/getMenus"
+import { getCurrentUser } from "@/lib/getCurrentUser"
+import getMenusByRestaurant from "@/lib/getMenusByRestaurant"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
 import { IoAddCircleOutline } from "react-icons/io5"
 import { DataTableDemo } from "./manage-menus"
 
 export default async function ManageCategoriesPage() {
-  const menus = await getMenus()
+  const user = await getCurrentUser()
+  if (!user) return null
+
+  const menus = await getMenusByRestaurant({ restaurantId: user.restaurantID })
 
   return (
     <>

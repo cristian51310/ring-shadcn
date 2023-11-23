@@ -15,7 +15,9 @@ export async function POST(request: Request) {
       name,
       description,
       image,
-      restaurantId
+      restaurant: {
+        connect: { id: restaurantId }
+      },
     }
   })
 

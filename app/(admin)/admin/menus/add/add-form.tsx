@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { toast } from "sonner"
+import { SafeUser } from "@/types"
 
 export interface ImageType {
   url: File | null
@@ -18,13 +19,13 @@ export interface UploadImageType {
   url: string
 }
 
-export default function AddCategoryForm() {
+export default function AddMenuForm({ user }: { user: SafeUser | null }) {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isProductCreated, setIsProductCreated] = useState<boolean>(false)
 
-  const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FieldValues>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<FieldValues>({
     defaultValues: {
       name: "",
       description: "",
@@ -43,18 +44,19 @@ export default function AddCategoryForm() {
     setIsLoading(true);
 
     try {
-      toast.info("Subiendo imagen...");
+      toast.loading("Registrando Menu ...");
       const uploadedImage = await firebaseImageUpload(data.image[0]);
 
-      const categoryData = {
+      const menuData = {
         name: data.name,
         description: data.description,
         image: uploadedImage.url,
+        restaurantId: user?.restaurantID
       };
 
-      await axios.post("/api/menus", categoryData);
+      await axios.post("/api/menus", menuData);
       setIsProductCreated(true);
-      toast.success("Categoria creada");
+      toast.success("Menu creado");
       router.refresh();
     } catch (error) {
       setIsLoading(false);
@@ -65,8 +67,7 @@ export default function AddCategoryForm() {
   };
 
   return (
-    <div className="grid gap-4">
-
+    <div className="grid gap-6">
       <Input
         id="name"
         placeholder="Bebidas, Postres, etc"
@@ -77,7 +78,6 @@ export default function AddCategoryForm() {
         disabled={isLoading}
         required
       />
-
       <TextArea
         id="description"
         label="Agrega una descripcion de los tipos de productos que se encuentran en este menu"
@@ -86,12 +86,12 @@ export default function AddCategoryForm() {
         disabled={isLoading}
         required
       />
-
       <p className="font-semibold">Imagen del menu</p>
       <Input
         id="image"
         type="file"
         label="Asegurate de elegir una imagen que refleje la escencia de este menu"
+        accept="image/*"
         register={register}
         errors={errors}
         disabled={isLoading}

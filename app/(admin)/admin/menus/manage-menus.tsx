@@ -21,7 +21,7 @@ export const columns: ColumnDef<Menu>[] = [
   {
     accessorKey: "id",
     header: () => (<div className="hidden" />),
-    cell: () => (<div className="hidden"/>)
+    cell: () => (<div className="hidden" />)
   },
   {
     accessorKey: "image",
@@ -41,15 +41,17 @@ export const columns: ColumnDef<Menu>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => (
-      <Button
-        variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-      >
-        Nombre
-        <ArrowUpDown className="ml-2 h-4 w-4" />
-      </Button>
+      <div className="flex justify-center items-center">
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Nombre
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
     ),
-    cell: ({ row }) => <div>{row.getValue("name")}</div>,
+    cell: ({ row }) => <div className="text-center font-bold text-lg">{row.getValue("name")}</div>,
   },
   {
     id: "actions",
@@ -150,8 +152,7 @@ export function DataTableDemo({ menus }: AdminCategoriesProps) {
       <div className="flex items-center justify-end space-x-2 py-4">
 
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} de{" "}
-          {table.getFilteredRowModel().rows.length} Fila(s) seleccionadas.
+          {table.getFilteredRowModel().rows.length} Menus Registrados.
         </div>
 
         <div className="space-x-2">

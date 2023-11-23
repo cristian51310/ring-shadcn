@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/lib/getCurrentUser"
-import AddCategoryForm from "./add-form"
+import AddMenuForm from "./add-form"
 import NullData from "@/components/null-data"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
@@ -30,7 +30,7 @@ export default async function AddProductsPage() {
       <h3 className="mb-7">
         Aqui podras agregar un nuevo menu para tu restaurante
       </h3>
-      <AddCategoryForm />
+      <AddMenuForm user={user} />
     </>
   )
 }
