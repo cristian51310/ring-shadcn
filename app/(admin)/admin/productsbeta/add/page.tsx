@@ -32,7 +32,7 @@ export default async function AddProductsPage() {
 
   return (
     <>
-      <h1 className="text-xl font-bold mb-4">Agregar producto</h1>
+      <h1 className="text-xl font-bold mb-7">Agregar producto</h1>
       <AddProductForm
         categories={categories}
         menus={menus}

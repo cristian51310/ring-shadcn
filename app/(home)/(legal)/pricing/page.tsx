@@ -1,4 +1,5 @@
 import { Glow, GlowCapture } from "@codaworks/react-glow"
+import "./style.css"
 
 export default function PagePricing() {
   return (

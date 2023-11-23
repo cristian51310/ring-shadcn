@@ -16,7 +16,7 @@ export function UserAuthForm({ user, className, ...props }: UserAuthFormProps) {
 
   useEffect(() => {
     if (user) {
-      router.push("/cart")
+      router.push("/")
       router.refresh()
     }
   }, [router, user])

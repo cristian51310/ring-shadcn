@@ -5,9 +5,17 @@ import Input from "@/components/inputs/input"
 import MenuInput from "@/components/inputs/menu-input"
 import TextArea from "@/components/inputs/textarea"
 import { Button, buttonVariants } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogHeader, DialogTrigger } from "@/components/ui/dialog"
+import { Input as InputPrimitive } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Textarea as TextareaPrimitive } from "@/components/ui/textarea"
+import { firebaseImageUpload } from "@/lib/firebaseImageUpload"
 import { cn } from "@/lib/utils"
 import { Category, Menu } from "@prisma/client"
+import { DialogClose, DialogDescription, DialogTitle } from "@radix-ui/react-dialog"
+import { Separator } from "@radix-ui/react-menubar"
+import axios from "axios"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
@@ -27,11 +35,47 @@ interface AddProductFormProps {
   menus: Menu[]
 }
 
+interface Flavor {
+  name: string;
+  description: string;
+}
+
+interface Size {
+  name: string;
+  price: number;
+  description: string;
+}
+
 export default function AddProductForm({ categories, menus }: AddProductFormProps) {
   const router = useRouter()
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isProductCreated, setIsProductCreated] = useState<boolean>(false)
+
+  const [flavors, setFlavors] = useState<Flavor[]>([]);
+  const [sizes, setSizes] = useState<Size[]>([]);
+
+  const addFlavor = (flavor: Flavor) => {
+    setFlavors((prevFlavors) => [...prevFlavors, flavor]);
+  };
+
+  const removeFlavor = (index: number) => {
+    setFlavors((prevFlavors) => [
+      ...prevFlavors.slice(0, index),
+      ...prevFlavors.slice(index + 1),
+    ]);
+  };
+
+  const addSize = (size: Size) => {
+    setSizes((prevSizes) => [...prevSizes, size]);
+  };
+
+  const removeSize = (index: number) => {
+    setSizes((prevSizes) => [
+      ...prevSizes.slice(0, index),
+      ...prevSizes.slice(index + 1),
+    ]);
+  };
 
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FieldValues>({
     defaultValues: {
@@ -62,8 +106,47 @@ export default function AddProductForm({ categories, menus }: AddProductFormProp
   const menu = watch("menu")
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    toast.loading("Agregando producto...")
-    console.log(data)
+    setIsLoading(true);
+
+    try {
+      toast.loading("Agregando producto...")
+      const uploadedImage = await firebaseImageUpload(data.image[0]);
+
+      const flavorsData = flavors.map((flavor) => ({
+        name: flavor.name,
+        description: flavor.description,
+      }));
+
+      const sizesData = sizes.map((size) => ({
+        name: size.name,
+        price: size.price,
+        description: size.description,
+      }));
+
+      const productData = {
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        image: uploadedImage.url,
+        inStock: true,
+        menuId: menu,
+        category: data.category,
+        sizes: sizesData,
+        flavors: flavorsData,
+      };
+
+      await axios.post("/api/products-beta", productData);
+      setIsProductCreated(true);
+      toast.success("Producto creado");
+      router.push("/admin/productsbeta");
+
+      console.log(productData)
+    } catch (error) {
+      setIsLoading(false);
+      toast.error("Algo salió mal");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -71,7 +154,6 @@ export default function AddProductForm({ categories, menus }: AddProductFormProp
 
       <Input
         id="name"
-        placeholder="ingresa el nombre del producto"
         type="text"
         label="Nombre del producto"
         register={register}
@@ -82,7 +164,6 @@ export default function AddProductForm({ categories, menus }: AddProductFormProp
 
       <Input
         id="price"
-        placeholder="Precio"
         type="number"
         label="Precio"
         register={register}
@@ -93,39 +174,46 @@ export default function AddProductForm({ categories, menus }: AddProductFormProp
 
       <TextArea
         id="description"
-        placeholder="Descripcion del producto"
-        label="Descripcion"
+        label="Descripcion del producto"
         register={register}
         errors={errors}
         disabled={isLoading}
         required
       />
 
-      <Label className="my-3">Seleccionar una Categoria</Label>
+      <Label className="my-3">Seleccionar las categorias de tu producto</Label>
       <div className="grid grid-cols-2 md:grid-cols-6 gap-5 overflow-y-auto">
         {categories.map((item) => {
-          if (item.name === "all") return null
+          if (item.name === "all") return null;
           return (
             <CategoryInput
               key={item.id}
-              onClick={(category) => {
+              onClick={() => {
                 const currentCategories = watch("category") || [];
-                const updatedCategories = currentCategories.some((c: any) => c.id === item.id)
-                  ? currentCategories.filter((c: any) => c.id !== item.id)
-                  : [...currentCategories, { id: item.id, name: category }];
+                const updatedCategories = currentCategories.includes(item.id)
+                  ? currentCategories.filter((categoryId: any) => categoryId !== item.id)
+                  : [...currentCategories, item.id];
                 setCustomValue("category", updatedCategories);
               }}
-              selected={category.some((c: any) => c.id === item.id)} // Check if category is in the array
+              selected={category.includes(item.id)} // Check if category ID is in the array
               label={item.name}
               image={item.image}
             />
-          )
+          );
         })}
       </div>
 
 
-      <Label className="my-3">Seleccionar un menu donde estara tu producto</Label>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-5 overflow-y-auto max-h-[50vh]">
+      <div className="flex items-center justify-between w-full border-b">
+        <Label className="my-7">Seleccionar un menu donde estara tu producto</Label>
+        {menus.length > 0 && (
+          <Link href={"/admin/menus/add"} className={cn(buttonVariants({ variant: "secondary" }))}>
+            Agregar Menu
+          </Link>
+        )}
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5 overflow-y-auto max-h-[50vh]">
         {menus.length === 0 ? (
           <div className="flex items-center gap-5 col-span-4">
             <p className="text-sm text-gray-500 md:col-span-5 col-span-2">
@@ -142,8 +230,8 @@ export default function AddProductForm({ categories, menus }: AddProductFormProp
           menus.map((item) => (
             <MenuInput
               key={item.id}
-              onClick={(menu) => setCustomValue("menu", menu)}
-              selected={menu === item.name}
+              onClick={() => setCustomValue("menu", item.id )}
+              selected={menu === item.id}
               label={item.name}
               image={item.image}
             />
@@ -151,7 +239,7 @@ export default function AddProductForm({ categories, menus }: AddProductFormProp
         )}
       </div>
 
-      <p className="font-semibold py-3">Imagen del producto</p>
+      <p className="font-semibold py-3">Imagen principal del producto</p>
       <Input
         id="image"
         type="file"
@@ -161,6 +249,128 @@ export default function AddProductForm({ categories, menus }: AddProductFormProp
         disabled={isLoading}
         required
       />
+
+      <Separator />
+      <p className="font-semibold">Sabores disponibles</p>
+      <p className="text-muted-foreground text-sm">Tu producto tiene alguna variacion de sabor?, agregala aqui</p>
+      <div className="grid grid-cols-4 gap-6">
+        {flavors.map((flavor, index) => (
+          <Card
+            key={index}
+            className="flex flex-col items-center justify-between p-3 pt-5 gap-6"
+          >
+            <p>{flavor.name}</p>
+            <Button
+              variant="destructive"
+              onClick={() => removeFlavor(index)}
+            >
+              Eliminar
+            </Button>
+          </Card>
+        ))}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>
+              Agregar Sabor
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="dark:bg-zinc-900">
+            <DialogHeader>
+              <DialogTitle>Agrega un sabor para el producto</DialogTitle>
+              <DialogDescription className="text-sm">
+                Si el producto tiene variaciones de sabor agrega cada una hasta completarlas
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <InputPrimitive
+                type="text"
+                placeholder="Nombre del sabor"
+                onChange={(e) => setCustomValue("flavorName", e.target.value)}
+              />
+              <TextareaPrimitive
+                placeholder="Descripción del sabor"
+                onChange={(e) => setCustomValue("flavorDescription", e.target.value)}
+              />
+              <DialogClose asChild>
+                <Button
+                  onClick={() => {
+                    addFlavor({
+                      name: watch("flavorName"),
+                      description: watch("flavorDescription"),
+                    });
+                  }}
+                >
+                  Agregar Sabor
+                </Button>
+              </DialogClose>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      <Separator />
+      <p className="font-semibold">Tamaños de los productos</p>
+      <p className="text-muted-foreground text-sm">Agrega los tamaños en los que este producto esta disponible</p>
+      <div className="grid grid-cols-4 gap-6">
+        {sizes.map((flavor, index) => (
+          <Card
+            key={index}
+            className="flex flex-col items-center justify-between p-3 pt-5 gap-6"
+          >
+            <p>{flavor.name}</p>
+            <Button
+              variant="destructive"
+              onClick={() => removeSize(index)}
+            >
+              Eliminar
+            </Button>
+          </Card>
+        ))}
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>
+              Agregar Sabor
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="dark:bg-zinc-900">
+            <DialogHeader>
+              <DialogTitle>Agrega un sabor para el producto</DialogTitle>
+              <DialogDescription className="text-sm">
+                Si el producto tiene variaciones de sabor agrega cada una hasta completarlas
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              <InputPrimitive
+                type="text"
+                placeholder="Nombre del tamaño"
+                onChange={(e) => setCustomValue("sizeName", e.target.value)}
+              />
+              <InputPrimitive
+                type="number"
+                placeholder="Precio del tamaño"
+                onChange={(e) => setCustomValue("sizePrice", e.target.value)}
+              />
+              <TextareaPrimitive
+                placeholder="Descripción del tamaño"
+                onChange={(e) => setCustomValue("sizeDescription", e.target.value)}
+              />
+              <DialogClose asChild>
+                <Button
+                  onClick={() => {
+                    addSize({
+                      name: watch("sizeName"),
+                      price: watch("sizePrice"),
+                      description: watch("sizeDescription"),
+                    })
+                  }}
+                >
+                  Agregar Sabor
+                </Button>
+              </DialogClose>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
 
       <Button className="my-3" onClick={handleSubmit(onSubmit)} disabled={isLoading}>
         {isLoading && (<Icons.spinner className="mr-2 h-4 w-4 animate-spin" />)}

@@ -31,7 +31,7 @@ export default async function Page() {
       <h1 className="text-lg mb-5">Aqui podra encontrar los datos del restaurante</h1>
 
       <div className="grid grid-cols-4 gap-5">
-        <Card className="col-span-2">
+        <Card className="col-span-1">
           <CardHeader>
             <h3 className="text-lg font-semibold">Logo</h3>
           </CardHeader>
@@ -39,9 +39,9 @@ export default async function Page() {
             <Image
               src={user.restaurant?.logo || "/images/placeholder.png"}
               alt={user.restaurant?.name || "Logo"}
-              width={300}
+              width={200}
               height={200}
-              className="rounded-lg"
+              className="rounded-lg aspect-square"
             />
           </CardContent>
         </Card>
@@ -54,9 +54,9 @@ export default async function Page() {
             <Image
               src={user.restaurant?.cover || "/images/placeholder.png"}
               alt={user.restaurant?.name || "Cover"}
-              width={300}
+              width={200}
               height={200}
-              className="rounded-lg"
+              className="rounded-lg aspect-video h-[230px] w-full"
             />
           </CardContent>
         </Card>
@@ -108,7 +108,7 @@ export default async function Page() {
 
         <Card>
           <CardHeader>
-            <h3 className="text-lg font-semibold">Vecindario</h3>
+            <h3 className="text-lg font-semibold">Colonia</h3>
           </CardHeader>
           <CardContent>
             <p>{user.restaurant?.neighborhood}</p>

@@ -17,7 +17,7 @@ export default function MenuInput({ selected, label, image, onClick }: MenuInput
       onClick={() => onClick(label)}
       className={clsx(
         "p-2 flex flex-col h-40 items-center justify-center space-y-2 cursor-pointer border",
-        selected ? "border-orange-400 border-[5px]" : "border-gray-500 border"
+        selected ? "border-orange-400 border-[5px]" : "border-neutral-500 border dark:border-neutral-700"
       )}
     >
       <div className=" overflow-hidden rounded-md">

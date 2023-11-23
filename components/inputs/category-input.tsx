@@ -17,7 +17,7 @@ export default function CategoryInput({ selected, label, image, onClick }: Categ
       onClick={() => onClick(label)}
       className={clsx(
         "p-2 flex flex-col h-40 items-center justify-center space-y-2 cursor-pointer border",
-        selected ? "border-orange-400 border-[5px]" : "border-gray-300 border"
+        selected ? "border-orange-400 border-[5px]" : "border-neutral-300 border dark:border-neutral-700"
       )}
     >
       <div className=" overflow-hidden rounded-md">

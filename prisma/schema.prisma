@@ -61,18 +61,21 @@ model Product {
 }
 
 model ProductBeta {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   description String
   price       Float
   image       String
   inStock     Boolean
-  menuId      String?    @db.ObjectId
-  Menu        Menu?      @relation(fields: [menuId], references: [id])
+
+  menuId String? @db.ObjectId
+  menu   Menu?   @relation(fields: [menuId], references: [id])
+
   categoryIDs String[]   @db.ObjectId
   categories  Category[] @relation(fields: [categoryIDs], references: [id])
-  sizes       String[]
-  flavors     String[]
+
+  sizes   Size[]
+  flavors Flavor[]
 }
 
 model Category {
@@ -148,6 +151,17 @@ type Address {
   line2       String?
   postal_code String
   state       String
+}
+
+type Size {
+  name        String
+  price       Float
+  description String
+}
+
+type Flavor {
+  name        String
+  description String
 }
 
 enum Role {
