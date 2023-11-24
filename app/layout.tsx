@@ -4,7 +4,6 @@ import type { Metadata } from 'next'
 import { Inter as FontSans } from "next/font/google"
 import { Toaster } from "sonner"
 import './globals.css'
-import { GeistSans } from "geist/font/sans";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -26,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
-          GeistSans.className
+          fontSans.className
         )}
       >
         <Toaster
