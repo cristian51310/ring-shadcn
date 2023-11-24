@@ -19,22 +19,24 @@ export function CartSheet() {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline" className="text-muted-foreground">
-          <HiOutlineShoppingCart className="text-lg mr-1.5" />
+          <HiOutlineShoppingCart className="text-lg md:mr-1.5 text-white" />
           {(!cartProducts || cartProducts.length === 0) ? (
-            <p>0 Productos</p>
+            <p className="hidden md:block">0 Productos</p>
           ) : (
-            <p>{cartTotalQty} Productos</p>
+            <p className="hidden md:block">{cartTotalQty} Productos</p>
           )}
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="w-[400px] dark:bg-zinc-900">
+      <SheetContent className="w-[300px] md:w-[400px] dark:bg-zinc-900">
         <SheetHeader>
           <SheetTitle>Carrito de compras</SheetTitle>
           <SheetDescription>
-            <Link href="/cart" className="underline">
-              Ver el carrito en pantalla completa
-            </Link>
+            <SheetClose>
+              <Link href="/cart" className="underline">
+                Ver el carrito en pantalla completa
+              </Link>
+            </SheetClose>
           </SheetDescription>
         </SheetHeader>
 

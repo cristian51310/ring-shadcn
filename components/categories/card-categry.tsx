@@ -9,7 +9,7 @@ interface CategoryCardProps extends React.HTMLAttributes<HTMLDivElement> {
   href: string
 }
 
-export function CategoryCard({ name, description, image, href, className }: CategoryCardProps) {
+export function CategoryCard({ name, image, href, className }: CategoryCardProps) {
   return (
     <Link href={href} className={cn("space-y-2 hover:cursor-pointer", className)}>
       <div className="overflow-hidden rounded-full">

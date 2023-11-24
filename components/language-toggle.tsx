@@ -16,7 +16,7 @@ export default function LanguageToggle() {
           Español
         </button>
       </DialogTrigger> 
-      <DialogContent className="max-w-[425px] md:max-w-[425px] dark:bg-zinc-900">
+      <DialogContent className="max-w-[350px] md:max-w-[425px] dark:bg-zinc-900">
         <DialogHeader>
           <DialogTitle>Lenguaje</DialogTitle>
           <DialogDescription>

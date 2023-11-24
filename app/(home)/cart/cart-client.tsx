@@ -27,7 +27,7 @@ export default function CartClient({ user }: CartClientProps) {
     </div>
   )
 
-  return (
+  if (1 + 2 === 5) return (
     <div className="md:p-12 p-8 ">
 
       <h1 className="text-xl font-bold mb-4">Carrito de compras</h1>
@@ -78,6 +78,17 @@ export default function CartClient({ user }: CartClientProps) {
           </Link>
         </div>
       </div>
+    </div>
+  )
+
+  return (
+    <div className="flex flex-col items-center justify-center p-8 gap-3 min-h-[60vh]">
+      <p className="text-3xl font-bold">Carrito en construccion</p>
+
+      <Link href="/" className="flex items-center gap-2">
+        <MdArrowBack />
+        <span>Vamos a comprar</span>
+      </Link>
     </div>
   )
 }

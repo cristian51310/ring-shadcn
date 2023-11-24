@@ -49,7 +49,7 @@ export default async function Page() {
 
   return (
     <div className="flex-col flex">
-      <div className="flex-1 space-y-5 p-8 px-12 pt-6">
+      <div className="flex-1 space-y-5 p-8 px-6 md:px-12 pt-6">
         <div className="relative">
           <ScrollArea>
             <div className="flex space-x-8 pb-4 justify-between">
@@ -59,7 +59,7 @@ export default async function Page() {
                   name={category.name}
                   image={category.image}
                   href={`/categories/${category.name.replace(/\s+/g, '-')}`}
-                  className="w-[100px]"
+                  className="w-[80px] md:w-[100px]"
                 />
               ))}
             </div>
@@ -77,9 +77,9 @@ export default async function Page() {
 
         <Separator />
 
-        <p className="text-2xl font-bold">Restaurantes cerca de mi</p>
+        <p className="text-2xl font-bold">Productos cerca de mi</p>
 
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-3 md:gap-5 grid-cols-2 lg:grid-cols-5">
           {shuffledProducts.map((product) => (
             <ProductCard
               key={product.name}
