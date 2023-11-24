@@ -43,6 +43,13 @@ export function UserNav({ user }: UserMenuProps) {
               Mis Favoritos
             </DropdownMenuItem>
           </Link>
+          {user.role === "ADMIN" && (
+            <Link href="/admin">
+              <DropdownMenuItem>
+                Panel de administrador
+              </DropdownMenuItem>
+            </Link>
+          )}
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut()}>
             Cerrar Sesión
