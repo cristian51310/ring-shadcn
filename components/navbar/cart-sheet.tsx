@@ -19,7 +19,7 @@ export function CartSheet() {
     <Sheet>
       <SheetTrigger asChild>
         <Button variant="outline" className="text-muted-foreground">
-          <HiOutlineShoppingCart className="text-lg md:mr-1.5 text-white" />
+          <HiOutlineShoppingCart className="text-lg md:mr-1.5 dark:text-white text-black" />
           {(!cartProducts || cartProducts.length === 0) ? (
             <p className="hidden md:block">0 Productos</p>
           ) : (
