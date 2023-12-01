@@ -14,7 +14,7 @@ import { buttonVariants } from "../ui/button"
 
 export function Menu() {
   return (
-    <Menubar className="rounded-none border-b border-none px-2 lg:px-4 py-7 justify-between">
+    <Menubar className="rounded-none bg-orange-100 dark:bg-amber-950 border-y border-none px-2 lg:px-4 py-9 justify-between">
 
       <div className="flex items-center">
         <MenubarMenu>
@@ -69,6 +69,7 @@ export function Menu() {
           href="/admin/notifications"
           className={cn(
             buttonVariants({ variant: "outline", size: "icon" }),
+            "dark:border-neutral-500"
           )}
         >
           <IoNotificationsOutline className="text-xl" />

@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
-import prisma from "@/lib/prismadb"
 import { AddressElement, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
@@ -28,7 +27,7 @@ export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess }: 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!stripe || !elements) return
-    
+
     setLoading(true)
 
     stripe.confirmPayment({ elements, redirect: "if_required" })

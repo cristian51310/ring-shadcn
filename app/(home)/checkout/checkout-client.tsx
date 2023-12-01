@@ -4,10 +4,9 @@ import { useCart } from "@/hooks/useCart";
 import { Elements } from "@stripe/react-stripe-js";
 import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import CheckoutForm from "./checkout-form";
-import axios from "axios";
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY as string)
 
@@ -15,10 +14,10 @@ export default function CheckoutClient() {
   const router = useRouter()
 
   const { cartProducts, paymentIntent, handleSetPaymentIntent } = useCart()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(false)
-  const [clientSecret, setClientSecret] = useState("")
-  const [paymentSuccess, setPaymentSuccess] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false)
+  const [clientSecret, setClientSecret] = useState<string>("")
+  const [paymentSuccess, setPaymentSuccess] = useState<boolean>(false)
 
   // create a payment intent as soon as the page loads
   useEffect(() => {
@@ -61,19 +60,9 @@ export default function CheckoutClient() {
     }
   }
 
-  const handleSetPaymentSuccess = useCallback((value: boolean) => {
+  const handleSetPaymentSuccess = (value: boolean) => {
     setPaymentSuccess(value)
-
-    //if the payment is successful, we need update in database with axios
-    axios.put("/api/orders/payment", {
-      payment_intent_id: paymentIntent,
-      payment_intent_status: "succeeded"
-    }).then(res => {
-      console.log(res.data)
-    }).catch(err => {
-      console.log(err)
-    })
-  }, [paymentIntent])
+  }
 
   return (
     <div className="w-full">
@@ -85,10 +74,18 @@ export default function CheckoutClient() {
           />
         </Elements>
       )}
-      {loading && <p className="text-2xl text-center">Cargando...</p>}
-      {error && <p className="text-2xl text-center text-red-600">Algo salio mal</p>}
+      {loading && (
+        <div className="min-h-[40vh]">
+          <p className="text-2xl text-center">Cargando...</p>
+        </div>
+      )}
+      {error && (
+        <div className="min-h-[40vh]">
+          <p className="text-2xl text-center text-red-600">Algo salio mal</p>
+        </div>
+      )}
       {paymentSuccess && (
-        <div className="flex flex-col items-center gap-3">
+        <div className="flex flex-col items-center gap-3 min-h-[40vh]">
           <div>
             <p className="text-3xl text-center mb-3">Pago exitoso</p>
             <p className="text-2xl text-center">Gracias por tu compra</p>

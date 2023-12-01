@@ -28,7 +28,7 @@ export function CartSheet() {
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="w-[300px] md:w-[400px] dark:bg-zinc-900">
+      <SheetContent className="w-full md:max-w-xl dark:bg-zinc-900">
         <SheetHeader>
           <SheetTitle>Carrito de compras</SheetTitle>
           <SheetDescription>

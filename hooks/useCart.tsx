@@ -137,7 +137,7 @@ export const CartContextProvider = (props: Props) => {
     (val: string | null) => {
       setPaymentIntent(val)
       localStorage.setItem("ringPaymentIntent", JSON.stringify(val))
-    }, [paymentIntent]
+    }, []
   )
 
   const value = {

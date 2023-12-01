@@ -1,19 +1,14 @@
 import { getCurrentUser } from "@/lib/getCurrentUser"
-import { TextAlignJustifyIcon } from "@radix-ui/react-icons"
 import Link from "next/link"
-import { ModeToggle } from "../mode-toggle"
-import { UserNav } from "../navbar/user-nav"
-import { Search } from "../search"
 import { Avatar, AvatarImage } from "../ui/avatar"
-import { CartSheet } from "./cart-sheet"
+import { Search } from "./search"
 
-export default async function MainNavbar() {
+export default async function Header() {
   const user = await getCurrentUser()
 
   return (
-    <div className="sticky top-0 z-30 border-b backdrop-blur-md bg-white/30 dark:bg-black/30">
+    <div className="border-b backdrop-blur-md bg-white dark:bg-black/30">
       <div className="flex h-16 items-center px-6 md:px-12">
-        <TextAlignJustifyIcon className="h-8 w-8 mr-4" />
         <Link
           href="/"
           className="flex items-center gap-3"
@@ -27,9 +22,6 @@ export default async function MainNavbar() {
           <div className="hidden md:block">
             <Search />
           </div>
-          <ModeToggle />
-          <CartSheet />
-          <UserNav user={user} />
         </div>
       </div>
     </div>

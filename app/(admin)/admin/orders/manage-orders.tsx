@@ -64,27 +64,6 @@ export function DataTableDemo({ orders }: ManageOrdersProps) {
       header: "Fecha",
     },
     {
-      accessorKey: "paymentStatus",
-      header: "Pagado",
-      cell: ({ row }) => (
-        <div className="font-semibold">
-          {row.getValue("paymentStatus") === "pending" ? (
-            <Status
-              text="Pendiente"
-              icon={MdAccessTimeFilled}
-              variant="warning"
-            />
-          ) : row.getValue("paymentStatus") === "succeeded" ? (
-            <Status
-              text="Completado"
-              icon={MdDone}
-              variant="success"
-            />
-          ) : <></>}
-        </div>
-      ),
-    },
-    {
       accessorKey: "deliveryStatus",
       header: "Entregado",
       cell: ({ row }) => (

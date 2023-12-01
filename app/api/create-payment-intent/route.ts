@@ -30,7 +30,6 @@ export async function POST(request: Request) {
     products: items
   }
 
-
   if (payment_intent_id) {
     const current_intent = await stripe.paymentIntents.retrieve(
       payment_intent_id
@@ -49,6 +48,9 @@ export async function POST(request: Request) {
         { amount: total }
       )
 
+      console.log("Updating existing payment intent", updated_intent)
+
+
       // update the order
       const [existing_order, updatedOrder] = await Promise.all([
         prisma.order.findFirst({
@@ -59,9 +61,12 @@ export async function POST(request: Request) {
           data: {
             amount: total,
             products: items,
+            status:updated_intent.status
           }
         })
       ])
+
+      console.log("Updated order", updatedOrder)
 
       if (!existing_order) {
         return NextResponse.json(

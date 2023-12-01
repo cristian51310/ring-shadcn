@@ -7,6 +7,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { MdArrowBack } from "react-icons/md"
 import CartItem from "./cart-item"
+import { Trash } from "lucide-react"
 
 interface CartClientProps {
   user: SafeUser | null
@@ -27,12 +28,9 @@ export default function CartClient({ user }: CartClientProps) {
     </div>
   )
 
-  if (1 + 2 === 5) return (
-    <div className="md:p-12 p-8 ">
-
-      <h1 className="text-xl font-bold mb-4">Carrito de compras</h1>
-
-      <div className="grid grid-cols-5 text-xs gap-4 pb-3 items-center mt-10">
+  return (
+    <>
+      <div className="grid grid-cols-5 text-base gap-4 pb-3 items-center mt-10">
         <div className="col-span-2 justify-self-start">Producto</div>
         <div className="justify-self-center">Precio</div>
         <div className="justify-self-center">Cantidad</div>
@@ -48,22 +46,24 @@ export default function CartClient({ user }: CartClientProps) {
           <Button
             onClick={() => handleClearCart()}
             size={"sm"}
-            variant={"outline"}
+            variant={"destructive"}
           >
+            <Trash size={16} className="mr-2" />
             Limpiar Carrito
           </Button>
         </div>
         <div className="flex flex-col gap-1 text-sm items-start">
-          <div className="flex justify-between w-full text-base font-semibold">
+          <div className="flex justify-between w-full text-base font-semibold my-5">
             <span>Subtotal</span>
             <span>{formatPrice(cartTotalAmount)}</span>
           </div>
-          <p>Tarifas e impuestos se calculan en el checkout</p>
+          <p className="mb-3">Tarifas e impuestos se calculan en el checkout</p>
           <Button
             variant={!user ? "outline" : "secondary"}
+            className="w-full"
             onClick={() => {
               if (user) router.push("/checkout")
-              else router.push("/login")
+              else router.push("/signin")
             }}
           >
             {user ? "Proceder al pago" : "Inicia sesion para continuar"}
@@ -78,17 +78,7 @@ export default function CartClient({ user }: CartClientProps) {
           </Link>
         </div>
       </div>
-    </div>
+    </>
   )
 
-  return (
-    <div className="flex flex-col items-center justify-center p-8 gap-3 min-h-[60vh]">
-      <p className="text-3xl font-bold">Carrito en construccion</p>
-
-      <Link href="/" className="flex items-center gap-2">
-        <MdArrowBack />
-        <span>Vamos a comprar</span>
-      </Link>
-    </div>
-  )
 }

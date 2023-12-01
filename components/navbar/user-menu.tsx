@@ -13,7 +13,7 @@ interface UserMenuProps {
   user: SafeUser | null
 }
 
-export function UserNav({ user }: UserMenuProps) {
+export function UserMenu({ user }: UserMenuProps) {
   return (
     <DropdownMenu>
 

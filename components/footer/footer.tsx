@@ -1,8 +1,9 @@
 import { InstagramLogoIcon, TwitterLogoIcon } from "@radix-ui/react-icons"
 import { FacebookIcon } from "lucide-react"
 import Image from "next/image"
-import LanguageToggle from "../language-toggle"
 import Link from "next/link"
+import LanguageToggle from "./language-toggle"
+import ThemeToggle from "./theme-toggle"
 
 export default function Footer() {
   return (
@@ -43,11 +44,9 @@ export default function Footer() {
               Restaurantes cerca de mi
             </a>
             <a href="#" className="hover:underline">
-              Pedidos para llevar cerca de mi
-            </a>
-            <a href="#" className="hover:underline">
               Acerca de Ring!
             </a>
+            <ThemeToggle />
             <LanguageToggle />
           </div>
         </div>
