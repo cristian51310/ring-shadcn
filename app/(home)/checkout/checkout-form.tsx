@@ -2,7 +2,13 @@
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/hooks/useCart"
 import { formatPrice } from "@/lib/formatPrice"
-import { AddressElement, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import {
+  AddressElement,
+  PaymentElement,
+  useElements,
+  useStripe
+} from "@stripe/react-stripe-js"
+import axios from "axios"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
@@ -13,7 +19,7 @@ interface CheckoutFormProps {
 
 export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess }: CheckoutFormProps) {
   const [loading, setLoading] = useState(false)
-  const { cartTotalAmount, handleClearCart, handleSetPaymentIntent } = useCart()
+  const { cartTotalAmount, handleClearCart, handleSetPaymentIntent, paymentIntent, cartProducts } = useCart()
   const stripe = useStripe()
   const elements = useElements()
 
@@ -25,26 +31,33 @@ export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess }: 
   }, [stripe, clientSecret, handleSetPaymentSuccess])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!stripe || !elements) return
+    e.preventDefault();
+    if (!stripe || !elements) return;
 
-    setLoading(true)
+    setLoading(true);
 
     stripe
       .confirmPayment({
         elements,
         redirect: "if_required"
       })
-      .then((result) => {
+      .then(async (result) => {
         if (!result.error) {
-          toast.success("Pago exitoso")
-          handleClearCart()
-          handleSetPaymentSuccess(true)
-          handleSetPaymentIntent(null)
+          toast.success("Pago exitoso");
+          await axios.post("/api/orders", {
+            payment_intent_id: paymentIntent,
+            products: cartProducts
+          });
+          handleClearCart();
+          handleSetPaymentSuccess(true);
+          handleSetPaymentIntent(null);
+        } else {
+          // Manejar el caso en que hay un error en el pago
+          toast.error("Error en el pago: " + result.error.message);
         }
-        setLoading(false)
-      })
-  }
+        setLoading(false);
+      });
+  };
 
   return (
     <form onSubmit={handleSubmit} id="payment-form">
@@ -70,7 +83,7 @@ export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess }: 
           }}
         />
 
-        <p className="py-4 text-center text-slate-700 text-lg font-bold">
+        <p className="py-4 text-center text-slate-700 dark:text-neutral-400 text-lg font-bold">
           El pago se procesara en pesos mexicanos ({formattedPrice})
         </p>
 

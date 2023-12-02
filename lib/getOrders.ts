@@ -3,12 +3,15 @@ import prisma from "@/lib/prismadb"
 export default async function getOrders() {
   try {
     const orders = await prisma.order.findMany({
-      include:{
+      include: {
         user: true,
       },
-      orderBy:{
+      orderBy: {
         createDate: "desc"
       },
+      where: {
+        status: "success"
+      }
     })
 
     return orders

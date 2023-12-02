@@ -1,6 +1,5 @@
 import { Menu } from "@/components/admin/menu"
 import { Sidebar } from "@/components/admin/sidebar"
-import NullData from "@/components/null-data"
 import { getCurrentUser } from "@/lib/getCurrentUser"
 import type { Metadata } from "next"
 
@@ -12,7 +11,13 @@ export default async function AdminLayout({ children, modal }: { children: React
   const user = await getCurrentUser()
 
   if (!user || (user.role !== "ADMIN" && user.role !== "SUPERADMIN")) {
-    return <NullData title="Acceso Denegado" />;
+    return (
+      <div className="w-full min-h-screen px-6 md:px-12 flex flex-col items-center justify-center ">
+        <h1 className="text-xl md:text-4xl font-bold text-center">
+          Acceso denegado
+        </h1>
+      </div>
+    )
   }
 
   return (
@@ -28,7 +33,7 @@ export default async function AdminLayout({ children, modal }: { children: React
               {children}
             </div>
           </div>
-          
+
         </div>
       </div>
 

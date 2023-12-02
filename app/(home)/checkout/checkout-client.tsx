@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useCart } from "@/hooks/useCart";
 import { Elements } from "@stripe/react-stripe-js";
 import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
+import { ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -74,7 +75,7 @@ export default function CheckoutClient() {
           />
         </Elements>
       )}
-      
+
       {loading && (
         <div className="min-h-[40vh]">
           <p className="text-2xl text-center">Cargando...</p>
@@ -86,13 +87,14 @@ export default function CheckoutClient() {
         </div>
       )}
       {paymentSuccess && (
-        <div className="flex flex-col items-center gap-3 min-h-[40vh]">
+        <div className="flex flex-col items-center justify-center gap-3 min-h-[60vh]">
           <div>
-            <p className="text-3xl text-center mb-3">Pago exitoso</p>
-            <p className="text-2xl text-center">Gracias por tu compra</p>
+            <p className="text-5xl font-bold text-center mb-3">Pago exitoso</p>
+            <p className="text-xl text-center text-neutral-800 my-4">Gracias por tu compra</p>
           </div>
           <Button onClick={() => router.push("/orders")}>
             Ver mis ordenes
+            <ArrowRight className="ml-2" size={24} />
           </Button>
         </div>
       )}

@@ -1,6 +1,5 @@
 import { calculateOrderAmount } from "@/lib/calculateOrderAmount";
 import { getCurrentUser } from "@/lib/getCurrentUser";
-import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -20,23 +19,13 @@ export async function POST(request: Request) {
 
   const total = calculateOrderAmount(items) * 100
 
-  const orderData = {
-    user: { connect: { id: user.id } },
-    amount: total,
-    currency: "mxn",
-    status: "pending",
-    deliveryStatus: "pending",
-    paymentIntentId: payment_intent_id,
-    products: items
-  }
-
   if (payment_intent_id) {
     const current_intent = await stripe.paymentIntents.retrieve(
       payment_intent_id
     )
 
     if (current_intent) {
-      if(current_intent.status === "succeeded") {
+      if (current_intent.status === "succeeded") {
         return NextResponse.json(
           { error: "Este pago ya se realizo" },
           { status: 400 }
@@ -48,49 +37,29 @@ export async function POST(request: Request) {
         { amount: total }
       )
 
-      console.log("Updating existing payment intent", updated_intent)
-
-
-      // update the order
-      const [existing_order, updatedOrder] = await Promise.all([
-        prisma.order.findFirst({
-          where: { paymentIntentId: payment_intent_id }
-        }),
-        prisma.order.update({
-          where: { paymentIntentId: payment_intent_id },
-          data: {
-            amount: total,
-            products: items,
-            status:updated_intent.status
-          }
-        })
-      ])
-
-      console.log("Updated order", updatedOrder)
-
-      if (!existing_order) {
-        return NextResponse.json(
-          { error: "Invalid Payment Intent" },
-          { status: 404 }
-        )
-      }
-
       return NextResponse.json({ paymentIntent: updated_intent })
     }
   } else {
-    console.log("Creating new payment intent")
+
+    if (total === 0) {
+      return NextResponse.json(
+        { error: "El total de la orden no puede ser 0" },
+        { status: 400 }
+      )
+    }
+
+    if (!user.email) {
+      return NextResponse.json(
+        { error: "El usuario no tiene un correo electronico" },
+        { status: 400 }
+      )
+    }
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: total,
       currency: "mxn",
+      receipt_email: user.email,
       automatic_payment_methods: { enabled: true },
-    })
-
-    // create the order
-    orderData.paymentIntentId = paymentIntent.id
-
-    await prisma.order.create({
-      data: orderData
     })
 
     return NextResponse.json({ paymentIntent })
