@@ -30,7 +30,11 @@ export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess }: 
 
     setLoading(true)
 
-    stripe.confirmPayment({ elements, redirect: "if_required" })
+    stripe
+      .confirmPayment({
+        elements,
+        redirect: "if_required"
+      })
       .then((result) => {
         if (!result.error) {
           toast.success("Pago exitoso")
@@ -38,9 +42,8 @@ export default function CheckoutForm({ clientSecret, handleSetPaymentSuccess }: 
           handleSetPaymentSuccess(true)
           handleSetPaymentIntent(null)
         }
+        setLoading(false)
       })
-
-    setLoading(false)
   }
 
   return (

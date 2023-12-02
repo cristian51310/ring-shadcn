@@ -16,7 +16,7 @@ export function FavouritesSheet() {
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="w-full md:max-w-lg">
+      <SheetContent className="w-full md:max-w-lg dark:bg-zinc-900">
         <SheetHeader>
           <SheetTitle>Mis favoritos</SheetTitle>
         </SheetHeader>

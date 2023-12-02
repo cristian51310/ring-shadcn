@@ -4,7 +4,7 @@ import { useCart } from "@/hooks/useCart";
 import { Elements } from "@stripe/react-stripe-js";
 import { StripeElementsOptions, loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import CheckoutForm from "./checkout-form";
 
@@ -60,9 +60,9 @@ export default function CheckoutClient() {
     }
   }
 
-  const handleSetPaymentSuccess = (value: boolean) => {
+  const handleSetPaymentSuccess = useCallback((value: boolean) => {
     setPaymentSuccess(value)
-  }
+  }, [])
 
   return (
     <div className="w-full">
@@ -74,6 +74,7 @@ export default function CheckoutClient() {
           />
         </Elements>
       )}
+      
       {loading && (
         <div className="min-h-[40vh]">
           <p className="text-2xl text-center">Cargando...</p>
@@ -90,7 +91,7 @@ export default function CheckoutClient() {
             <p className="text-3xl text-center mb-3">Pago exitoso</p>
             <p className="text-2xl text-center">Gracias por tu compra</p>
           </div>
-          <Button onClick={() => router.push("/order")}>
+          <Button onClick={() => router.push("/orders")}>
             Ver mis ordenes
           </Button>
         </div>
