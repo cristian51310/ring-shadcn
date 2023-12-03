@@ -25,12 +25,12 @@ export default async function AddProductsPage() {
   )
 
   return (
-    <>
+    <div className="md:mx-20 lg:mx-28 xl:mx-32">
       <h1 className="text-xl font-bold mb-1">Agregar un nuevo menu</h1>
       <h3 className="mb-7">
         Aqui podras agregar un nuevo menu para tu restaurante
       </h3>
       <AddMenuForm user={user} />
-    </>
+    </div>
   )
 }

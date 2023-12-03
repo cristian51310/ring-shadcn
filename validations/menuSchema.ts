@@ -9,7 +9,7 @@ const ACCEPTED_IMAGE_MIME_TYPES = [
   "image/webp",
 ];
 
-export const categorySchema = z.object({
+export const menuSchema = z.object({
   name: z
     .string({
       required_error: "El nombre es requerido"
