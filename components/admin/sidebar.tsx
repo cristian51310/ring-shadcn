@@ -39,11 +39,6 @@ const sidebarOptions = [
     label: "Productos"
   },
   {
-    href: "/admin/productsbeta",
-    icon: IoPizza,
-    label: "Productos Beta"
-  },
-  {
     href: "/admin/menus",
     icon: IoMenuOutline,
     label: "Menus"

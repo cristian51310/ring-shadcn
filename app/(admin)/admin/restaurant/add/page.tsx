@@ -1,5 +1,5 @@
 import { getCurrentUser } from "@/lib/getCurrentUser"
-import ManageRestaurantForm from "./manage-restaurant"
+import ManageRestaurantForm from "./add-restaurant"
 import NullData from "@/components/null-data"
 import { cn } from "@/lib/utils"
 import Link from "next/link"
@@ -23,9 +23,9 @@ export default async function ManageRestaurant() {
   )
 
   return (
-    <>
+    <div className="md:mx-20 lg:mx-28 xl:mx-32">
       <h1 className="text-xl font-bold mb-4">Datos de mi restaurante</h1>
       <ManageRestaurantForm user={user} />
-    </>
+    </div>
   )
 }

@@ -50,6 +50,7 @@ export default async function Page() {
   return (
     <div className="flex-col flex">
       <div className="flex-1 space-y-5 p-8 px-6 md:px-12 pt-6">
+        
         <div className="relative">
           <ScrollArea>
             <div className="flex space-x-8 pb-4 justify-between">
